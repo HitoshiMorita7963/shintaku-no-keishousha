@@ -69,17 +69,19 @@ export function listOptions(data, u, command, inventory) {
       const access = data.rules.tengeki_access;
       const rank = (/** @type {Skill} */ s) => ALL_ATTRIBUTES.indexOf(/** @type {string} */ (s.attribute));
       // 基本属性：access.basic（all=全員全属性 / matching=神器・守護獣と同属性のみ）
-      // 上位属性：access.upper_scope（matching=自分の属性に対応する上位属性のみ / all）
+      // 上位属性：access.upper_scope（matching=自分の属性に対応する上位属性のみ / all）。全属性マスター（染川咲）は7種すべて。
+      // 上位属性は台本の覚醒イベントで覚醒した属性だけ使用可（u.awakenedUpper）。
+      const masterAll = !!data.characterTraits[u.refId]?.tengeki_all_attributes_mastered;
       const own = [u.artifact?.def.attribute ?? null, u.guardian?.def.attribute ?? null];
       const matches = (/** @type {Skill} */ s) => own.some((a) => attributeMatches(data.rules, s.attribute, a));
       const visible = (/** @type {Skill} */ s) => {
-        if (s.upper) return access.upper !== 'none' && (access.upper_scope === 'all' || matches(s));
+        if (s.upper) return access.upper !== 'none' && (access.upper_scope === 'all' || masterAll || matches(s));
         return access.basic === 'all' || matches(s);
       };
       return data.skillsOfCategory('tengeki')
         .sort((a, b) => rank(a) - rank(b) || a.id.localeCompare(b.id))
         .filter(visible)
-        .map((s) => skillOption(u, s, s.upper && access.upper === 'awakened_flag' && !u.upperAwakened ? '上位属性が未覚醒' : ''));
+        .map((s) => skillOption(u, s, s.upper && access.upper === 'awakened_flag' && !u.awakenedUpper.includes(/** @type {string} */ (s.attribute)) ? `${s.attribute}属性が未覚醒` : ''));
     }
     case 'artifact': {
       if (!u.artifact) return [];

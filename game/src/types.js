@@ -147,7 +147,7 @@ export {};
  * @property {number} exp 現在Lv内での獲得経験値
  * @property {number} artifactLevel
  * @property {number} guardianAffinity 0～100
- * @property {boolean} upperAwakened 上位属性覚醒（仮フラグ）
+ * @property {string[]} awakenedUpper 覚醒済みの上位属性（台本の覚醒イベントで追加）
  * @property {number} hp 現在HP
  * @property {number} sp 現在SP
  */
@@ -155,10 +155,14 @@ export {};
 /**
  * @typedef {Object} GameState
  * @property {number} version
+ * @property {'story'|'training'} mode
+ * @property {string[]} joined 戦闘加入済み（台本の【加入処理】）
+ * @property {Record<string, number>} classNumbers A組番号（台本で発表されたもの）
+ * @property {{chapter:number, episode:number}} story 次に再生する話
  * @property {string[]} party キャラクターID（並び順＝隊列）
  * @property {Record<string, CharacterProgress>} progress
  * @property {Record<string, number>} inventory
- * @property {Record<string, boolean>} flags
+ * @property {Record<string, string|boolean>} flags イベントフラグ（台本・正式イベントのフラグ名をそのまま使用）
  */
 
 /**

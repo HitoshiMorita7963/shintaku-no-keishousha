@@ -3,6 +3,7 @@
 // （上書きしていないことは validate.js が保証する）。
 import { GameDataError, deepFreeze } from '../core/util.js';
 import { resolveEffectText } from './effectText.js';
+import { compileScenario } from '../story/compile.js';
 
 /** 正式スキルJSONの対象表記 → 内部表現 */
 const TARGET_MAP = Object.freeze({
@@ -41,12 +42,14 @@ function applyOverlay(base, ov) {
 
 export class GameData {
   /**
-   * @param {{canon: Record<string, Record<string, any>>, provisional: Record<string, any>, confirmed?: Record<string, any>}} raw
+   * @param {{canon: Record<string, Record<string, any>>, provisional: Record<string, any>, confirmed?: Record<string, any>, scenario?: any}} raw
    */
   constructor(raw) {
     const { canon, provisional: prov } = raw;
     /** ユーザー確定の追加設定（data/confirmed/） @type {Record<string, any>} */
     const confirmed = raw.confirmed ?? {};
+    /** シナリオ（ユーザー提供の正式台本から作成：data/scenario） */
+    this.scenario = compileScenario(raw.scenario);
     /** キャラクター固有の戦闘特性 @type {Record<string, {tengeki_all_attributes_mastered?: boolean, tengeki_damage_multiplier?: number, tengeki_damage_multiplier_scope?: "non_matching"|"all"}>} */
     this.characterTraits = confirmed.character_traits?.traits ?? {};
     this.rules = prov.battle_rules;
@@ -87,6 +90,15 @@ export class GameData {
         id: m.id, name: m.name, category: m.category, specialRule: m.special_rule ?? '',
         stats: m.stats, skills: m.skills ?? [], exp: m.exp ?? { lv1: 0, lv100: 0 },
         drops: m.drops ?? [], immuneAttributes: m.immune_attributes ?? [], phases: m.phases ?? [],
+      });
+    }
+
+    // 台本のみに登場する敵（data/scenario/enemies.json）。名称は台本、ステータスは仮値。
+    for (const [id, e] of Object.entries(this.scenario.enemies)) {
+      if (this.enemies.has(id)) throw new GameDataError(`敵 ${id} が正式データと台本データで重複しています`);
+      this.enemies.set(id, {
+        id, name: e.name, category: e.category, specialRule: '', stats: e.stats, skills: e.skills ?? [],
+        exp: e.exp ?? { lv1: 0, lv100: 0 }, drops: e.drops ?? [], immuneAttributes: e.immune_attributes ?? [], phases: [],
       });
     }
 
@@ -185,6 +197,33 @@ export class GameData {
   /** 守護獣固有技 @param {string} gid */
   guardianSkillsOf(gid) {
     return this.skillsOfCategory('guardian_unique').filter((s) => s.guardianId === gid).sort((a, b) => a.id.localeCompare(b.id));
+  }
+
+  /** ストーリー戦闘定義 @param {string} id */
+  storyBattle(id) {
+    const b = this.scenario.battles[id];
+    if (!b) throw new GameDataError(`ストーリー戦闘 ${id} が存在しません`);
+    return b;
+  }
+
+  /** @param {number} chapter @param {number} episode */
+  episode(chapter, episode) {
+    return this.scenario.chapters[chapter]?.[episode] ?? null;
+  }
+
+  /** 実装済みの話番号（昇順） @param {number} chapter */
+  episodeNumbers(chapter) {
+    return Object.keys(this.scenario.chapters[chapter] ?? {}).map(Number).sort((a, b) => a - b);
+  }
+
+  /** 話者ラベルの解決 @param {string} label */
+  speaker(label) {
+    return this.scenario.speakers.get(label) ?? null;
+  }
+
+  /** 正式イベントデータ（data/events） @param {number} chapter @param {number} episode */
+  canonEvent(chapter, episode) {
+    return this.events.get(`CH${chapter}_EP${String(episode).padStart(2, '0')}`) ?? null;
   }
 
   /** @param {string} id */

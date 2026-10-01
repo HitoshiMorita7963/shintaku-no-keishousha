@@ -120,8 +120,8 @@ test('上位属性天撃は一致属性のみ・覚醒前は使用不可、覚�
   const u = engine.party[0];
   const upper = () => engine.options(u, 'tengeki').filter((o) => o.skill.upper);
   assert.deepEqual([...new Set(upper().map((o) => o.skill.attribute))].sort(), ['冥', '嵐'].sort());
-  assert.ok(upper().every((o) => !o.usable && o.reason === '上位属性が未覚醒'));
-  u.upperAwakened = true;
+  assert.ok(upper().every((o) => !o.usable && o.reason === `${o.skill.attribute}属性が未覚醒`));
+  u.awakenedUpper = ['嵐', '冥'];
   assert.ok(upper().every((o) => o.usable));
   assert.equal(engine.options(u, 'tengeki').length, 45); // 基本35＋自分の属性に対応する上位10（上位の範囲は台本待ちの仮）
 });
@@ -214,10 +214,12 @@ test('勝利で経験値とLvアップ、敗北では経験値なし', () => {
   } else assert.equal(res.exp, 0);
 });
 
-test('偽獣化：HP50%未満でフェーズ移行', () => {
+test('敵のフェーズ移行の仕組み（HP割合で能力上昇・行動追加）', () => {
+  // 偽獣化は台本上は味方の能力のため敵データからは削除済み。仕組みだけを仮の定義で検証する。
   const { engine } = setup(['A15'], 'ENC_TEST_FLEURETY');
   const f = engine.enemies[0];
   const u = engine.party[0];
+  f.enemyDef = { ...f.enemyDef, phases: [{ hp_ratio_below: 0.5, name: 'テスト変化', stat_multiplier: 1.25, add_skills: [] }] };
   f.hp = Math.floor(f.maxHp * 0.5) + 1;
   const atkBefore = f.stat('atk');
   for (let i = 0; i < 20 && f.phaseIndex < 0 && f.alive; i++) engine.perform(u, { command: 'attack', skillId: 'SKL_ATK', targetIds: [f.uid] });

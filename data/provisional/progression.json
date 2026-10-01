@@ -17,7 +17,23 @@
   "new_game_defaults": {
     "level": 1,
     "artifact_level": 1,
-    "guardian_affinity": 0,
-    "upper_attribute_awakened": false
-  }
+    "guardian_affinity": 0
+  },
+  "story_start": {
+    "_source": "台本 第5話終了時のパーティ「正式加入：黒馬龍一郎・賢木実幸」（実幸は第2話で加入）",
+    "chapter": 2,
+    "episode": 1,
+    "joined": [
+      "A01"
+    ]
+  },
+  "join_level_rule": "joined_average",
+  "_join_level_note": "加入時Lvは台本に記載なし（未確定）。仮に「加入済みメンバーの平均Lv（自分のほうが高ければそのまま）」。",
+  "opponent_level_rule": "party_average",
+  "_opponent_level_note": "模擬戦・対抗戦の相手キャラのLvは未確定。仮に「味方（操作キャラ）の平均Lv」。台本で対戦カードと勝敗が固定されているため、育成状況の差で勝てない戦闘を作らない。",
+  "character_opponent_exp": {
+    "lv1": 20,
+    "lv100": 2500
+  },
+  "_character_opponent_exp_note": "キャラクター相手の模擬戦で得る経験値（仮）。"
 }

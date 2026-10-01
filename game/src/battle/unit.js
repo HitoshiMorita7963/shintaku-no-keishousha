@@ -44,13 +44,18 @@ export class BattleUnit {
     this.guarding = null;
     /** 行動不能ターン数（拘束など） */
     this.bindTurns = 0;
+    /** HPの下限（台本で「撃破できない」戦闘用。0=通常） */
+    this.minHp = 0;
+    /** 使用可能コマンド（null=全コマンド。台本の初戦闘チュートリアル等で制限） @type {string[] | null} */
+    this.allowedCommands = null;
 
     // --- 味方専用 ---
     /** @type {{def: import('../types.js').Artifact, level: number, bonus: Record<string, number>, attributeMultiplier: number, critBonus: number} | null} */
     this.artifact = null;
     /** @type {{def: import('../types.js').Guardian, affinity: number, statMultiplier: number, attributeMultiplier: number, released: boolean, releasedOnce: boolean, releasedTurns: number} | null} */
     this.guardian = null;
-    this.upperAwakened = false;
+    /** 覚醒済みの上位属性 @type {string[]} */
+    this.awakenedUpper = [];
     /** 天撃ダメージ補正（キャラ固有・data/confirmed/character_traits.json） */
     this.tengekiMultiplier = 1;
     /** 補正の適用範囲：non_matching=神器・守護獣と属性不一致の天撃のみ / all */
@@ -114,16 +119,27 @@ export class BattleUnit {
  * @param {import('../types.js').CharacterProgress} p
  */
 export function createPartyUnit(data, p) {
+  return createCharacterUnit(data, p, 'party', `P_${p.id}`);
+}
+
+/**
+ * キャラクターの戦闘ユニット。side=enemy なら模擬戦・対抗戦の相手（正式データのキャラクターがそのまま相手になる）。
+ * @param {import('../data/gameData.js').GameData} data
+ * @param {import('../types.js').CharacterProgress} p
+ * @param {'party'|'enemy'} side
+ * @param {string} uid
+ */
+export function createCharacterUnit(data, p, side, uid) {
   const c = data.character(p.id);
   const base = characterBaseStats(c, p.level);
-  const u = new BattleUnit({ uid: `P_${c.id}`, side: 'party', refId: c.id, name: c.name, level: p.level, base, hp: p.hp, sp: p.sp });
+  const u = new BattleUnit({ uid, side, refId: c.id, name: c.name, level: p.level, base, hp: p.hp, sp: p.sp });
   const a = data.artifact(c.artifact_id);
   const ms = artifactMilestone(a, p.artifactLevel);
   u.artifact = { def: a, level: p.artifactLevel, bonus: artifactStatBonus(a, p.artifactLevel), attributeMultiplier: ms.attributeMultiplier, critBonus: ms.critBonus };
   const g = data.guardian(c.guardian_id);
   const gm = guardianMultipliers(g, p.guardianAffinity, data.rules.guardian.affinity_curve_interpolation);
   u.guardian = { def: g, affinity: p.guardianAffinity, statMultiplier: gm.statMultiplier, attributeMultiplier: gm.attributeMultiplier, released: false, releasedOnce: false, releasedTurns: 0 };
-  u.upperAwakened = p.upperAwakened;
+  u.awakenedUpper = [...(p.awakenedUpper ?? [])];
   u.tengekiMultiplier = data.characterTraits[c.id]?.tengeki_damage_multiplier ?? 1;
   u.tengekiMultiplierScope = data.characterTraits[c.id]?.tengeki_damage_multiplier_scope ?? 'all';
   return u;
