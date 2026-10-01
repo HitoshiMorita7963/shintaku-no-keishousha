@@ -5,14 +5,20 @@ import { load } from './helpers.mjs';
 import { Rng } from '../game/src/core/rng.js';
 import { newStoryGame } from '../game/src/model/gameState.js';
 import { StoryRunner, fastForward } from '../game/src/story/runner.js';
-import { createStoryBattle, applyBattleResult, storyOutcome } from '../game/src/battle/setup.js';
+import { createStoryBattle, applyBattleResult, storyOutcome, sortieCandidates } from '../game/src/battle/setup.js';
 import { decideEnemyAction, decideAutoPartyAction } from '../game/src/battle/ai.js';
 
 const { data } = load();
 
 /** ストーリー戦闘を自動で最後まで進める */
 function autoBattle(state, battleId, seed) {
-  const { engine, def } = createStoryBattle(data, state, battleId, new Rng(seed));
+  const d = data.storyBattle(battleId);
+  let chosen;
+  if (d.party === 'select') { // 出撃選択：A組・B組を混ぜて選ぶ（B組の操作を検証するため）
+    const c = sortieCandidates(data, state, d);
+    chosen = ['A01', 'B01', 'A15', 'B02'].filter((x) => c.includes(x)).slice(0, data.progression.party_max);
+  }
+  const { engine, def } = createStoryBattle(data, state, battleId, new Rng(seed), chosen);
   engine.start();
   while (!engine.outcome() && engine.turn < 60) {
     engine.beginTurn();
@@ -49,7 +55,7 @@ function playEpisode(state, n, stats) {
   assert.fail(`第${n}話が終わりません`);
 }
 
-test('第2章 第1～31話を通しでプレイできる（自動戦闘）', () => {
+test('第2章 第1～42話を通しでプレイできる（自動戦闘）', () => {
   const state = newStoryGame(data);
   const stats = [];
   for (const n of data.episodeNumbers(2)) {
@@ -61,6 +67,7 @@ test('第2章 第1～31話を通しでプレイできる（自動戦闘）', () 
     if (n === 20) {
       assert.ok(!state.joined.includes('A14') && !state.joined.includes('A15'), '将真・優輝は第21話まで未加入');
     }
+    if (n === 34) assert.equal(state.progress.B01, undefined, '第38話より前にB組を操作していない');
     if (n === 21) {
       assert.equal(state.joined.length, 15, '確定進行ルール：第21話終了時点でA組15人全員が戦闘可能');
       assert.equal(state.flags.FIVE_DEMONS_DEFEATED, true);
@@ -82,7 +89,10 @@ test('第2章 第1～31話を通しでプレイできる（自動戦闘）', () 
     const s = stats.find((x) => x.id === b.id);
     assert.equal(s.result, m.winner === 'A' ? 'win' : m.winner === 'B' ? 'lose' : 'draw', `${b.id}`);
   }
-  assert.equal(state.story.episode, 32);
+  assert.equal(state.story.episode, 43, '第2章は全42話');
+  assert.equal(state.flags.CH2_EP42_COSPLETE, true);
+  assert.ok(state.progress.B01 && state.progress.B02, 'B組は第38話以降の出撃で成長データが作られる');
+  assert.ok(!state.joined.some((id) => id.startsWith('B')), 'B組はA組の通常パーティへ自動加入しない（04_B組操作可能ルール）');
   const retries = stats.filter((s) => s.tries > 1).map((s) => `${s.id}×${s.tries}`);
   console.log(`  ストーリー戦闘 ${stats.length}回、再戦が必要だった戦闘: ${retries.join(' ') || 'なし'}`);
 });
@@ -142,4 +152,22 @@ test('B組は戦闘加入できない（指定戦闘でのみ相手・操作対�
   const ex = Object.values(data.scenario.battles).filter((b) => b.exchange);
   assert.equal(ex.length, 15);
   for (const b of ex) assert.equal(data.character(b.opponents[0].character).class, 'B');
+});
+
+test('B組を出撃候補にできるのは第38・40・41話の選択戦闘のみ', () => {
+  const sel = Object.values(data.scenario.battles).filter((b) => b.party === 'select' && b.candidates === 'A+B');
+  assert.ok(sel.length >= 9);
+  for (const b of sel) assert.ok([38, 40, 41].includes(b.episode), b.id);
+  const state = newStoryGame(data);
+  fastForward(data, state, 2, 38);
+  assert.throws(() => createStoryBattle(data, state, 'EP38_B1', new Rng(1), ['A01', 'B01', 'B02', 'B03', 'B04']), /多すぎ/);
+  assert.throws(() => createStoryBattle(data, state, 'EP38_B1', new Rng(1), []), /選ばれていません/);
+});
+
+test('黒田藤吉朗：第21話で生存・第35話で死亡・第42話の席に花', () => {
+  const textOf = (n) => JSON.stringify(data.episode(2, n));
+  assert.ok(textOf(21).includes("\"who\":\"黒田藤吉朗\",\"text\":\"まさか……学生だけでここまで……。\""), "第21話で黒田は生存して登場");
+  assert.ok(textOf(35).includes('静かに目を閉じる。'));
+  assert.ok(textOf(42).includes('その席に花が置かれている。'));
+  for (let n = 1; n < 35; n++) assert.ok(!/黒田.{0,20}(死|命を落と)/.test(textOf(n)), `第${n}話`);
 });

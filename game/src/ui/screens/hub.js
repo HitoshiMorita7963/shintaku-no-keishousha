@@ -7,7 +7,7 @@ import { battleScreen } from './battle.js';
 import { devScreen } from './dev.js';
 import { validationScreen } from './validation.js';
 import { titleScreen } from './title.js';
-import { startEpisode } from './story.js';
+import { startEpisode, chapterEndText } from './story.js';
 
 /** @type {import('../app.js').Screen} */
 export function hubScreen(app, root, notice = '') {
@@ -43,7 +43,7 @@ export function hubScreen(app, root, notice = '') {
           h('p', { class: 'muted small', text: `第${ch}章 学園生活編` }),
           h('button', { class: 'btn btn-primary btn-big', onclick: () => startEpisode(app) }, `第${gs.story.episode}話「${nextEp.title}」へ`),
         ]
-        : h('p', { text: `第${gs.story.episode}話以降は台本の受領後に実装します。` }),
+        : h('p', { class: 'notice', text: chapterEndText(ch, gs.story.episode - 1) }),
       h('p', { class: 'muted small', text: `戦闘メンバー ${gs.joined.length}/15人` }),
     )
     : null;

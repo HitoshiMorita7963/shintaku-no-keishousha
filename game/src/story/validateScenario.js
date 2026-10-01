@@ -1,7 +1,7 @@
 // シナリオ（data/scenario）の整合性チェック。validate.js から呼ばれる。
 import { compileScenario } from './compile.js';
 import { normalizeForMatch } from './scn.js';
-import { UPPER_ATTRIBUTE_OF } from '../core/constants.js';
+import { UPPER_ATTRIBUTE_OF, B_CLASS_PLAYABLE_EPISODES, CHAPTER2_EPISODE_COUNT } from '../core/constants.js';
 
 const RESULT_MODES = ['must_win', 'any', 'scripted'];
 const STORY_RESULTS = ['win', 'lose', 'draw', 'continue'];
@@ -50,6 +50,7 @@ export function validateScenario(rawScenario, raw, opts = {}) {
     const nums = Object.keys(eps).map(Number).sort((a, b) => a - b);
     info[`chapter${ch}_episodes`] = nums.length;
     nums.forEach((n, i) => { if (n !== i + 1) errors.push(`第${ch}章: 第${i + 1}話が欠けています（話の順番は変更不可）`); });
+    if (ch === 2 && nums.some((n) => n > CHAPTER2_EPISODE_COUNT)) errors.push(`第2章は全${CHAPTER2_EPISODE_COUNT}話（ユーザー確認済み）。第${Math.max(...nums)}話があります`);
     const src = normSources[chapterFolder(ch)];
     if (opts.scriptSources && !src) warnings.push(`第${ch}章の台本原文（15_シナリオ台本/${chapterFolder(ch)}/）がないため原文照合をスキップ`);
 
@@ -58,7 +59,8 @@ export function validateScenario(rawScenario, raw, opts = {}) {
       const where = (/** @type {number} */ line) => `${ep.file}:${line}`;
       const evId = `CH${ch}_EP${String(n).padStart(2, '0')}`;
       if (!canon.events?.[evId]) errors.push(`${ep.file}: 正式イベント ${evId} が存在しません`);
-      else if (canon.events[evId].title !== ep.title) warnings.push(`[台本と正式データの差異] 第${n}話タイトル：台本「${ep.title}」／正式イベント「${canon.events[evId].title}」（画面は台本を表示）`);
+      // 話タイトルは台本を正とする（ユーザー確認済み 2026-10-02）。正式イベントJSONのタイトルとの差は件数のみ記録
+      else if (canon.events[evId].title !== ep.title) info.titles_from_script = Number(info.titles_from_script ?? 0) + 1;
       if (!ep.scenes.length) errors.push(`${ep.file}: シーンがありません`);
 
       /** @param {any[]} steps */
@@ -140,10 +142,21 @@ export function validateScenario(rawScenario, raw, opts = {}) {
     if (b.result_mode === 'scripted' && !b.end_after_turns && !(b.triggers ?? []).some((/** @type {any} */ t) => (t.actions ?? []).some((/** @type {any} */ x) => x.end_battle))) {
       errors.push(`戦闘 ${id}: scripted には end_after_turns または end_battle トリガーが必要`);
     }
-    const party = b.party === 'current' ? [] : b.party;
-    if (b.party !== 'current' && (!Array.isArray(party) || !party.length)) errors.push(`戦闘 ${id}: party が不正`);
+    const fixedParty = Array.isArray(b.party);
+    if (!fixedParty && !['current', 'joined', 'select'].includes(b.party)) errors.push(`戦闘 ${id}: party が不正 (${b.party})`);
+    if (fixedParty && !b.party.length) errors.push(`戦闘 ${id}: party が空です`);
+    const party = fixedParty ? b.party : [];
     for (const p of party) if (!chars[p]) errors.push(`戦闘 ${id}: 存在しないキャラ ${p}`);
+    // 確定ルール：B組の操作は 01_ゲーム概要/04_B組操作可能ルール.md の話数のみ
+    const bOps = party.filter((p) => chars[p]?.class === 'B');
+    if (b.party === 'select') {
+      if (!['A', 'A+B'].includes(b.candidates)) errors.push(`戦闘 ${id}: candidates は "A" または "A+B"`);
+      if (b.candidates === 'A+B') bOps.push('(B組候補)');
+    }
+    if (bOps.length && !B_CLASS_PLAYABLE_EPISODES.includes(b.episode)) errors.push(`戦闘 ${id}: 第${b.episode}話ではB組を操作できません（操作可能話数 ${B_CLASS_PLAYABLE_EPISODES.join(',')}）`);
     const refs = new Set(party);
+    // 参加者が実行時に決まる戦闘は、トリガー対象にA組を許可
+    if (!fixedParty) for (const c of Object.values(chars)) refs.add(c.id);
     for (const o of b.opponents ?? []) {
       if (o.enemy) { if (!enemyIds.has(o.enemy)) errors.push(`戦闘 ${id}: 存在しない敵 ${o.enemy}`); refs.add(o.enemy); }
       else if (o.character) { if (!chars[o.character]) errors.push(`戦闘 ${id}: 存在しないキャラ ${o.character}`); refs.add(o.character); }

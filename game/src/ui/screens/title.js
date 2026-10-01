@@ -23,7 +23,7 @@ export function titleScreen(app, root) {
         h('button', { class: 'btn btn-menu', text: '訓練モード（全員使用可）', onclick: () => { app.state = null; app.go(charSelectScreen); } }),
         h('button', { class: 'btn btn-menu', text: 'データ検証', onclick: () => app.go(validationScreen, titleScreen) }),
       ),
-      h('p', { class: 'title-foot', text: `第2章 第1～${eps.length}話 実装 ・ データ v${v}` }),
+      h('p', { class: 'title-foot', text: `第2章 学園生活編（全${eps.length}話） ・ データ v${v}` }),
     ),
   );
   /** @type {HTMLButtonElement|null} */ (root.querySelector('.btn-menu'))?.focus();

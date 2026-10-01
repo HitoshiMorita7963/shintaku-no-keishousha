@@ -40,7 +40,7 @@ export function resultScreen(app, root, /** @type {any} */ r) {
           h('p', { text: `「${s.def.name}」に 勝利しないと 物語は 先へ進めない。` }),
           h('div', { class: 'row-buttons' },
             h('button', { class: 'btn', text: 'この話を中断して学園へ', onclick: () => s.onGiveUp() }),
-            h('button', { class: 'btn btn-primary', text: 'もう一度戦う', onclick: () => app.go(battleScreen, { story: { battleId: s.battleId, onDone: s.onDone, onGiveUp: s.onGiveUp } }) }),
+            h('button', { class: 'btn btn-primary', text: 'もう一度戦う', onclick: () => app.go(battleScreen, { story: { battleId: s.battleId, chosen: s.chosen, onDone: s.onDone, onGiveUp: s.onGiveUp } }) }),
           ),
         )));
       /** @type {HTMLButtonElement|null} */ (root.querySelector('.btn-primary'))?.focus();

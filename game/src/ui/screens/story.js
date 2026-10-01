@@ -2,8 +2,10 @@
 // 操作：タップ／クリック／Enter／Space で進む。ログ・オート・スキップあり。
 import { h, clear } from '../dom.js';
 import { clone } from '../../core/util.js';
+import { CHAPTER2_EPISODE_COUNT } from '../../core/constants.js';
 import { StoryRunner } from '../../story/runner.js';
 import { battleScreen } from './battle.js';
+import { sortieScreen } from './sortie.js';
 import { hubScreen } from './hub.js';
 
 /** @typedef {import('../../story/runner.js').StoryItem} StoryItem */
@@ -19,6 +21,15 @@ export function startEpisode(app) {
   app.storySnapshot = clone(gs); // 中断時に話の開始時点へ戻すため
   app.runner = new StoryRunner(app.data, gs, gs.story.chapter, gs.story.episode);
   app.go(storyScreen);
+}
+
+/**
+ * 章の最後の話を終えたときの案内
+ * @param {number} chapter @param {number} episode
+ */
+export function chapterEndText(chapter, episode) {
+  if (chapter === 2 && episode >= CHAPTER2_EPISODE_COUNT) return '第2章「学園生活編」クリア！　第3章「神官としての実戦編」は台本の受領後に実装します。';
+  return `第${episode + 1}話以降は台本の受領後に実装します。`;
 }
 
 /** @type {import('../app.js').Screen} */
@@ -244,17 +255,18 @@ export function storyScreen(app, root) {
       if (item.type === 'battle') {
         skipping = false;
         const battleId = item.id;
-        app.go(battleScreen, {
-          story: {
-            battleId,
-            onDone: () => app.go(storyScreen),
-            onGiveUp: () => {
-              if (app.storySnapshot) app.state = app.storySnapshot;
-              app.runner = null;
-              app.go(hubScreen, `第${runner.episode}話を中断しました（話の最初からやり直せます）。`);
-            },
+        const target = data.storyBattle(battleId).party === 'select' ? sortieScreen : battleScreen;
+        const storySpec = {
+          battleId,
+          onDone: () => app.go(storyScreen),
+          onGiveUp: () => {
+            if (app.storySnapshot) app.state = app.storySnapshot;
+            app.runner = null;
+            app.go(hubScreen, `第${runner.episode}話を中断しました（話の最初からやり直せます）。`);
           },
-        });
+        };
+        if (target === sortieScreen) app.go(sortieScreen, storySpec);
+        else app.go(battleScreen, { story: storySpec });
         return;
       }
       if (item.type === 'episode_end') {
@@ -265,7 +277,7 @@ export function storyScreen(app, root) {
         await showCard(h('div', {},
           h('p', { class: 'card-ep', text: `第${item.episode}話「${item.title}」` }),
           h('h1', { class: 'card-title', text: '完' }),
-          nextEp ? null : h('p', { class: 'muted small', text: `第${runner.episode + 1}話以降は台本の受領後に実装します。` }),
+          nextEp ? null : h('p', { class: 'muted small', text: chapterEndText(runner.chapter, runner.episode) }),
         ), [
           { label: '学園へ', run: () => app.go(hubScreen) },
           ...(nextEp ? [{ label: `第${runner.episode + 1}話へ`, primary: true, run: () => startEpisode(app) }] : []),

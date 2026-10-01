@@ -14,7 +14,7 @@ import { resultScreen } from './result.js';
 const DELAY = { normal: 650, fast: 220 };
 
 /**
- * @typedef {string | {story: {battleId: string, onDone: (r: {storyResult: string, battle: any}) => void, onGiveUp: () => void}}} BattleSpec
+ * @typedef {string | {story: {battleId: string, chosen?: string[], onDone: (r: {storyResult: string, battle: any}) => void, onGiveUp: () => void}}} BattleSpec
  * 文字列＝訓練戦のエンカウントID。story＝ストーリー戦闘（data/scenario/ch2_battles.json）。
  */
 
@@ -22,7 +22,7 @@ const DELAY = { normal: 650, fast: 220 };
 export function battleScreen(app, root, /** @type {BattleSpec} */ spec) {
   const { data } = app;
   const story = typeof spec === 'string' ? null : spec.story;
-  const built = story ? createStoryBattle(data, app.gs, story.battleId, new Rng()) : null;
+  const built = story ? createStoryBattle(data, app.gs, story.battleId, new Rng(), story.chosen) : null;
   const engine = built ? built.engine : createBattle(data, app.gs, /** @type {string} */ (spec), new Rng());
   const enc = built ? { name: built.def.name, map_id: '' } : data.encounter(/** @type {string} */ (spec));
   const scenarioEp = built ? data.episode(2, built.def.episode) : null;
@@ -40,6 +40,13 @@ export function battleScreen(app, root, /** @type {BattleSpec} */ spec) {
   const turnLabel = h('span', { class: 'turn-label', text: '' });
   const orderBar = h('div', { class: 'order-bar', 'aria-label': '行動順' });
   const speedBtn = h('button', { class: 'btn btn-small btn-ghost', text: '', onclick: () => toggleSpeed() });
+  const autoBtn = h('button', {
+    class: `btn btn-small btn-ghost${app.autoBattle ? ' btn-on' : ''}`, text: 'おまかせ', 'aria-pressed': String(app.autoBattle),
+    title: '味方の行動を自動で選ぶ（大人数の戦闘向け）',
+    onclick: () => { app.autoBattle = !app.autoBattle; autoBtn.classList.toggle('btn-on', app.autoBattle); autoBtn.setAttribute('aria-pressed', String(app.autoBattle)); if (app.autoBattle) pendingChoice?.(); },
+  });
+  /** コマンド入力待ちを自動行動で解決する（おまかせON時） @type {(() => void) | null} */
+  let pendingChoice = null;
   const enemyArea = h('div', { class: 'enemy-area' });
   const partyArea = h('div', { class: 'party-area' });
   const msgLines = h('div', { class: 'msg-lines' });
@@ -49,7 +56,7 @@ export function battleScreen(app, root, /** @type {BattleSpec} */ spec) {
 
   root.append(
     h('div', { class: 'screen battle', 'data-map': enc.map_id ?? '' },
-      h('div', { class: 'battle-top' }, h('span', { class: 'enc-name', text: enc.name }), turnLabel, speedBtn),
+      h('div', { class: 'battle-top' }, h('span', { class: 'enc-name', text: enc.name }), turnLabel, autoBtn, speedBtn),
       orderBar, enemyArea, msgWin, partyArea, cmdArea,
     ),
   );
@@ -168,11 +175,13 @@ export function battleScreen(app, root, /** @type {BattleSpec} */ spec) {
    * @returns {Promise<import('../../types.js').BattleAction>}
    */
   const chooseAction = (u) => new Promise((resolve) => {
+    if (app.autoBattle) { resolve(decideAutoPartyAction(engine, u)); return; }
     /** @type {(() => void) | null} */ let back = null;
     const onKey = (/** @type {KeyboardEvent} */ e) => { if (e.key === 'Escape' && back) { e.preventDefault(); back(); } };
     document.addEventListener('keydown', onKey);
     /** @param {import('../../types.js').BattleAction} a */
     const finish = (a) => {
+      pendingChoice = null;
       document.removeEventListener('keydown', onKey);
       targetable = new Set(); onPickTarget = null;
       clear(cmdArea);
@@ -292,6 +301,7 @@ export function battleScreen(app, root, /** @type {BattleSpec} */ spec) {
       /** @type {HTMLButtonElement|null} */ (cmdArea.querySelector('.btn-target'))?.focus();
     };
 
+    pendingChoice = () => finish(decideAutoPartyAction(engine, u));
     showCommands();
   });
 

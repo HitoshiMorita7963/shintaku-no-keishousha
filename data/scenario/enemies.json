@@ -3,40 +3,645 @@
   "_note": "台本にのみ登場する敵（ZIPの data/enemies には存在しない）。名称は台本どおり。ステータス・行動は未確定のため仮値（data/provisional/enemies.json と同じ形式・同じ汎用行動）。弱点『【案】風・火』（第2話）は案のため未実装。",
   "enemies": {
     "ENE_MALICE_MONSTER": {
-      "name": "悪意モンスター", "category": "boss", "_source": "第2話 EVENT 02-02『序盤用ボス』",
+      "name": "悪意モンスター",
+      "category": "boss",
+      "_source": "第2話 EVENT 02-02『序盤用ボス』",
       "stats": {
-        "lv1":   { "hp": 230, "sp": 30, "atk": 16, "def": 12, "spd": 14, "int": 12, "tec": 10, "eva": 8,  "acc": 15, "luk": 6 },
-        "lv100": { "hp": 6000,"sp": 500,"atk": 540, "def": 460, "spd": 480, "int": 440, "tec": 420, "eva": 380, "acc": 520, "luk": 320 }
+        "lv1": {
+          "hp": 230,
+          "sp": 30,
+          "atk": 16,
+          "def": 12,
+          "spd": 14,
+          "int": 12,
+          "tec": 10,
+          "eva": 8,
+          "acc": 15,
+          "luk": 6
+        },
+        "lv100": {
+          "hp": 6000,
+          "sp": 500,
+          "atk": 540,
+          "def": 460,
+          "spd": 480,
+          "int": 440,
+          "tec": 420,
+          "eva": 380,
+          "acc": 520,
+          "luk": 320
+        }
       },
-      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
-      "exp": { "lv1": 30, "lv100": 3000 }, "drops": [ { "item_id": "ITM_POTION", "rate": 1.0 } ]
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 30,
+        "lv100": 3000
+      },
+      "drops": [
+        {
+          "item_id": "ITM_POTION",
+          "rate": 1
+        }
+      ]
     },
     "ENE_TRAINING_MONSTER": {
-      "name": "訓練用モンスター", "category": "enemy", "_source": "第5話 EVENT 05-03・第11話 11-03",
+      "name": "訓練用モンスター",
+      "category": "enemy",
+      "_source": "第5話 EVENT 05-03・第11話 11-03",
       "stats": {
-        "lv1":   { "hp": 120, "sp": 10, "atk": 13, "def": 10, "spd": 12, "int": 10, "tec": 8,  "eva": 8,  "acc": 14, "luk": 5 },
-        "lv100": { "hp": 3000,"sp": 200,"atk": 480, "def": 400, "spd": 440, "int": 380, "tec": 360, "eva": 360, "acc": 480, "luk": 300 }
+        "lv1": {
+          "hp": 120,
+          "sp": 10,
+          "atk": 13,
+          "def": 10,
+          "spd": 12,
+          "int": 10,
+          "tec": 8,
+          "eva": 8,
+          "acc": 14,
+          "luk": 5
+        },
+        "lv100": {
+          "hp": 3000,
+          "sp": 200,
+          "atk": 480,
+          "def": 400,
+          "spd": 440,
+          "int": 380,
+          "tec": 360,
+          "eva": 360,
+          "acc": 480,
+          "luk": 300
+        }
       },
-      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 1 } ],
-      "exp": { "lv1": 15, "lv100": 1500 }, "drops": []
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 15,
+        "lv100": 1500
+      },
+      "drops": []
     },
     "ENE_TRAINING_MONSTER_BERSERK": {
-      "name": "訓練用暴走モンスター", "category": "boss", "_source": "第14話 14-05",
+      "name": "訓練用暴走モンスター",
+      "category": "boss",
+      "_source": "第14話 14-05",
       "stats": {
-        "lv1":   { "hp": 420, "sp": 40, "atk": 18, "def": 15, "spd": 13, "int": 13, "tec": 12, "eva": 8,  "acc": 16, "luk": 6 },
-        "lv100": { "hp": 9500,"sp": 600,"atk": 600, "def": 520, "spd": 480, "int": 460, "tec": 440, "eva": 380, "acc": 540, "luk": 320 }
+        "lv1": {
+          "hp": 420,
+          "sp": 40,
+          "atk": 18,
+          "def": 15,
+          "spd": 13,
+          "int": 13,
+          "tec": 12,
+          "eva": 8,
+          "acc": 16,
+          "luk": 6
+        },
+        "lv100": {
+          "hp": 9500,
+          "sp": 600,
+          "atk": 600,
+          "def": 520,
+          "spd": 480,
+          "int": 460,
+          "tec": 440,
+          "eva": 380,
+          "acc": 540,
+          "luk": 320
+        }
       },
-      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_STRONG", "weight": 1 }, { "id": "SKL_ENE_ALL", "weight": 1 } ],
-      "exp": { "lv1": 60, "lv100": 6000 }, "drops": [ { "item_id": "ITM_SP_POTION", "rate": 0.5 } ]
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 60,
+        "lv100": 6000
+      },
+      "drops": [
+        {
+          "item_id": "ITM_SP_POTION",
+          "rate": 0.5
+        }
+      ]
     },
     "ENE_MYSTERY_DEMON_SOLDIER": {
-      "name": "謎の悪魔兵", "category": "enemy", "_source": "第30話 30-06（第35話の『悪魔兵』と同一かは未確定のため別定義）",
+      "name": "謎の悪魔兵",
+      "category": "enemy",
+      "_source": "第30話 30-06（第35話の『悪魔兵』と同一かは未確定のため別定義）",
       "stats": {
-        "lv1":   { "hp": 90,  "sp": 20, "atk": 16, "def": 13, "spd": 15, "int": 13, "tec": 11, "eva": 10, "acc": 15, "luk": 8 },
-        "lv100": { "hp": 1800,"sp": 300,"atk": 540, "def": 440, "spd": 540, "int": 440, "tec": 420, "eva": 440, "acc": 520, "luk": 360 }
+        "lv1": {
+          "hp": 90,
+          "sp": 20,
+          "atk": 16,
+          "def": 13,
+          "spd": 15,
+          "int": 13,
+          "tec": 11,
+          "eva": 10,
+          "acc": 15,
+          "luk": 8
+        },
+        "lv100": {
+          "hp": 1800,
+          "sp": 300,
+          "atk": 540,
+          "def": 440,
+          "spd": 540,
+          "int": 440,
+          "tec": 420,
+          "eva": 440,
+          "acc": 520,
+          "luk": 360
+        }
       },
-      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 4 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
-      "exp": { "lv1": 12, "lv100": 1100 }, "drops": [ { "item_id": "ITM_POTION", "rate": 0.2 } ]
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 4
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 12,
+        "lv100": 1100
+      },
+      "drops": [
+        {
+          "item_id": "ITM_POTION",
+          "rate": 0.2
+        }
+      ]
+    },
+    "ENE_3TOP_GENGA": {
+      "name": "一ノ瀬玄牙",
+      "category": "boss",
+      "_source": "第32話 32-02（元3TOP。台本注記：名前・能力は仮設定）",
+      "stats": {
+        "lv1": {
+          "hp": 900,
+          "sp": 50,
+          "atk": 26,
+          "def": 24,
+          "spd": 20,
+          "int": 20,
+          "tec": 22,
+          "eva": 16,
+          "acc": 24,
+          "luk": 16
+        },
+        "lv100": {
+          "hp": 20000,
+          "sp": 50,
+          "atk": 780,
+          "def": 700,
+          "spd": 640,
+          "int": 620,
+          "tec": 700,
+          "eva": 520,
+          "acc": 700,
+          "luk": 520
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 0,
+        "lv100": 0
+      },
+      "drops": []
+    },
+    "ENE_3TOP_SHIZUKA": {
+      "name": "白峰静香",
+      "category": "boss",
+      "_source": "第32話 32-02（元3TOP。台本注記：名前・能力は仮設定）",
+      "stats": {
+        "lv1": {
+          "hp": 800,
+          "sp": 50,
+          "atk": 22,
+          "def": 20,
+          "spd": 24,
+          "int": 24,
+          "tec": 26,
+          "eva": 22,
+          "acc": 26,
+          "luk": 18
+        },
+        "lv100": {
+          "hp": 18000,
+          "sp": 50,
+          "atk": 700,
+          "def": 620,
+          "spd": 720,
+          "int": 700,
+          "tec": 760,
+          "eva": 640,
+          "acc": 760,
+          "luk": 560
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 0,
+        "lv100": 0
+      },
+      "drops": []
+    },
+    "ENE_3TOP_REN": {
+      "name": "神崎蓮",
+      "category": "boss",
+      "_source": "第32話 32-02（元3TOP。台本注記：名前・能力は仮設定）",
+      "stats": {
+        "lv1": {
+          "hp": 850,
+          "sp": 50,
+          "atk": 24,
+          "def": 22,
+          "spd": 22,
+          "int": 22,
+          "tec": 24,
+          "eva": 18,
+          "acc": 24,
+          "luk": 18
+        },
+        "lv100": {
+          "hp": 19000,
+          "sp": 50,
+          "atk": 740,
+          "def": 660,
+          "spd": 680,
+          "int": 660,
+          "tec": 720,
+          "eva": 580,
+          "acc": 720,
+          "luk": 540
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 0,
+        "lv100": 0
+      },
+      "drops": []
+    },
+    "ENE_SPECIAL_MONSTER": {
+      "name": "特殊モンスター",
+      "category": "enemy",
+      "_source": "第34話 34-02「敵は大量の特殊モンスター」",
+      "stats": {
+        "lv1": {
+          "hp": 260,
+          "sp": 50,
+          "atk": 17,
+          "def": 14,
+          "spd": 15,
+          "int": 14,
+          "tec": 12,
+          "eva": 10,
+          "acc": 16,
+          "luk": 8
+        },
+        "lv100": {
+          "hp": 5200,
+          "sp": 50,
+          "atk": 560,
+          "def": 480,
+          "spd": 520,
+          "int": 480,
+          "tec": 440,
+          "eva": 420,
+          "acc": 520,
+          "luk": 360
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 30,
+        "lv100": 2500
+      },
+      "drops": []
+    },
+    "ENE_GIANT_FOE": {
+      "name": "巨大な敵",
+      "category": "boss",
+      "_source": "第34話 34-13「巨大な敵が出現」",
+      "stats": {
+        "lv1": {
+          "hp": 1600,
+          "sp": 50,
+          "atk": 22,
+          "def": 20,
+          "spd": 14,
+          "int": 18,
+          "tec": 16,
+          "eva": 8,
+          "acc": 18,
+          "luk": 10
+        },
+        "lv100": {
+          "hp": 36000,
+          "sp": 50,
+          "atk": 680,
+          "def": 640,
+          "spd": 520,
+          "int": 600,
+          "tec": 560,
+          "eva": 400,
+          "acc": 600,
+          "luk": 420
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 150,
+        "lv100": 12000
+      },
+      "drops": []
+    },
+    "ENE_GIANT_THUNDER_DEMON": {
+      "name": "巨大な雷魔",
+      "category": "boss",
+      "_source": "第35話 35-23「巨大な雷魔」",
+      "stats": {
+        "lv1": {
+          "hp": 900,
+          "sp": 50,
+          "atk": 22,
+          "def": 18,
+          "spd": 18,
+          "int": 22,
+          "tec": 16,
+          "eva": 10,
+          "acc": 18,
+          "luk": 12
+        },
+        "lv100": {
+          "hp": 20000,
+          "sp": 50,
+          "atk": 660,
+          "def": 560,
+          "spd": 600,
+          "int": 680,
+          "tec": 560,
+          "eva": 440,
+          "acc": 600,
+          "luk": 440
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 2
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 2
+        }
+      ],
+      "exp": {
+        "lv1": 120,
+        "lv100": 10000
+      },
+      "drops": []
+    },
+    "ENE_GIANT_TRAINING_MONSTER": {
+      "name": "巨大な訓練用モンスター",
+      "category": "boss",
+      "_source": "第38話 38-18",
+      "stats": {
+        "lv1": {
+          "hp": 700,
+          "sp": 50,
+          "atk": 20,
+          "def": 18,
+          "spd": 13,
+          "int": 15,
+          "tec": 14,
+          "eva": 8,
+          "acc": 17,
+          "luk": 8
+        },
+        "lv100": {
+          "hp": 16000,
+          "sp": 50,
+          "atk": 620,
+          "def": 560,
+          "spd": 480,
+          "int": 520,
+          "tec": 480,
+          "eva": 380,
+          "acc": 560,
+          "luk": 360
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 100,
+        "lv100": 8000
+      },
+      "drops": []
+    },
+    "ENE_HUGE_MONSTER": {
+      "name": "巨大なモンスター",
+      "category": "boss",
+      "_source": "第40話 40-07",
+      "stats": {
+        "lv1": {
+          "hp": 760,
+          "sp": 50,
+          "atk": 21,
+          "def": 19,
+          "spd": 14,
+          "int": 16,
+          "tec": 15,
+          "eva": 8,
+          "acc": 17,
+          "luk": 9
+        },
+        "lv100": {
+          "hp": 17000,
+          "sp": 50,
+          "atk": 640,
+          "def": 580,
+          "spd": 500,
+          "int": 540,
+          "tec": 500,
+          "eva": 400,
+          "acc": 580,
+          "luk": 380
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 110,
+        "lv100": 8800
+      },
+      "drops": []
+    },
+    "ENE_LARGE_DEMON": {
+      "name": "大型悪魔",
+      "category": "boss",
+      "_source": "第41話 41-07・41-08【BOSS BATTLE】",
+      "stats": {
+        "lv1": {
+          "hp": 900,
+          "sp": 50,
+          "atk": 23,
+          "def": 20,
+          "spd": 16,
+          "int": 20,
+          "tec": 18,
+          "eva": 10,
+          "acc": 19,
+          "luk": 12
+        },
+        "lv100": {
+          "hp": 20000,
+          "sp": 50,
+          "atk": 700,
+          "def": 620,
+          "spd": 560,
+          "int": 640,
+          "tec": 580,
+          "eva": 440,
+          "acc": 640,
+          "luk": 460
+        }
+      },
+      "skills": [
+        {
+          "id": "SKL_ENE_ATTACK",
+          "weight": 3
+        },
+        {
+          "id": "SKL_ENE_STRONG",
+          "weight": 1
+        },
+        {
+          "id": "SKL_ENE_ALL",
+          "weight": 1
+        }
+      ],
+      "exp": {
+        "lv1": 150,
+        "lv100": 12000
+      },
+      "drops": []
     }
   }
 }

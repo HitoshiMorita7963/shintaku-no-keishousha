@@ -1,6 +1,6 @@
 {
   "_status": "structure_from_script_numbers_provisional",
-  "_note": "第2章の戦闘定義。対戦カード・参加者・操作キャラ・勝敗（story_result）は台本どおり。ターン数・HP割合・トリガー条件は台本に数値がないため仮値。result_mode: must_win=勝利必須（敗北時は再戦）/ any=勝敗どちらでも進行（台本05-06）/ scripted=台本で結果が決まっている戦闘（end_after_turns で終了し story_result を適用）。opponents: enemy=敵ID / character=キャラID（相手もキャラクターの正式データで戦う）。min_hp_ratio=このHP割合未満にならない（撃破できない演出用）。 scale={hp,stats}：パーティ向けに作った敵ステータスを1対1の台本戦闘用に縮小する仮補正。",
+  "_note": "第2章の戦闘定義。対戦カード・参加者・操作キャラ・勝敗（story_result）は台本どおり。ターン数・HP割合・トリガー条件は台本に数値がないため仮値。result_mode: must_win=勝利必須（敗北時は再戦）/ any=勝敗どちらでも進行（台本05-06）/ scripted=台本で結果が決まっている戦闘（end_after_turns で終了し story_result を適用）。opponents: enemy=敵ID / character=キャラID（相手もキャラクターの正式データで戦う）。min_hp_ratio=このHP割合未満にならない（撃破できない演出用）。 scale={hp,stats}：パーティ向けに作った敵ステータスを1対1の台本戦闘用に縮小する仮補正。 party: 配列=台本で参加者が決まっている／\"current\"=プレイヤーの現在のパーティ／\"joined\"=戦闘加入済み全員（台本「15人全員で」）／\"select\"=出撃メンバーを選択（candidates: \"A\"=加入済みA組、\"A+B\"=A組＋B組30人。B組は第25～27・38・40・41話のみ）。",
   "defaults": {
     "result_mode": "must_win",
     "restore_before": true,
@@ -1328,6 +1328,268 @@
         },
         {
           "enemy": "ENE_MYSTERY_DEMON_SOLDIER"
+        }
+      ]
+    },
+    "EP32_B1": {
+      "episode": 32,
+      "name": "3TOP VS 15人",
+      "party": "joined",
+      "opponents": [
+        {
+          "enemy": "ENE_3TOP_GENGA",
+          "min_hp_ratio": 0.6
+        },
+        {
+          "enemy": "ENE_3TOP_SHIZUKA",
+          "min_hp_ratio": 0.6
+        },
+        {
+          "enemy": "ENE_3TOP_REN",
+          "min_hp_ratio": 0.6
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 2
+    },
+    "EP34_B1": {
+      "episode": 34,
+      "name": "最終試験 特殊モンスター",
+      "party": "joined",
+      "opponents": [
+        {
+          "enemy": "ENE_SPECIAL_MONSTER"
+        },
+        {
+          "enemy": "ENE_SPECIAL_MONSTER"
+        },
+        {
+          "enemy": "ENE_SPECIAL_MONSTER"
+        },
+        {
+          "enemy": "ENE_SPECIAL_MONSTER"
+        },
+        {
+          "enemy": "ENE_SPECIAL_MONSTER"
+        }
+      ]
+    },
+    "EP34_B2": {
+      "episode": 34,
+      "name": "最終試験 最後の敵",
+      "party": "joined",
+      "opponents": [
+        {
+          "enemy": "ENE_GIANT_FOE"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP34_T_KOKUGA",
+          "actions": [
+            {
+              "release_guardian": "A01"
+            }
+          ]
+        }
+      ]
+    },
+    "EP35_B1": {
+      "episode": 35,
+      "name": "悪魔軍 第一防衛線",
+      "party": "current",
+      "opponents": [
+        {
+          "enemy": "ENE_DEMON_ARMY"
+        },
+        {
+          "enemy": "ENE_DEMON_SOLDIER"
+        },
+        {
+          "enemy": "ENE_DEMON_SOLDIER"
+        }
+      ]
+    },
+    "EP35_B2": {
+      "episode": 35,
+      "name": "巨大な雷魔",
+      "party": "current",
+      "opponents": [
+        {
+          "enemy": "ENE_GIANT_THUNDER_DEMON"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP35_T_UNITE"
+        }
+      ]
+    },
+    "EP38_B1": {
+      "episode": 38,
+      "name": "第一区域「突破」",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        }
+      ]
+    },
+    "EP38_B2": {
+      "episode": 38,
+      "name": "第二区域（森）",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        }
+      ]
+    },
+    "EP38_B3": {
+      "episode": 38,
+      "name": "第三区域 巨大な訓練用モンスター",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_GIANT_TRAINING_MONSTER"
+        }
+      ]
+    },
+    "EP40_B1": {
+      "episode": 40,
+      "name": "第一試験「戦闘」",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        }
+      ]
+    },
+    "EP40_B2": {
+      "episode": 40,
+      "name": "第二試験「守護」",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        }
+      ]
+    },
+    "EP40_B3": {
+      "episode": 40,
+      "name": "第四試験「連携」",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        }
+      ]
+    },
+    "EP40_B4": {
+      "episode": 40,
+      "name": "最終試験 巨大なモンスター",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_HUGE_MONSTER"
+        }
+      ]
+    },
+    "EP41_B1": {
+      "episode": 41,
+      "name": "第一防衛線",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_DEMON_SOLDIER"
+        },
+        {
+          "enemy": "ENE_DEMON_SOLDIER"
+        },
+        {
+          "enemy": "ENE_DEMON_SOLDIER"
+        }
+      ]
+    },
+    "EP41_B2": {
+      "episode": 41,
+      "name": "BOSS BATTLE 大型悪魔",
+      "party": "select",
+      "candidates": "A+B",
+      "opponents": [
+        {
+          "enemy": "ENE_LARGE_DEMON"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP41_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "turn_at_least": 3
+          },
+          "block": "EP41_T2",
+          "actions": [
+            {
+              "release_guardian": "A01"
+            }
+          ]
         }
       ]
     }

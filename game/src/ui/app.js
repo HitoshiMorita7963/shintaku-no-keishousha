@@ -27,6 +27,10 @@ export class App {
     this.storySnapshot = null;
     /** 会話ログ @type {string[] | null} */
     this.storyLog = null;
+    /** 直前の出撃メンバー（出撃選択の初期値） @type {string[] | null} */
+    this.lastSortie = null;
+    /** 戦闘でのおまかせ（味方の行動を自動で選ぶ） */
+    this.autoBattle = false;
   }
 
   /** 現在のゲーム状態（ニューゲーム前に呼ぶとエラー） */

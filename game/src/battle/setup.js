@@ -54,11 +54,13 @@ export function createBattle(data, state, encounterId, rng) {
  * @param {import('../types.js').GameState} state
  * @param {string} battleId
  * @param {import('../core/rng.js').Rng} rng
+ * @param {string[]} [chosen] party:"select" のときに出撃メンバー選択画面で選んだID
  */
-export function createStoryBattle(data, state, battleId, rng) {
+export function createStoryBattle(data, state, battleId, rng, chosen) {
   const def = data.storyBattle(battleId);
-  const ids = def.party === 'current' ? state.party : def.party;
+  const ids = storyPartyIds(data, state, def, chosen);
   assert(ids.length > 0, `${battleId}: 参加キャラクターがいません`);
+  for (const id of ids) ensureProgress(data, state, id);
   const party = ids.map((/** @type {string} */ id) => {
     const p = state.progress[id];
     assert(p, `${battleId}: ${id} の成長データがありません`);
@@ -114,6 +116,52 @@ export function createStoryBattle(data, state, battleId, rng) {
     },
   });
   return { engine, def };
+}
+
+/**
+ * ストーリー戦闘の参加者ID
+ * @param {import('../data/gameData.js').GameData} data
+ * @param {import('../types.js').GameState} state
+ * @param {any} def
+ * @param {string[]} [chosen]
+ * @returns {string[]}
+ */
+export function storyPartyIds(data, state, def, chosen) {
+  if (def.party === 'current') return [...state.party];
+  if (def.party === 'joined') return [...state.joined];
+  if (def.party === 'select') {
+    assert(chosen && chosen.length, `${def.id}: 出撃メンバーが選ばれていません`);
+    const cands = sortieCandidates(data, state, def);
+    for (const id of chosen) assert(cands.includes(id), `${def.id}: ${id} はこの戦闘に出撃できません`);
+    assert(chosen.length <= (def.party_size ?? data.progression.party_max), `${def.id}: 出撃人数が多すぎます`);
+    return [...chosen];
+  }
+  return [...def.party];
+}
+
+/**
+ * 出撃メンバー候補（party:"select"）。B組は 04_B組操作可能ルール の話数のみ（validate.js で検査）
+ * @param {import('../data/gameData.js').GameData} data
+ * @param {import('../types.js').GameState} state
+ * @param {any} def
+ */
+export function sortieCandidates(data, state, def) {
+  const a = [...state.joined].sort();
+  if (def.candidates !== 'A+B') return a;
+  return [...a, ...data.charactersOfClass('B').map((c) => c.id)];
+}
+
+/**
+ * 成長データがなければ作る（B組は指定戦闘で初めて操作するとき）。Lvは戦闘加入済みメンバーの平均（仮）。
+ * @param {import('../data/gameData.js').GameData} data
+ * @param {import('../types.js').GameState} state
+ * @param {string} id
+ */
+export function ensureProgress(data, state, id) {
+  if (state.progress[id]) return state.progress[id];
+  const avg = state.joined.length ? Math.round(state.joined.reduce((s, j) => s + state.progress[j].level, 0) / state.joined.length) : 1;
+  state.progress[id] = newProgress(data, id, clampLv(avg));
+  return state.progress[id];
 }
 
 /**
