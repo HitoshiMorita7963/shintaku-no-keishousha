@@ -1,0 +1,120 @@
+{
+  "_status": "provisional",
+  "_note": "07_戦闘システム/01_戦闘仕様.md『具体的なダメージ計算式・耐性値など、ユーザー未確定の数値は仮仕様として扱う』に基づく仮パラメータ。確定値は 07_戦闘システム の資料で明記されたもののみ（confirmed_* で参照元を記載）。",
+
+  "commands": [
+    { "id": "attack",   "label": "攻撃" },
+    { "id": "shingi",   "label": "神技" },
+    { "id": "tengeki",  "label": "天撃" },
+    { "id": "artifact", "label": "神器" },
+    { "id": "guardian", "label": "守護獣" },
+    { "id": "item",     "label": "アイテム" },
+    { "id": "guard",    "label": "防御" }
+  ],
+
+  "turn_order": {
+    "_note": "毎ターン開始時に素早さ×乱数で行動順を決定し、順番が来たキャラからコマンドを選ぶ（ユーザー指定フロー：行動順決定→コマンド選択）。防御・受流は次の自分の行動まで有効。",
+    "speed_random_min": 0.85,
+    "speed_random_max": 1.15
+  },
+
+  "damage": {
+    "_note": "基礎ダメージ = 威力 × 攻撃側値 × 攻撃側値 / (攻撃側値 + 防御側値×(1-防御無視率)) × coefficient。Lv差が大きくても0や桁外れになりにくい比率型。",
+    "coefficient": 1.5,
+    "variance_min": 0.9,
+    "variance_max": 1.1,
+    "minimum": 1,
+    "attack_stat_by_scaling": {
+      "atk": { "atk": 1.0 },
+      "int": { "int": 1.0 },
+      "atk_and_int": { "atk": 0.5, "int": 0.5 },
+      "atk_tec": { "atk": 0.7, "tec": 0.3 }
+    },
+    "defense_stat_by_scaling": {
+      "_note": "ユーザー指示のステータス定義『防御：物理・その他のダメージ軽減』に従い、天撃も防御で軽減する（耐性値は未確定のため別ステータスは使わない）。",
+      "atk": "def",
+      "int": "def",
+      "atk_and_int": "def",
+      "atk_tec": "def"
+    },
+    "multi_hit_power_ratio": 0.6,
+    "guard_damage_multiplier": 0.5
+  },
+
+  "hit": {
+    "_note": "命中率 = base + (命中 - 回避)/(命中 + 回避) × weight + 補正。上下限で100%固定・0%固定を防ぐ（04_神器/02_神器成長仕様.md バランス節）。",
+    "base": 0.95,
+    "acc_eva_weight": 0.5,
+    "min": 0.4,
+    "max": 0.99,
+    "always_hit_categories": ["tengeki"]
+  },
+
+  "critical": {
+    "_note": "会心率 = base + weight × 運/(運 + 相手の運) + 神器Lv節目の会心補正 + 技・バフ補正。運の用途は 03_キャラクター/01_ステータス項目.md による。",
+    "base": 0.03,
+    "luk_weight": 0.08,
+    "max": 0.5,
+    "multiplier": 1.5,
+    "categories_excluded": []
+  },
+
+  "attribute": {
+    "confirmed_same_kind_bonus": {
+      "_source": "07_戦闘システム/01_戦闘仕様.md 同族性：天撃属性が神器属性と一致すると×1.5、守護獣属性と一致すると×1.5、両方一致すると×2.25。",
+      "artifact_match": 1.5,
+      "guardian_match": 1.5,
+      "applies_to_categories": ["tengeki"],
+      "guardian_match_requires_release": false
+    },
+    "upper_attribute_matches_base": true,
+    "_upper_note": "上位属性天撃（氷・木・焔・嵐・霆・聖・冥）が、基本属性の神器/守護獣と同族扱いになるかは未確定。仮に base_attribute 一致で同族扱いとする。",
+    "artifact_attribute_multiplier_applies_to": ["attack", "shingi", "tengeki", "artifact_unique", "guardian_unique"],
+    "guardian_attribute_multiplier_applies_to": ["attack", "shingi", "tengeki", "artifact_unique", "guardian_unique"],
+    "normal_attack_uses_artifact_attribute": false,
+    "max_total_multiplier": null,
+    "_cap_note": "【ユーザー確認済み 2026-10-02】倍率上限は設けない（null）。計測値：最大属性倍率×4.21、会心込み×6.32。"
+  },
+
+  "artifact": {
+    "_note": "神器補正は常時有効（03_神器・守護獣戦闘補正.md）。補正値は stat_bonuses_lv1→lv100 を線形補間し四捨五入（キャラクター成長表と同じ丸め）。節目（milestones）は到達Lv以下の最大の節目を適用。",
+    "bonus_rounding": "round",
+    "skill_unlock_source": "skill_json",
+    "_skill_unlock_note": "skill_json=各ARTSK_*.jsonのunlock_artifact_level（データ実値）。milestones=神器JSONの節目順（Lv10ごと1個）。資料間で矛盾があるため切替可能にしている（docs/01_開発開始レポート.md 矛盾#6）。"
+  },
+
+  "guardian": {
+    "_note": "守護獣は戦闘中に解放（03_神器・守護獣戦闘補正.md）。解放のSPコスト・持続は未確定のため仮値。",
+    "release_sp_cost_ratio": 0.15,
+    "release_sp_cost_min": 5,
+    "release_duration_turns": null,
+    "release_once_per_battle": true,
+    "multiplier_target": "character_base",
+    "_multiplier_target_note": "『HP/SP以外のステータスを基礎1.5倍』の『基礎』を、キャラクター基礎値（神器補正を含まない値）と解釈。乗算の過大化を避ける側の解釈。",
+    "affinity_curve_interpolation": "step"
+  },
+
+  "tengeki_access": {
+    "_note": "【ユーザー確認済み 2026-10-02】全キャラが全属性の基本天撃を使える。神器・守護獣と属性が一致しない天撃には同族性補正はかからない。染川咲の天撃補正（属性不一致時のみ×1.2）は data/confirmed/character_traits.json。上位属性の覚醒条件はシナリオ台本に従う（台本受領待ち）。それまでは覚醒フラグ制・自分の属性に対応する上位属性のみ（仮）。",
+    "basic": "all",
+    "upper": "awakened_flag",
+    "upper_scope": "matching",
+    "_values": "basic: all / matching ／ upper: awakened_flag / none ／ upper_scope: matching / all"
+  },
+
+  "buffs": {
+    "max_stat_buff": 0.5,
+    "min_stat_buff": -0.5
+  },
+
+  "enemy_ai": {
+    "_note": "敵AIの仮仕様。usable な行動から weight で抽選。対象はHP割合が低い味方をやや優先。",
+    "low_hp_target_bias": 0.5
+  },
+
+  "rewards": {
+    "exp_to_fainted_members": false,
+    "exp_split_among_party": false,
+    "drop_luk_weight": 0.1
+  }
+}

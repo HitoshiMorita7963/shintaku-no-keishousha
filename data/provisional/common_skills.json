@@ -1,0 +1,54 @@
+{
+  "_status": "provisional",
+  "_note": "data/skills/SKL_ATK・SKL_GUARD・SKL_GIN_GEKI1～10 は威力・消費SP・対象が null/未確定。技名は正式データのまま、空欄のみ仮値で補完する。効果内容は技名からの仮解釈（ユーザー確認待ち）。神技は技術も参照する（03_キャラクター/01_ステータス項目.md『技術：神技・神器系への影響』）。",
+  "overlays": {
+    "SKL_ATK": {
+      "power": 1.0, "target": "single_enemy",
+      "fill": { "scaling": "atk", "effects": {} }
+    },
+    "SKL_GUARD": {
+      "target": "self",
+      "fill": { "scaling": "none", "effects": { "guard": 0.5 } }
+    },
+    "SKL_GIN_GEKI1": {
+      "power": 0, "sp_cost": 6, "target": "self",
+      "fill": { "scaling": "none", "effects": { "buffs": [ { "to": "self", "stat": "spd", "amount": 0.3, "turns": 3 }, { "to": "self", "stat": "eva", "amount": 0.2, "turns": 3 } ] }, "description": "自分の素早さ・回避を上げる（仮）" }
+    },
+    "SKL_GIN_GEKI2": {
+      "power": 1.5, "sp_cost": 6, "target": "single_enemy",
+      "fill": { "scaling": "atk_tec", "effects": { "acc_bonus": -0.1 }, "description": "敵単体に強力な一撃。命中やや低（仮）" }
+    },
+    "SKL_GIN_GEKI3": {
+      "power": 1.0, "sp_cost": 8, "target": "single_enemy",
+      "fill": { "scaling": "atk_tec", "effects": { "hits": 2 }, "description": "敵単体に2回攻撃（仮）" }
+    },
+    "SKL_GIN_GEKI4": {
+      "power": 0, "sp_cost": 5, "target": "self",
+      "fill": { "scaling": "none", "effects": { "buffs": [ { "to": "self", "stat": "eva", "amount": 0.4, "turns": 2 } ] }, "description": "自分の回避を大きく上げる（仮）" }
+    },
+    "SKL_GIN_GEKI5": {
+      "power": 0, "sp_cost": 4, "target": "self",
+      "fill": { "scaling": "none", "effects": { "guard": 0.3 }, "description": "このターン受けるダメージを大きく減らす（仮）" }
+    },
+    "SKL_GIN_GEKI6": {
+      "power": 0, "sp_cost": 5, "target": "self",
+      "fill": { "scaling": "none", "effects": { "buffs": [ { "to": "self", "kind": "crit", "amount": 0.3, "turns": 2 }, { "to": "self", "stat": "acc", "amount": 0.1, "turns": 2 } ] }, "description": "会心率と命中を上げる（仮）" }
+    },
+    "SKL_GIN_GEKI7": {
+      "power": 1.0, "sp_cost": 8, "target": "single_enemy",
+      "fill": { "scaling": "atk_tec", "effects": { "buffs": [ { "to": "target", "stat": "def", "amount": -0.25, "turns": 3 } ] }, "description": "攻撃し、敵の防御を下げる（仮）" }
+    },
+    "SKL_GIN_GEKI8": {
+      "power": 0, "sp_cost": 10, "target": "all_allies",
+      "fill": { "scaling": "none", "effects": { "buffs": [ { "to": "target", "stat": "spd", "amount": 0.2, "turns": 3 } ] }, "description": "味方全体の素早さを上げる（仮）" }
+    },
+    "SKL_GIN_GEKI9": {
+      "power": 1.3, "sp_cost": 10, "target": "single_enemy",
+      "fill": { "scaling": "atk_tec", "effects": { "def_ignore": 0.3 }, "description": "防御を一部無視する一撃（仮）" }
+    },
+    "SKL_GIN_GEKI10": {
+      "power": 0, "sp_cost": 12, "target": "self",
+      "fill": { "scaling": "none", "effects": { "buffs": [ { "to": "self", "stat": "atk", "amount": 0.2, "turns": 3 }, { "to": "self", "stat": "int", "amount": 0.2, "turns": 3 } ] }, "description": "自分の攻撃・賢さを上げる（仮）" }
+    }
+  }
+}
