@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A15_07",
+  "name": "天極・疾断",
+  "category": "artifact_unique",
+  "owner_id": "A15",
+  "unlock_artifact_level": 30,
+  "attribute": "雷",
+  "scaling": "atk",
+  "power": 1.42,
+  "target": "単体",
+  "sp_cost": 22,
+  "effect": "命中率が高い",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "ENE_DEMON_SOLDIER",
+  "name": "悪魔兵",
+  "category": "enemy",
+  "hp": null,
+  "stats": null,
+  "skills": [],
+  "special_rule": "第35話の量産敵",
+  "notes": "最終ステータス未確定。"
+}

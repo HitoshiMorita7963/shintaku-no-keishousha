@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP32",
+  "chapter": 2,
+  "episode": 32,
+  "title": "元3TOPとの修行",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP32_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

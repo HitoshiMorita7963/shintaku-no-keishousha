@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A10_05",
+  "name": "蟒牙・連弾",
+  "category": "artifact_unique",
+  "owner_id": "A10",
+  "unlock_artifact_level": 10,
+  "attribute": "土",
+  "scaling": "int",
+  "power": 1.18,
+  "target": "単体",
+  "sp_cost": 13,
+  "effect": "属性天撃を連続発動",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

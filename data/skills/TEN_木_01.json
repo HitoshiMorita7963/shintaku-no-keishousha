@@ -1,0 +1,13 @@
+{
+  "id": "TEN_木_01",
+  "name": "土天・木槍",
+  "category": "tengeki",
+  "attribute": "木",
+  "base_attribute": "土",
+  "scaling": "int",
+  "power": 1.1,
+  "target": "単体",
+  "sp_cost": 14,
+  "upper_attribute": true,
+  "effect": "上位属性の賢さ依存天撃"
+}

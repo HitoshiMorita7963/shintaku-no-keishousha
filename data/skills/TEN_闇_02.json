@@ -1,0 +1,12 @@
+{
+  "id": "TEN_闇_02",
+  "name": "闇天・黒霧",
+  "category": "tengeki",
+  "attribute": "闇",
+  "scaling": "int",
+  "power": 1.05,
+  "target": "単体",
+  "sp_cost": 12,
+  "upper_attribute": false,
+  "effect": "賢さ依存の闇属性天撃"
+}

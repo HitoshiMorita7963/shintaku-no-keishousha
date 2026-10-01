@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP10",
+  "chapter": 2,
+  "episode": 10,
+  "title": "柴咲駆流美",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP10_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

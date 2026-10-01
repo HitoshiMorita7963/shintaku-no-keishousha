@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "神官養成学園 Character",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "class",
+    "age",
+    "entrance_number",
+    "role",
+    "stats",
+    "artifact_id",
+    "guardian_id",
+    "notes"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[AB](0[1-9]|1[0-5])$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "class": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B"
+      ]
+    },
+    "age": {
+      "type": "integer"
+    },
+    "entrance_number": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 15
+    },
+    "role": {
+      "type": "string"
+    },
+    "stats": {
+      "type": "object",
+      "required": [
+        "lv1",
+        "lv100"
+      ],
+      "properties": {
+        "lv1": {
+          "$ref": "#/$defs/stats"
+        },
+        "lv100": {
+          "$ref": "#/$defs/stats"
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifact_id": {
+      "type": "string",
+      "pattern": "^ART_[AB](0[1-9]|1[0-5])$"
+    },
+    "guardian_id": {
+      "type": "string",
+      "pattern": "^GUA_[AB](0[1-9]|1[0-5])$"
+    },
+    "join_episode": {
+      "type": "string"
+    },
+    "playable_in_episodes": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "stats": {
+      "type": "object",
+      "required": [
+        "hp",
+        "sp",
+        "atk",
+        "def",
+        "spd",
+        "int",
+        "tec",
+        "eva",
+        "acc",
+        "luk"
+      ],
+      "properties": {
+        "hp": {
+          "type": "number"
+        },
+        "sp": {
+          "type": "number"
+        },
+        "atk": {
+          "type": "number"
+        },
+        "def": {
+          "type": "number"
+        },
+        "spd": {
+          "type": "number"
+        },
+        "int": {
+          "type": "number"
+        },
+        "tec": {
+          "type": "number"
+        },
+        "eva": {
+          "type": "number"
+        },
+        "acc": {
+          "type": "number"
+        },
+        "luk": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

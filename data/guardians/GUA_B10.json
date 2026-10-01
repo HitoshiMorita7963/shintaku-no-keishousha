@@ -1,0 +1,57 @@
+{
+  "id": "GUA_B10",
+  "name": "ソラ",
+  "species": "天狗",
+  "attribute": "風",
+  "affinity_min": 0,
+  "affinity_max": 100,
+  "special_effect": "守護獣固有効果（詳細未確定）",
+  "unique_ability": "守護獣固有能力（詳細未確定）",
+  "starting_affinity": 0,
+  "max_affinity": 100,
+  "release_base_stat_multiplier": 1.5,
+  "release_excludes_stats": [
+    "hp",
+    "sp"
+  ],
+  "affinity_multiplier_curve": [
+    {
+      "affinity": 0,
+      "stat_multiplier": 1.5,
+      "attribute_damage_multiplier": 1.05
+    },
+    {
+      "affinity": 20,
+      "stat_multiplier": 1.6,
+      "attribute_damage_multiplier": 1.08
+    },
+    {
+      "affinity": 40,
+      "stat_multiplier": 1.7,
+      "attribute_damage_multiplier": 1.11
+    },
+    {
+      "affinity": 60,
+      "stat_multiplier": 1.8,
+      "attribute_damage_multiplier": 1.14
+    },
+    {
+      "affinity": 80,
+      "stat_multiplier": 1.9,
+      "attribute_damage_multiplier": 1.17
+    },
+    {
+      "affinity": 100,
+      "stat_multiplier": 2.0,
+      "attribute_damage_multiplier": 1.2
+    }
+  ],
+  "unique_skill_unlock_affinity": [
+    0,
+    20,
+    40,
+    70,
+    100
+  ],
+  "notes": "守護獣解放時、HP/SPを除くステータスに倍率を適用。親密度で倍率と属性ダメージ倍率が上昇。固有技は親密度で解放。倍率は初期バランス案。"
+}

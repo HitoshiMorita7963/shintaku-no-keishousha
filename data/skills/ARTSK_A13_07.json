@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A13_07",
+  "name": "鳴神・天環",
+  "category": "artifact_unique",
+  "owner_id": "A13",
+  "unlock_artifact_level": 30,
+  "attribute": "雷",
+  "scaling": "int",
+  "power": 1.42,
+  "target": "全体",
+  "sp_cost": 22,
+  "effect": "範囲天撃",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B08_05",
+  "name": "終式・ミラー神獣",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B08",
+  "unlock_affinity": 100,
+  "attribute": "光",
+  "scaling": "int",
+  "power": 1.9,
+  "target": "全体",
+  "sp_cost": 45,
+  "effect": "光属性の守護獣固有攻撃"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A01_09",
+  "name": "迅風・極技",
+  "category": "artifact_unique",
+  "owner_id": "A01",
+  "unlock_artifact_level": 50,
+  "attribute": "風",
+  "scaling": "atk",
+  "power": 1.72,
+  "target": "単体",
+  "sp_cost": 32,
+  "effect": "クリティカル率が高い",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

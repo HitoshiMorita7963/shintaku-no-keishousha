@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B12_04",
+  "name": "守護奥義・シラユキ撃",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B12",
+  "unlock_affinity": 70,
+  "attribute": "光",
+  "scaling": "atk",
+  "power": 1.6,
+  "target": "単体",
+  "sp_cost": 32,
+  "effect": "光属性の守護獣固有攻撃"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP07",
+  "chapter": 2,
+  "episode": 7,
+  "title": "星野疾風",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP07_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

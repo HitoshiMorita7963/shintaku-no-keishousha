@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B03_09",
+  "name": "幻流・極天",
+  "category": "artifact_unique",
+  "owner_id": "B03",
+  "unlock_artifact_level": 50,
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.72,
+  "target": "単体",
+  "sp_cost": 32,
+  "effect": "クリティカル率が高い",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

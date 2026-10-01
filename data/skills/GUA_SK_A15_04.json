@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_A15_04",
+  "name": "守護奥義・天麟撃",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_A15",
+  "unlock_affinity": 70,
+  "attribute": "雷",
+  "scaling": "atk",
+  "power": 1.6,
+  "target": "単体",
+  "sp_cost": 32,
+  "effect": "雷属性の守護獣固有攻撃"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "TEN_光_05",
+  "name": "光天・天照",
+  "category": "tengeki",
+  "attribute": "光",
+  "scaling": "int",
+  "power": 1.65,
+  "target": "全体",
+  "sp_cost": 30,
+  "upper_attribute": false,
+  "effect": "賢さ依存の光属性天撃"
+}

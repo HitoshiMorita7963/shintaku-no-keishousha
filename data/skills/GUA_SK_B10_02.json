@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B10_02",
+  "name": "守護技・ソラ咆哮",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B10",
+  "unlock_affinity": 20,
+  "attribute": "風",
+  "scaling": "atk",
+  "power": 1.3,
+  "target": "全体",
+  "sp_cost": 18,
+  "effect": "風属性の守護獣固有攻撃"
+}

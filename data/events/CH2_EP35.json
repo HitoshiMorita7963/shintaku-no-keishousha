@@ -1,0 +1,17 @@
+{
+  "id": "CH2_EP35",
+  "chapter": 2,
+  "episode": 35,
+  "title": "悪魔軍襲来",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP35_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": [
+    "大規模な悪魔軍が学園を襲撃。A組15人・B組15人・教師・元3TOPが迎撃。学園は大きく損壊。副校長・黒田藤吉朗が死亡。"
+  ]
+}

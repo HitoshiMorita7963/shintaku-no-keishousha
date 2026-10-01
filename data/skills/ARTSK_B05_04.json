@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B05_04",
+  "name": "神装・鳴響",
+  "category": "artifact_unique",
+  "owner_id": "B05",
+  "unlock_artifact_level": 100,
+  "attribute": "雷",
+  "scaling": "atk",
+  "power": 1.9,
+  "target": "全体",
+  "sp_cost": 40,
+  "effect": "神器属性の強化攻撃",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

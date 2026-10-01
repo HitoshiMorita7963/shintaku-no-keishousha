@@ -1,0 +1,12 @@
+{
+  "id": "TEN_雷_03",
+  "name": "雷天・紫電",
+  "category": "tengeki",
+  "attribute": "雷",
+  "scaling": "int",
+  "power": 1.2,
+  "target": "単体",
+  "sp_cost": 16,
+  "upper_attribute": false,
+  "effect": "賢さ依存の雷属性天撃"
+}

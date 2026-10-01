@@ -1,0 +1,100 @@
+{
+  "id": "ART_B15",
+  "name": "豪腕鎚・獅子砕",
+  "attribute": "土",
+  "level_min": 1,
+  "level_max": 100,
+  "weapon_form": "巨大ハンマー",
+  "special_effect": "固有特殊効果（詳細未確定）",
+  "unique_ability": "固有能力（詳細未確定）",
+  "notes": "神器固有技10個をLv10/20/30/40/50/60/70/80/90/100で順次解放。基本ステータス補正は毎神器Lvで成長。",
+  "growth_mode": "every_level",
+  "stat_bonus_excludes": [
+    "hp",
+    "sp"
+  ],
+  "stat_bonuses_lv1": {
+    "atk": 6,
+    "def": 4,
+    "spd": 1,
+    "int": 1,
+    "tec": 1,
+    "eva": 1,
+    "acc": 1,
+    "luk": 1
+  },
+  "stat_bonuses_lv100": {
+    "atk": 110,
+    "def": 75,
+    "spd": 8,
+    "int": 10,
+    "tec": 15,
+    "eva": 5,
+    "acc": 15,
+    "luk": 15
+  },
+  "physical_attack_or_magic_intelligence_required": true,
+  "milestones": [
+    {
+      "level": 10,
+      "attribute_damage_multiplier": 1.0,
+      "critical_rate_bonus": 0.0,
+      "unlock": "artifact_skill_1"
+    },
+    {
+      "level": 20,
+      "attribute_damage_multiplier": 1.03,
+      "critical_rate_bonus": 0.01,
+      "unlock": "artifact_skill_2"
+    },
+    {
+      "level": 30,
+      "attribute_damage_multiplier": 1.05,
+      "critical_rate_bonus": 0.01,
+      "unlock": "artifact_skill_3"
+    },
+    {
+      "level": 40,
+      "attribute_damage_multiplier": 1.07,
+      "critical_rate_bonus": 0.01,
+      "unlock": "artifact_skill_4"
+    },
+    {
+      "level": 50,
+      "attribute_damage_multiplier": 1.09,
+      "critical_rate_bonus": 0.02,
+      "unlock": "artifact_skill_5"
+    },
+    {
+      "level": 60,
+      "attribute_damage_multiplier": 1.11,
+      "critical_rate_bonus": 0.02,
+      "unlock": "artifact_skill_6"
+    },
+    {
+      "level": 70,
+      "attribute_damage_multiplier": 1.13,
+      "critical_rate_bonus": 0.02,
+      "unlock": "artifact_skill_7"
+    },
+    {
+      "level": 80,
+      "attribute_damage_multiplier": 1.16,
+      "critical_rate_bonus": 0.03,
+      "unlock": "artifact_skill_8"
+    },
+    {
+      "level": 90,
+      "attribute_damage_multiplier": 1.18,
+      "critical_rate_bonus": 0.03,
+      "unlock": "artifact_skill_9"
+    },
+    {
+      "level": 100,
+      "attribute_damage_multiplier": 1.2,
+      "critical_rate_bonus": 0.04,
+      "unlock": "artifact_skill_10"
+    }
+  ],
+  "unique_skill_count": 10
+}

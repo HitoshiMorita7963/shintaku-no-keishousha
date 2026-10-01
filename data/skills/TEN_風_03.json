@@ -1,0 +1,12 @@
+{
+  "id": "TEN_風_03",
+  "name": "風天・烈風",
+  "category": "tengeki",
+  "attribute": "風",
+  "scaling": "int",
+  "power": 1.2,
+  "target": "単体",
+  "sp_cost": 16,
+  "upper_attribute": false,
+  "effect": "賢さ依存の風属性天撃"
+}

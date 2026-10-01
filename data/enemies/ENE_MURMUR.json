@@ -1,0 +1,10 @@
+{
+  "id": "ENE_MURMUR",
+  "name": "ムルムル",
+  "category": "boss",
+  "hp": null,
+  "stats": null,
+  "skills": [],
+  "special_rule": "黒龍の力との対峙",
+  "notes": "最終ステータス未確定。"
+}

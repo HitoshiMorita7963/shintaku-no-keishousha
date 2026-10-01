@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_A09_03",
+  "name": "守護技・ガンガ護輪",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_A09",
+  "unlock_affinity": 40,
+  "attribute": "土",
+  "scaling": "none",
+  "power": 0,
+  "target": "味方全体",
+  "sp_cost": 22,
+  "effect": "守護獣解放中の属性ダメージ倍率を一時強化"
+}

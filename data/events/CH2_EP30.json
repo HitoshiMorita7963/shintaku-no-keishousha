@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP30",
+  "chapter": 2,
+  "episode": 30,
+  "title": "影を追って",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP30_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

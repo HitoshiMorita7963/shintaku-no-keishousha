@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A10_07",
+  "name": "蟒牙・天環",
+  "category": "artifact_unique",
+  "owner_id": "A10",
+  "unlock_artifact_level": 30,
+  "attribute": "土",
+  "scaling": "int",
+  "power": 1.42,
+  "target": "全体",
+  "sp_cost": 22,
+  "effect": "範囲天撃",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

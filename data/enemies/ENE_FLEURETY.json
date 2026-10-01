@@ -1,0 +1,10 @@
+{
+  "id": "ENE_FLEURETY",
+  "name": "フルーレティ",
+  "category": "boss",
+  "hp": null,
+  "stats": null,
+  "skills": [],
+  "special_rule": "雷無効化・偽獣化",
+  "notes": "最終ステータス未確定。"
+}

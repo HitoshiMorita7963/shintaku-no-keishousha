@@ -1,0 +1,10 @@
+{
+  "id": "ENE_NEMRAZIEL",
+  "name": "ネムラジエル",
+  "category": "boss",
+  "hp": null,
+  "stats": null,
+  "skills": [],
+  "special_rule": "上位属性・拘束",
+  "notes": "最終ステータス未確定。"
+}

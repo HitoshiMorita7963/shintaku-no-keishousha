@@ -1,0 +1,12 @@
+{
+  "id": "TEN_火_04",
+  "name": "火天・紅蓮輪",
+  "category": "tengeki",
+  "attribute": "火",
+  "scaling": "int",
+  "power": 1.4,
+  "target": "全体",
+  "sp_cost": 22,
+  "upper_attribute": false,
+  "effect": "賢さ依存の火属性天撃"
+}

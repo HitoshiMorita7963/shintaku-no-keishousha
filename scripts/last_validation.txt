@@ -1,0 +1,1 @@
+v1.5 status audit passed: HP/SP source locked; all 30 Lv100 totals match; non-HP/SP values 1-700; total range 295.

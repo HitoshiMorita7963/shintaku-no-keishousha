@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP04",
+  "chapter": 2,
+  "episode": 4,
+  "title": "神官養成学園",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP04_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

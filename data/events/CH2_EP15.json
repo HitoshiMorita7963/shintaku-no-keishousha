@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP15",
+  "chapter": 2,
+  "episode": 15,
+  "title": "学園祭準備",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP15_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

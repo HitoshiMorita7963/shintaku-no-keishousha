@@ -1,0 +1,10 @@
+{
+  "id": "ENE_UPPER_ROBOT",
+  "name": "上級ロボ",
+  "category": "boss",
+  "hp": null,
+  "stats": null,
+  "skills": [],
+  "special_rule": "フルーレティ級の訓練敵",
+  "notes": "最終ステータス未確定。"
+}

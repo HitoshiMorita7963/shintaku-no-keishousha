@@ -1,0 +1,12 @@
+{
+  "id": "TEN_闇_05",
+  "name": "闇天・冥界波",
+  "category": "tengeki",
+  "attribute": "闇",
+  "scaling": "int",
+  "power": 1.65,
+  "target": "全体",
+  "sp_cost": 30,
+  "upper_attribute": false,
+  "effect": "賢さ依存の闇属性天撃"
+}

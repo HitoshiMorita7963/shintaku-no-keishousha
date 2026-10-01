@@ -1,0 +1,12 @@
+{
+  "id": "TEN_土_02",
+  "name": "土天・地槍",
+  "category": "tengeki",
+  "attribute": "土",
+  "scaling": "int",
+  "power": 1.05,
+  "target": "単体",
+  "sp_cost": 12,
+  "upper_attribute": false,
+  "effect": "賢さ依存の土属性天撃"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "TEN_焔_02",
+  "name": "火天・焔槍",
+  "category": "tengeki",
+  "attribute": "焔",
+  "base_attribute": "火",
+  "scaling": "int",
+  "power": 1.3,
+  "target": "単体",
+  "sp_cost": 20,
+  "upper_attribute": true,
+  "effect": "上位属性の賢さ依存天撃"
+}

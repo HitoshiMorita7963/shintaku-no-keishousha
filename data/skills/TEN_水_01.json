@@ -1,0 +1,12 @@
+{
+  "id": "TEN_水_01",
+  "name": "水天・水流",
+  "category": "tengeki",
+  "attribute": "水",
+  "scaling": "int",
+  "power": 0.85,
+  "target": "単体",
+  "sp_cost": 8,
+  "upper_attribute": false,
+  "effect": "賢さ依存の水属性天撃"
+}

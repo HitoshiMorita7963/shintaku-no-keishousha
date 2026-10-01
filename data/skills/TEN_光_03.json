@@ -1,0 +1,12 @@
+{
+  "id": "TEN_光_03",
+  "name": "光天・聖光輪",
+  "category": "tengeki",
+  "attribute": "光",
+  "scaling": "int",
+  "power": 1.2,
+  "target": "単体",
+  "sp_cost": 16,
+  "upper_attribute": false,
+  "effect": "賢さ依存の光属性天撃"
+}

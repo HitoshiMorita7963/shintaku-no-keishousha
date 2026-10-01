@@ -1,0 +1,12 @@
+{
+  "id": "TEN_闇_03",
+  "name": "闇天・冥弾",
+  "category": "tengeki",
+  "attribute": "闇",
+  "scaling": "int",
+  "power": 1.2,
+  "target": "単体",
+  "sp_cost": 16,
+  "upper_attribute": false,
+  "effect": "賢さ依存の闇属性天撃"
+}

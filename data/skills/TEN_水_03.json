@@ -1,0 +1,12 @@
+{
+  "id": "TEN_水_03",
+  "name": "水天・蒼波",
+  "category": "tengeki",
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.2,
+  "target": "単体",
+  "sp_cost": 16,
+  "upper_attribute": false,
+  "effect": "賢さ依存の水属性天撃"
+}

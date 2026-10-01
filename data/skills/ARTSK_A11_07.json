@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A11_07",
+  "name": "蒼天・二重天",
+  "category": "artifact_unique",
+  "owner_id": "A11",
+  "unlock_artifact_level": 30,
+  "attribute": "水",
+  "scaling": "atk_and_int",
+  "power": 1.4,
+  "target": "全体",
+  "sp_cost": 22,
+  "effect": "攻撃力と賢さを参照",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

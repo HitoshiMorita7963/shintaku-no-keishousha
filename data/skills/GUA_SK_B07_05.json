@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B07_05",
+  "name": "終式・ハヤブサ神獣",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B07",
+  "unlock_affinity": 100,
+  "attribute": "風",
+  "scaling": "atk",
+  "power": 1.9,
+  "target": "全体",
+  "sp_cost": 45,
+  "effect": "風属性の守護獣固有攻撃"
+}

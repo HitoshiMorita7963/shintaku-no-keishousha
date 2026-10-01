@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A13_10",
+  "name": "鳴神・終極・天装",
+  "category": "artifact_unique",
+  "owner_id": "A13",
+  "unlock_artifact_level": 60,
+  "attribute": "雷",
+  "scaling": "int",
+  "power": 2.05,
+  "target": "全体",
+  "sp_cost": 46,
+  "effect": "神器属性の最終天撃",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

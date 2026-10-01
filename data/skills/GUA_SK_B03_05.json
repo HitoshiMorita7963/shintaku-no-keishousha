@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B03_05",
+  "name": "終式・ミレイユ神獣",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B03",
+  "unlock_affinity": 100,
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.9,
+  "target": "全体",
+  "sp_cost": 45,
+  "effect": "水属性の守護獣固有攻撃"
+}

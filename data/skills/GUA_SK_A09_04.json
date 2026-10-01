@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_A09_04",
+  "name": "守護奥義・ガンガ撃",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_A09",
+  "unlock_affinity": 70,
+  "attribute": "土",
+  "scaling": "atk",
+  "power": 1.6,
+  "target": "単体",
+  "sp_cost": 32,
+  "effect": "土属性の守護獣固有攻撃"
+}

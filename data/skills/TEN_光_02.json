@@ -1,0 +1,12 @@
+{
+  "id": "TEN_光_02",
+  "name": "光天・光槍",
+  "category": "tengeki",
+  "attribute": "光",
+  "scaling": "int",
+  "power": 1.05,
+  "target": "単体",
+  "sp_cost": 12,
+  "upper_attribute": false,
+  "effect": "賢さ依存の光属性天撃"
+}

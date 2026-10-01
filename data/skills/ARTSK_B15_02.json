@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B15_02",
+  "name": "地・迅撃",
+  "category": "artifact_unique",
+  "owner_id": "B15",
+  "unlock_artifact_level": 50,
+  "attribute": "土",
+  "scaling": "atk",
+  "power": 1.3,
+  "target": "単体",
+  "sp_cost": 16,
+  "effect": "素早さ補正を一部威力へ反映",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

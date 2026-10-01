@@ -1,0 +1,12 @@
+{
+  "id": "TEN_光_01",
+  "name": "光天・閃光",
+  "category": "tengeki",
+  "attribute": "光",
+  "scaling": "int",
+  "power": 0.85,
+  "target": "単体",
+  "sp_cost": 8,
+  "upper_attribute": false,
+  "effect": "賢さ依存の光属性天撃"
+}

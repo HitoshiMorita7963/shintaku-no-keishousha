@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP28",
+  "chapter": 2,
+  "episode": 28,
+  "title": "悪魔の影",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP28_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

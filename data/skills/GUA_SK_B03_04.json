@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B03_04",
+  "name": "守護奥義・ミレイユ撃",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B03",
+  "unlock_affinity": 70,
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.6,
+  "target": "単体",
+  "sp_cost": 32,
+  "effect": "水属性の守護獣固有攻撃"
+}

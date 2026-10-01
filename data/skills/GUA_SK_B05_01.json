@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B05_01",
+  "name": "解放技・ライカ牙",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B05",
+  "unlock_affinity": 0,
+  "attribute": "雷",
+  "scaling": "atk",
+  "power": 1.2,
+  "target": "単体",
+  "sp_cost": 12,
+  "effect": "雷属性の守護獣固有攻撃"
+}

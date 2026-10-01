@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP29",
+  "chapter": 2,
+  "episode": 29,
+  "title": "学園に潜むもの",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP29_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B03_05",
+  "name": "幻流・連弾",
+  "category": "artifact_unique",
+  "owner_id": "B03",
+  "unlock_artifact_level": 10,
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.18,
+  "target": "単体",
+  "sp_cost": 13,
+  "effect": "属性天撃を連続発動",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

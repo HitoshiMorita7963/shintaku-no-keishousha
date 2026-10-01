@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A14_05",
+  "name": "白閃・双撃",
+  "category": "artifact_unique",
+  "owner_id": "A14",
+  "unlock_artifact_level": 10,
+  "attribute": "光",
+  "scaling": "atk_and_int",
+  "power": 1.16,
+  "target": "単体",
+  "sp_cost": 13,
+  "effect": "攻撃力と賢さを参照",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

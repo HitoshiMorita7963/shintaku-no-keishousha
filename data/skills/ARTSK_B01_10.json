@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B01_10",
+  "name": "天白・終極・神装",
+  "category": "artifact_unique",
+  "owner_id": "B01",
+  "unlock_artifact_level": 60,
+  "attribute": "光",
+  "scaling": "atk",
+  "power": 2.05,
+  "target": "全体",
+  "sp_cost": 46,
+  "effect": "神器属性の最終固有技",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

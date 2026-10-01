@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A12_01",
+  "name": "炎・槍断",
+  "category": "artifact_unique",
+  "owner_id": "A12",
+  "unlock_artifact_level": 20,
+  "attribute": "火",
+  "scaling": "atk",
+  "power": 1.15,
+  "target": "単体",
+  "sp_cost": 10,
+  "effect": "通常より高い物理ダメージ",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

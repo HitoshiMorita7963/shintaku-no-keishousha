@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A12_02",
+  "name": "炎・迅撃",
+  "category": "artifact_unique",
+  "owner_id": "A12",
+  "unlock_artifact_level": 50,
+  "attribute": "火",
+  "scaling": "atk",
+  "power": 1.3,
+  "target": "単体",
+  "sp_cost": 16,
+  "effect": "素早さ補正を一部威力へ反映",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

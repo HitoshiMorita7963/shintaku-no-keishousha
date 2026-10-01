@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B09_04",
+  "name": "守護奥義・サメル撃",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B09",
+  "unlock_affinity": 70,
+  "attribute": "水",
+  "scaling": "atk",
+  "power": 1.6,
+  "target": "単体",
+  "sp_cost": 32,
+  "effect": "水属性の守護獣固有攻撃"
+}

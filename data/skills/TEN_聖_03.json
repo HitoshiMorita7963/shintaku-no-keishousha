@@ -1,0 +1,13 @@
+{
+  "id": "TEN_聖_03",
+  "name": "光天・聖雨",
+  "category": "tengeki",
+  "attribute": "聖",
+  "base_attribute": "光",
+  "scaling": "int",
+  "power": 1.5,
+  "target": "全体",
+  "sp_cost": 26,
+  "upper_attribute": true,
+  "effect": "上位属性の賢さ依存天撃"
+}

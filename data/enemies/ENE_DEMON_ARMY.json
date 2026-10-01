@@ -1,0 +1,10 @@
+{
+  "id": "ENE_DEMON_ARMY",
+  "name": "悪魔軍",
+  "category": "enemy",
+  "hp": null,
+  "stats": null,
+  "skills": [],
+  "special_rule": "第35・41話の軍勢",
+  "notes": "最終ステータス未確定。"
+}

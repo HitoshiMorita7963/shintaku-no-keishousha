@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP16",
+  "chapter": 2,
+  "episode": 16,
+  "title": "ミス神官大会予選",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP16_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B01_08",
+  "name": "天白・属性陣",
+  "category": "artifact_unique",
+  "owner_id": "B01",
+  "unlock_artifact_level": 40,
+  "attribute": "光",
+  "scaling": "none",
+  "power": 0,
+  "target": "味方全体",
+  "sp_cost": 24,
+  "effect": "神器属性ダメージ倍率を短時間強化",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

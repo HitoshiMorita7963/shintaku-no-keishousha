@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B13_10",
+  "name": "夜凪・終極・天装",
+  "category": "artifact_unique",
+  "owner_id": "B13",
+  "unlock_artifact_level": 60,
+  "attribute": "闇",
+  "scaling": "int",
+  "power": 2.05,
+  "target": "全体",
+  "sp_cost": 46,
+  "effect": "神器属性の最終天撃",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

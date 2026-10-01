@@ -1,0 +1,2 @@
+# 正式データのバイト列を保持する（改行変換で tools/canon/canon_lock.json のハッシュ照合が壊れないように）
+* -text

@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B02_06",
+  "name": "断界・破砕",
+  "category": "artifact_unique",
+  "owner_id": "B02",
+  "unlock_artifact_level": 20,
+  "attribute": "闇",
+  "scaling": "atk",
+  "power": 1.35,
+  "target": "単体",
+  "sp_cost": 18,
+  "effect": "防御力を一部無視",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

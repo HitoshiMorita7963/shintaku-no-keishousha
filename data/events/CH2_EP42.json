@@ -1,0 +1,17 @@
+{
+  "id": "CH2_EP42",
+  "chapter": 2,
+  "episode": 42,
+  "title": "卒業式",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP42_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": [
+    "30人が卒業。黒田藤吉朗の席には花。A組15人は正式な神官となる。第2章完結。"
+  ]
+}

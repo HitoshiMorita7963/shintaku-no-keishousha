@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B09_02",
+  "name": "守護技・サメル咆哮",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B09",
+  "unlock_affinity": 20,
+  "attribute": "水",
+  "scaling": "atk",
+  "power": 1.3,
+  "target": "全体",
+  "sp_cost": 18,
+  "effect": "水属性の守護獣固有攻撃"
+}

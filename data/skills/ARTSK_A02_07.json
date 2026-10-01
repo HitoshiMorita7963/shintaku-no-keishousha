@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A02_07",
+  "name": "紅蓮・疾断",
+  "category": "artifact_unique",
+  "owner_id": "A02",
+  "unlock_artifact_level": 30,
+  "attribute": "火",
+  "scaling": "atk",
+  "power": 1.42,
+  "target": "単体",
+  "sp_cost": 22,
+  "effect": "命中率が高い",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

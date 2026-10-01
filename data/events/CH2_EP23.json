@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP23",
+  "chapter": 2,
+  "episode": 23,
+  "title": "A組ナンバーチェンジ・クラスマッチ",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP23_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

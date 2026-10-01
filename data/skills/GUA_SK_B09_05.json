@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B09_05",
+  "name": "終式・サメル神獣",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B09",
+  "unlock_affinity": 100,
+  "attribute": "水",
+  "scaling": "atk",
+  "power": 1.9,
+  "target": "全体",
+  "sp_cost": 45,
+  "effect": "水属性の守護獣固有攻撃"
+}

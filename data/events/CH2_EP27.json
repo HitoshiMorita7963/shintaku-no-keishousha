@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP27",
+  "chapter": 2,
+  "episode": 27,
+  "title": "B組交流戦決着",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP27_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

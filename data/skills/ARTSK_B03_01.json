@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B03_01",
+  "name": "蒼・神弾",
+  "category": "artifact_unique",
+  "owner_id": "B03",
+  "unlock_artifact_level": 20,
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.15,
+  "target": "単体",
+  "sp_cost": 10,
+  "effect": "賢さ依存の属性攻撃",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

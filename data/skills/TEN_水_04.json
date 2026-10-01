@@ -1,0 +1,12 @@
+{
+  "id": "TEN_水_04",
+  "name": "水天・氷雨",
+  "category": "tengeki",
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.4,
+  "target": "全体",
+  "sp_cost": 22,
+  "upper_attribute": false,
+  "effect": "賢さ依存の水属性天撃"
+}

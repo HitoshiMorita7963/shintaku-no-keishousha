@@ -1,0 +1,12 @@
+{
+  "id": "TEN_土_01",
+  "name": "土天・岩砕",
+  "category": "tengeki",
+  "attribute": "土",
+  "scaling": "int",
+  "power": 0.85,
+  "target": "単体",
+  "sp_cost": 8,
+  "upper_attribute": false,
+  "effect": "賢さ依存の土属性天撃"
+}

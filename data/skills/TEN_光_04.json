@@ -1,0 +1,12 @@
+{
+  "id": "TEN_光_04",
+  "name": "光天・光雨",
+  "category": "tengeki",
+  "attribute": "光",
+  "scaling": "int",
+  "power": 1.4,
+  "target": "全体",
+  "sp_cost": 22,
+  "upper_attribute": false,
+  "effect": "賢さ依存の光属性天撃"
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "神官養成学園 Guardian",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "species",
+    "attribute",
+    "affinity_min",
+    "affinity_max",
+    "special_effect",
+    "unique_ability",
+    "starting_affinity"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "species": {
+      "type": "string"
+    },
+    "attribute": {
+      "type": "string"
+    },
+    "affinity_min": {
+      "type": "integer"
+    },
+    "affinity_max": {
+      "type": "integer"
+    },
+    "special_effect": {
+      "type": "string"
+    },
+    "unique_ability": {
+      "type": "string"
+    },
+    "starting_affinity": {
+      "type": "integer"
+    }
+  },
+  "additionalProperties": false
+}

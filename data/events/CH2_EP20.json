@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP20",
+  "chapter": 2,
+  "episode": 20,
+  "title": "神明優輝",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP20_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

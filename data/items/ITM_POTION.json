@@ -1,0 +1,8 @@
+{
+  "id": "ITM_POTION",
+  "name": "回復薬",
+  "effect": "HP回復",
+  "value": null,
+  "price": null,
+  "notes": "数値未確定。"
+}

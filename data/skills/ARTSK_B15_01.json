@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B15_01",
+  "name": "地・巨大ハンマー断",
+  "category": "artifact_unique",
+  "owner_id": "B15",
+  "unlock_artifact_level": 20,
+  "attribute": "土",
+  "scaling": "atk",
+  "power": 1.15,
+  "target": "単体",
+  "sp_cost": 10,
+  "effect": "通常より高い物理ダメージ",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

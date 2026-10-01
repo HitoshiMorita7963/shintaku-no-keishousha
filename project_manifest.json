@@ -1,0 +1,125 @@
+{
+  "project_name": "神官養成学園",
+  "version": "1.3",
+  "genre": "ターン制コマンドRPG",
+  "language": "ja-JP",
+  "canon_priority": [
+    "user_confirmed",
+    "confirmed_files",
+    "proposal"
+  ],
+  "chapters": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "isplementation_priority": [
+    "chapter_1",
+    "chapter_2",
+    "core_battle",
+    "data_system",
+    "save_load"
+  ],
+  "party_model": "A組15人を中心に、B組15人は指定合同戦闘で操作可能",
+  "character_level": {
+    "min": 1,
+    "max": 100
+  },
+  "artifact_level": {
+    "min": 1,
+    "max": 100,
+    "independent_from_character_level": true
+  },
+  "guardian_affinity": {
+    "min": 0,
+    "max": 100,
+    "unit": "percent"
+  },
+  "name": "神官養成学園 Claude Code 開発プロジェクト",
+  "consistency_rules": {
+    "character_stats_display": "Lv100",
+    "character_stat_keys": [
+      "hp",
+      "sp",
+      "atk",
+      "def",
+      "spd",
+      "int",
+      "tec",
+      "eva",
+      "acc",
+      "luk"
+    ],
+    "character_json_stats": [
+      "lv1",
+      "lv100"
+    ],
+    "artifact_reference": "ART_XXX",
+    "guardian_reference": "GUA_XXX",
+    "artifact_and_guardian_names_are_resolved_from_reference_files": true,
+    "ownership_source_of_truth": "character_json",
+    "artifact_json_forbids": [
+      "owner_id",
+      "stats",
+      "lv1",
+      "lv100"
+    ],
+    "guardian_json_forbids": [
+      "owner_id",
+      "stats",
+      "lv1",
+      "lv100"
+    ],
+    "artifact_markdown_display": [
+      "id",
+      "name",
+      "owner_resolved_from_character",
+      "attribute",
+      "weapon_form",
+      "level_min",
+      "level_max",
+      "special_effect",
+      "unique_ability"
+    ],
+    "guardian_markdown_display": [
+      "id",
+      "name",
+      "species",
+      "owner_resolved_from_character",
+      "attribute",
+      "starting_affinity",
+      "special_effect",
+      "unique_ability"
+    ]
+  },
+  "added_files": [
+    "00_開発ルール/02_データ整合性ルール.md",
+    "01_ゲーム概要/04_B組操作可能ルール.md",
+    "14_データ定義/04_データ責務マトリクス.md",
+    "data/schemas/artifact.schema.json",
+    "data/schemas/guardian.schema.json",
+    "scripts/validate_project_data.py",
+    "scripts/audit_report.json",
+    "scripts/last_validation.txt"
+  ],
+  "validation": {
+    "script": "scripts/validate_project_data.py",
+    "last_result": "PASS"
+  },
+  "v1_3_features": {
+    "resource_name": "SP",
+    "physical_scaling": "atk",
+    "tengeki_scaling": "int",
+    "artifact_stat_bonus": "every_artifact_level",
+    "artifact_unique_skills_per_character": 10,
+    "tengeki_basic_count": 35,
+    "tengeki_upper_count": 35,
+    "guardian_unique_skills_per_character": 5,
+    "guardian_base_release_multiplier": 1.5,
+    "guardian_affinity_max_multiplier": 2.0,
+    "artifact_unique_skill_total": 300,
+    "tengeki_total": 70
+  }
+}

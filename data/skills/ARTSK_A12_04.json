@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A12_04",
+  "name": "神装・朱雀",
+  "category": "artifact_unique",
+  "owner_id": "A12",
+  "unlock_artifact_level": 100,
+  "attribute": "火",
+  "scaling": "atk",
+  "power": 1.9,
+  "target": "全体",
+  "sp_cost": 40,
+  "effect": "神器属性の強化攻撃",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

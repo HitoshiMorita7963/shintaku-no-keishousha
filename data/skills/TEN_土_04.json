@@ -1,0 +1,12 @@
+{
+  "id": "TEN_土_04",
+  "name": "土天・地裂",
+  "category": "tengeki",
+  "attribute": "土",
+  "scaling": "int",
+  "power": 1.4,
+  "target": "全体",
+  "sp_cost": 22,
+  "upper_attribute": false,
+  "effect": "賢さ依存の土属性天撃"
+}

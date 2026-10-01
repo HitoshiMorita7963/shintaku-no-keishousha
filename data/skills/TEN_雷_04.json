@@ -1,0 +1,12 @@
+{
+  "id": "TEN_雷_04",
+  "name": "雷天・轟雷",
+  "category": "tengeki",
+  "attribute": "雷",
+  "scaling": "int",
+  "power": 1.4,
+  "target": "全体",
+  "sp_cost": 22,
+  "upper_attribute": false,
+  "effect": "賢さ依存の雷属性天撃"
+}

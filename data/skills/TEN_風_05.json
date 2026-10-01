@@ -1,0 +1,12 @@
+{
+  "id": "TEN_風_05",
+  "name": "風天・天翔風",
+  "category": "tengeki",
+  "attribute": "風",
+  "scaling": "int",
+  "power": 1.65,
+  "target": "全体",
+  "sp_cost": 30,
+  "upper_attribute": false,
+  "effect": "賢さ依存の風属性天撃"
+}

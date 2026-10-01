@@ -1,0 +1,66 @@
+{
+  "version": "1.5.1",
+  "growth_rule": "linear interpolation Lv1 to Lv100",
+  "levels_generated": 100,
+  "hp_sp_source": "user-provided canonical table",
+  "lv100_max_total": 6810,
+  "lv100_min_total": 6515,
+  "lv100_range": 295,
+  "ranking_top": [
+    [
+      "A01",
+      "黒馬 龍一郎",
+      6810
+    ],
+    [
+      "B01",
+      "白附龍之介",
+      6800
+    ],
+    [
+      "A15",
+      "神明 優輝",
+      6710
+    ],
+    [
+      "B02",
+      "九条剣一",
+      6700
+    ],
+    [
+      "A02",
+      "賢木 実幸",
+      6610
+    ],
+    [
+      "A05",
+      "染川 咲",
+      6610
+    ],
+    [
+      "B03",
+      "神代美澄",
+      6605
+    ],
+    [
+      "A11",
+      "姫野 愛純",
+      6605
+    ],
+    [
+      "B04",
+      "綾瀬椿",
+      6600
+    ],
+    [
+      "B05",
+      "押上響子",
+      6600
+    ]
+  ],
+  "checks": {
+    "all_30_have_100_levels": true,
+    "lv1_equals_level1": true,
+    "lv100_equals_level100": true
+  }
+}

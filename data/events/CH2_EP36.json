@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP36",
+  "chapter": 2,
+  "episode": 36,
+  "title": "喪失と再出発",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP36_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A14_06",
+  "name": "白閃・交差破",
+  "category": "artifact_unique",
+  "owner_id": "A14",
+  "unlock_artifact_level": 20,
+  "attribute": "光",
+  "scaling": "atk_and_int",
+  "power": 1.32,
+  "target": "単体",
+  "sp_cost": 18,
+  "effect": "攻撃力と賢さを参照",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

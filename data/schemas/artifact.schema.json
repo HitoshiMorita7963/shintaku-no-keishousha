@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "神官養成学園 Artifact",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "attribute",
+    "level_min",
+    "level_max",
+    "weapon_form",
+    "special_effect",
+    "unique_ability",
+    "notes"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "attribute": {
+      "type": "string"
+    },
+    "level_min": {
+      "type": "integer"
+    },
+    "level_max": {
+      "type": "integer"
+    },
+    "weapon_form": {
+      "type": "string"
+    },
+    "special_effect": {
+      "type": "string"
+    },
+    "unique_ability": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

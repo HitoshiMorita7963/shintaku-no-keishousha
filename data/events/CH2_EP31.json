@@ -1,0 +1,15 @@
+{
+  "id": "CH2_EP31",
+  "chapter": 2,
+  "episode": 31,
+  "title": "大きな異変",
+  "status": "confirmed",
+  "summary": "詳細シナリオは既存の確定脚本を優先して実装する。",
+  "battles": [],
+  "rewards": [],
+  "flags_set": [
+    "CH2_EP31_COSPLETE"
+  ],
+  "flags_required": [],
+  "notes": []
+}

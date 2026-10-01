@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B12_03",
+  "name": "神器奥義・雅月",
+  "category": "artifact_unique",
+  "owner_id": "B12",
+  "unlock_artifact_level": 80,
+  "attribute": "光",
+  "scaling": "atk",
+  "power": 1.65,
+  "target": "単体",
+  "sp_cost": 28,
+  "effect": "神器属性の追加ダメージ",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

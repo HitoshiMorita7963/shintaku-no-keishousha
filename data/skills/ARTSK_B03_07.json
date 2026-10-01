@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_B03_07",
+  "name": "幻流・天環",
+  "category": "artifact_unique",
+  "owner_id": "B03",
+  "unlock_artifact_level": 30,
+  "attribute": "水",
+  "scaling": "int",
+  "power": 1.42,
+  "target": "全体",
+  "sp_cost": 22,
+  "effect": "範囲天撃",
+  "balance_note": "初期バランス案。戦闘テストで調整可能。"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "ARTSK_A11_01",
+  "name": "蒼・双極",
+  "category": "artifact_unique",
+  "owner_id": "A11",
+  "unlock_artifact_level": 20,
+  "attribute": "水",
+  "scaling": "atk_and_int",
+  "power": 1.1,
+  "target": "単体",
+  "sp_cost": 10,
+  "effect": "攻撃力と賢さを参照",
+  "balance_note": "初期バランス案。最終調整で威力・SPを調整可能。"
+}

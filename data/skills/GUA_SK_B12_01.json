@@ -1,0 +1,13 @@
+{
+  "id": "GUA_SK_B12_01",
+  "name": "解放技・シラユキ牙",
+  "category": "guardian_unique",
+  "guardian_id": "GUA_B12",
+  "unlock_affinity": 0,
+  "attribute": "光",
+  "scaling": "atk",
+  "power": 1.2,
+  "target": "単体",
+  "sp_cost": 12,
+  "effect": "光属性の守護獣固有攻撃"
+}
