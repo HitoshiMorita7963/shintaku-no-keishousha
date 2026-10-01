@@ -1,0 +1,13 @@
+{
+  "_status": "user_confirmed",
+  "_note": "ZIP（v1.5.1）受領後にユーザーが確定したキャラクター固有の戦闘特性。ZIP原本のキャラクターJSON（ロック対象）は変更せず、ここで補足する。",
+  "traits": {
+    "A05": {
+      "_source": "ユーザー確定 2026-10-02『染川咲だけ全属性マスターしている想定。染川は天撃が得意なので1.2倍の補正がかかる』",
+      "tengeki_all_attributes_mastered": true,
+      "tengeki_damage_multiplier": 1.2,
+      "tengeki_damage_multiplier_scope": "non_matching",
+      "_scope_source": "ユーザー確定 2026-10-02『属性が一致しないときだけ1.2倍』（一致時は同族性×1.5のみ）"
+    }
+  }
+}

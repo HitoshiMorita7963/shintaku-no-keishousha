@@ -1,0 +1,86 @@
+{
+  "_status": "provisional",
+  "_note": "data/enemies/*.json は hp/stats が null、skills が空（『最終ステータス未確定』）。Phase 1 テスト戦闘のための仮値。キャラクターと同様に lv1/lv100 の2点を持ち、線形補間する。敵の属性・技名は未確定のため、行動はすべて汎用名（攻撃・全体攻撃）・無属性とする。special_rule の『覇穿・地導波』『大爆砕』『電撃＋光』は【ユーザー確認済み 2026-10-02】味方の技のため敵には使わない（味方側への実装はユーザーが後で調整）。『拘束』（ネムラジエル）は未確定のため使用しない。",
+  "skills_catalog": {
+    "SKL_ENE_ATTACK":     { "name": "攻撃",     "scaling": "atk", "power": 1.0,  "target": "single_enemy", "attribute": null, "effects": {} },
+    "SKL_ENE_STRONG":     { "name": "強攻撃",   "scaling": "atk", "power": 1.4,  "target": "single_enemy", "attribute": null, "effects": { "acc_bonus": -0.1 } },
+    "SKL_ENE_ALL":        { "name": "全体攻撃", "scaling": "int", "power": 0.75, "target": "all_enemies",  "attribute": null, "effects": {} }
+  },
+  "overlays": {
+    "ENE_DEMON_SOLDIER": {
+      "stats": {
+        "lv1":   { "hp": 70,  "sp": 20,  "atk": 15,  "def": 12,  "spd": 14,  "int": 12,  "tec": 10,  "eva": 10,  "acc": 15,  "luk": 8 },
+        "lv100": { "hp": 1500,"sp": 300, "atk": 520, "def": 420, "spd": 520, "int": 420, "tec": 400, "eva": 420, "acc": 500, "luk": 350 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 4 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
+      "fill": { "exp": { "lv1": 8, "lv100": 900 }, "drops": [ { "item_id": "ITM_POTION", "rate": 0.15 } ] }
+    },
+    "ENE_DEMON_ARMY": {
+      "stats": {
+        "lv1":   { "hp": 160, "sp": 40,  "atk": 17,  "def": 14,  "spd": 10,  "int": 14,  "tec": 12,  "eva": 8,   "acc": 15,  "luk": 8 },
+        "lv100": { "hp": 3600,"sp": 500, "atk": 560, "def": 460, "spd": 420, "int": 460, "tec": 420, "eva": 360, "acc": 500, "luk": 350 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_ALL", "weight": 1 } ],
+      "fill": { "exp": { "lv1": 20, "lv100": 2200 }, "drops": [ { "item_id": "ITM_POTION", "rate": 0.3 }, { "item_id": "ITM_SP_POTION", "rate": 0.1 } ] }
+    },
+    "ENE_UPPER_ROBOT": {
+      "stats": {
+        "lv1":   { "hp": 380, "sp": 60,  "atk": 19,  "def": 20,  "spd": 12,  "int": 10,  "tec": 18,  "eva": 8,   "acc": 18,  "luk": 5 },
+        "lv100": { "hp": 9000,"sp": 800, "atk": 600, "def": 600, "spd": 480, "int": 400, "tec": 600, "eva": 380, "acc": 560, "luk": 300 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
+      "fill": { "exp": { "lv1": 60, "lv100": 6000 }, "drops": [ { "item_id": "ITM_SP_POTION", "rate": 0.5 } ] }
+    },
+    "ENE_FLEURETY": {
+      "stats": {
+        "lv1":   { "hp": 420, "sp": 80,  "atk": 18,  "def": 15,  "spd": 22,  "int": 20,  "tec": 18,  "eva": 18,  "acc": 20,  "luk": 12 },
+        "lv100": { "hp": 10000,"sp": 900,"atk": 600, "def": 500, "spd": 680, "int": 640, "tec": 600, "eva": 620, "acc": 620, "luk": 450 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_ALL", "weight": 1 } ],
+      "fill": {
+        "exp": { "lv1": 90, "lv100": 9000 },
+        "immune_attributes": ["雷"],
+        "_immune_source": "data/enemies/ENE_FLEURETY.json special_rule『雷無効化』",
+        "phases": [ { "hp_ratio_below": 0.5, "name": "偽獣化", "stat_multiplier": 1.25, "add_skills": [ { "id": "SKL_ENE_STRONG", "weight": 2 } ] } ]
+      }
+    },
+    "ENE_MURMUR": {
+      "stats": {
+        "lv1":   { "hp": 460, "sp": 90,  "atk": 18,  "def": 16,  "spd": 18,  "int": 22,  "tec": 18,  "eva": 14,  "acc": 18,  "luk": 14 },
+        "lv100": { "hp": 11000,"sp": 950,"atk": 580, "def": 540, "spd": 600, "int": 680, "tec": 600, "eva": 520, "acc": 600, "luk": 480 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_ALL", "weight": 2 } ],
+      "fill": { "exp": { "lv1": 90, "lv100": 9000 } }
+    },
+    "ENE_DANDALION": {
+      "stats": {
+        "lv1":   { "hp": 500, "sp": 80,  "atk": 22,  "def": 20,  "spd": 14,  "int": 14,  "tec": 16,  "eva": 10,  "acc": 18,  "luk": 10 },
+        "lv100": { "hp": 12000,"sp": 900,"atk": 680, "def": 640, "spd": 500, "int": 480, "tec": 560, "eva": 420, "acc": 600, "luk": 420 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
+      "fill": {
+        "exp": { "lv1": 90, "lv100": 9000 },
+        "phases": [ { "hp_ratio_below": 0.5, "name": "偽獣化", "stat_multiplier": 1.25, "add_skills": [ { "id": "SKL_ENE_ALL", "weight": 2 } ] } ]
+      }
+    },
+    "ENE_LAGZEFAIN": {
+      "stats": {
+        "lv1":   { "hp": 470, "sp": 80,  "atk": 23,  "def": 16,  "spd": 16,  "int": 16,  "tec": 16,  "eva": 12,  "acc": 18,  "luk": 10 },
+        "lv100": { "hp": 11000,"sp": 900,"atk": 700, "def": 540, "spd": 560, "int": 520, "tec": 560, "eva": 460, "acc": 600, "luk": 420 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
+      "fill": {
+        "exp": { "lv1": 90, "lv100": 9000 },
+        "phases": [ { "hp_ratio_below": 0.5, "name": "偽獣化", "stat_multiplier": 1.25, "add_skills": [ { "id": "SKL_ENE_ALL", "weight": 2 } ] } ]
+      }
+    },
+    "ENE_NEMRAZIEL": {
+      "stats": {
+        "lv1":   { "hp": 440, "sp": 90,  "atk": 16,  "def": 16,  "spd": 18,  "int": 23,  "tec": 20,  "eva": 16,  "acc": 20,  "luk": 14 },
+        "lv100": { "hp": 10500,"sp": 950,"atk": 540, "def": 540, "spd": 600, "int": 700, "tec": 620, "eva": 560, "acc": 620, "luk": 480 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 2 }, { "id": "SKL_ENE_ALL", "weight": 2 } ],
+      "fill": { "exp": { "lv1": 90, "lv100": 9000 } }
+    }
+  }
+}

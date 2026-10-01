@@ -1,0 +1,43 @@
+{
+  "_status": "provisional",
+  "_note": "Phase 1 動作確認用の『訓練戦』。ストーリー上の戦闘ではない（イベント戦闘は Phase 6 以降で events/*.json から構築する）。level: \"party_average\" はパーティ平均Lv＋offset。",
+  "encounters": [
+    {
+      "id": "ENC_TRAIN_SOLDIERS",
+      "name": "訓練戦：悪魔兵×3",
+      "map_id": "MAP_TRAINING",
+      "enemies": [
+        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 },
+        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 },
+        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 }
+      ]
+    },
+    {
+      "id": "ENC_TRAIN_ARMY",
+      "name": "訓練戦：悪魔軍＋悪魔兵",
+      "map_id": "MAP_TRAINING",
+      "enemies": [
+        { "enemy_id": "ENE_DEMON_ARMY", "level": "party_average", "offset": 0 },
+        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 },
+        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 }
+      ]
+    },
+    {
+      "id": "ENC_TRAIN_ROBOT",
+      "name": "訓練戦：上級ロボ",
+      "map_id": "MAP_TRAINING",
+      "enemies": [
+        { "enemy_id": "ENE_UPPER_ROBOT", "level": "party_average", "offset": 0 }
+      ]
+    },
+    {
+      "id": "ENC_TEST_FLEURETY",
+      "name": "検証戦：フルーレティ（雷無効・偽獣化テスト）",
+      "map_id": "MAP_TRAINING",
+      "debug": true,
+      "enemies": [
+        { "enemy_id": "ENE_FLEURETY", "level": "party_average", "offset": 0 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "_status": "provisional",
+  "_note": "経験値テーブル・パーティ人数・初期所持品は資料に記載なし（未確定）。キャラクターLvの『能力値』は正式データ（Lv1→Lv100線形）を使い、ここでは『Lvを上げるのに必要な経験値』だけを定める。",
+  "party_max": 4,
+  "_party_max_note": "ドラクエ型の4人を仮採用。第21話『初期5対5』から5人編成の可能性あり（未確定）。",
+  "exp_curve": {
+    "_note": "Lv L → L+1 に必要な経験値 = round(base × L^exponent)。Lv100で打ち止め（Lv100は正式上限）。",
+    "base": 10,
+    "exponent": 1.6
+  },
+  "starting_inventory": {
+    "ITM_POTION": 5,
+    "ITM_SP_POTION": 3,
+    "ITM_OMNI": 2,
+    "ITM_REVIVE": 1
+  },
+  "new_game_defaults": {
+    "level": 1,
+    "artifact_level": 1,
+    "guardian_affinity": 0,
+    "upper_attribute_awakened": false
+  }
+}

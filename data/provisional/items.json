@@ -1,0 +1,22 @@
+{
+  "_status": "provisional",
+  "_note": "08_アイテム/01_アイテム仕様.md『具体的な回復量・価格・購入場所は未確定』。Lv1～100で効果が崩れないよう最大値に対する割合で仮定義。価格は未使用のため null のまま。",
+  "overlays": {
+    "ITM_POTION": {
+      "value": 0.3,
+      "fill": { "target": "single_ally", "use": { "kind": "heal_hp", "ratio": 0.3, "min": 30 }, "description": "味方1人のHPを最大HPの30%回復（最低30）（仮）" }
+    },
+    "ITM_SP_POTION": {
+      "value": 0.3,
+      "fill": { "target": "single_ally", "use": { "kind": "heal_sp", "ratio": 0.3, "min": 10 }, "description": "味方1人のSPを最大SPの30%回復（最低10）（仮）" }
+    },
+    "ITM_OMNI": {
+      "value": 0,
+      "fill": { "target": "single_ally", "use": { "kind": "cure_status" }, "description": "味方1人の状態異常を回復（仮）" }
+    },
+    "ITM_REVIVE": {
+      "value": 0.25,
+      "fill": { "target": "single_ally_fainted", "use": { "kind": "revive", "ratio": 0.25 }, "description": "戦闘不能の味方1人をHP25%で復活（仮）" }
+    }
+  }
+}

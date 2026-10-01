@@ -1,0 +1,11 @@
+{
+  "_status": "provisional",
+  "_note": "UI用語。資料では『親密度』、ユーザー指示では『親和度』。最新のユーザー指示を優先して『親和度』を表示（docs/01_開発開始レポート.md 矛盾#9）。ここを書き換えれば表示だけ変わる。",
+  "stat_labels": {
+    "hp": "HP", "sp": "SP", "atk": "攻撃", "def": "防御", "spd": "素早さ",
+    "int": "賢さ", "tec": "技術", "eva": "回避", "acc": "命中", "luk": "運"
+  },
+  "affinity_label": "親和度",
+  "artifact_level_label": "神器Lv",
+  "game_title": "神官養成学園"
+}
