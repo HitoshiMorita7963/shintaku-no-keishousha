@@ -19,7 +19,9 @@ export function charSelectScreen(app, root) {
 
   const render = () => {
     clear(listEl);
-    for (const c of data.charactersOfClass('A')) {
+    // ストーリーモードでは戦闘加入済み（台本の【加入処理】を経た）メンバーのみ
+    const pool = data.charactersOfClass('A').filter((c) => !app.state || app.state.joined.includes(c.id));
+    for (const c of pool) {
       const idx = picked.indexOf(c.id);
       const card = h('div', { class: `card selectable${idx >= 0 ? ' is-picked' : ''}` },
         idx >= 0 ? h('span', { class: 'pick-badge', text: idx + 1 }) : null,
@@ -84,7 +86,9 @@ export function charSelectScreen(app, root) {
     h('div', { class: 'screen' },
       h('header', { class: 'screen-head' },
         h('h1', { text: editing ? 'パーティ編成' : 'キャラクター選択' }),
-        h('p', { class: 'muted', text: `A組15人から最大${max}人を選んでください（Phase 1 はA組のみ。B組は指定合同戦闘で操作可能になる予定）` }),
+        h('p', { class: 'muted', text: editing && app.gs.mode === 'story'
+          ? `戦闘メンバー（${app.gs.joined.length}人）から最大${max}人を選んでください`
+          : `A組15人から最大${max}人を選んでください（B組は指定合同戦闘でのみ操作可能）` }),
       ),
       listEl,
       footer,

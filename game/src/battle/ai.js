@@ -31,7 +31,8 @@ export function decideEnemyAction(engine, u) {
  */
 export function decideAutoPartyAction(engine, u) {
   const { rng } = engine;
-  const commands = ['attack', 'attack', 'shingi', 'tengeki', 'artifact', 'guardian'];
+  const commands = ['attack', 'attack', 'shingi', 'tengeki', 'artifact', 'guardian'].filter((c) => !u.allowedCommands || u.allowedCommands.includes(c));
+  if (!commands.length) return { command: 'guard', skillId: 'SKL_GUARD', targetIds: [] };
   for (let tries = 0; tries < 8; tries++) {
     const command = rng.pick(commands);
     const opts = engine.options(u, command).filter((o) => o.usable);

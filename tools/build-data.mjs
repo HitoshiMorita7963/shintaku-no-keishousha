@@ -4,13 +4,13 @@
 // 検証エラーがある場合はバンドルを生成しない（壊れたデータでゲームを動かさない）。
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadRawData, ROOT } from './lib/load-raw.mjs';
+import { loadRawData, loadScriptSources, ROOT } from './lib/load-raw.mjs';
 import { validateData } from '../game/src/data/validate.js';
 
 const raw = loadRawData();
 const lockPath = path.join(ROOT, 'tools', 'canon', 'canon_lock.json');
 const lock = fs.existsSync(lockPath) ? JSON.parse(fs.readFileSync(lockPath, 'utf8')) : undefined;
-const result = validateData(raw, { lock, hashes: raw.hashes });
+const result = validateData(raw, { lock, hashes: raw.hashes, scriptSources: loadScriptSources() });
 const errors = [...raw.parseErrors, ...result.errors];
 
 if (errors.length) {
@@ -24,7 +24,7 @@ const meta = {
   data_version: Object.values(raw.canon.characters)[0]?.data_version ?? 'unknown',
   validation: { ok: true, info: result.info, warnings: result.warnings },
 };
-const payload = { canon: raw.canon, provisional: raw.provisional, confirmed: raw.confirmed, meta };
+const payload = { canon: raw.canon, provisional: raw.provisional, confirmed: raw.confirmed, scenario: raw.scenario, meta };
 const outDir = path.join(ROOT, 'game', 'generated');
 fs.mkdirSync(outDir, { recursive: true });
 const out = path.join(outDir, 'data.bundle.js');

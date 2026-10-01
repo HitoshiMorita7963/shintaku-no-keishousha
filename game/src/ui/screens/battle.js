@@ -2,8 +2,8 @@
 import { h, clear, gauge, attrChip, sleep, enableArrowNav } from '../dom.js';
 import { targetLabel } from '../components.js';
 import { BattleEngine } from '../../battle/engine.js';
-import { createBattle, applyBattleResult } from '../../battle/setup.js';
-import { decideEnemyAction } from '../../battle/ai.js';
+import { createBattle, createStoryBattle, applyBattleResult, storyOutcome } from '../../battle/setup.js';
+import { decideEnemyAction, decideAutoPartyAction } from '../../battle/ai.js';
 import { attributeMultiplier } from '../../battle/formulas.js';
 import { Rng } from '../../core/rng.js';
 import { resultScreen } from './result.js';
@@ -13,11 +13,19 @@ import { resultScreen } from './result.js';
 
 const DELAY = { normal: 650, fast: 220 };
 
+/**
+ * @typedef {string | {story: {battleId: string, onDone: (r: {storyResult: string, battle: any}) => void, onGiveUp: () => void}}} BattleSpec
+ * 文字列＝訓練戦のエンカウントID。story＝ストーリー戦闘（data/scenario/ch2_battles.json）。
+ */
+
 /** @type {import('../app.js').Screen} */
-export function battleScreen(app, root, encounterId) {
+export function battleScreen(app, root, /** @type {BattleSpec} */ spec) {
   const { data } = app;
-  const engine = createBattle(data, app.gs, encounterId, new Rng());
-  const enc = data.encounter(encounterId);
+  const story = typeof spec === 'string' ? null : spec.story;
+  const built = story ? createStoryBattle(data, app.gs, story.battleId, new Rng()) : null;
+  const engine = built ? built.engine : createBattle(data, app.gs, /** @type {string} */ (spec), new Rng());
+  const enc = built ? { name: built.def.name, map_id: '' } : data.encounter(/** @type {string} */ (spec));
+  const scenarioEp = built ? data.episode(2, built.def.episode) : null;
   let aborted = false;
 
   // ---------- 表示用状態（イベント再生に合わせて少しずつ更新する） ----------
@@ -114,9 +122,9 @@ export function battleScreen(app, root, encounterId) {
     el.classList.add(cls);
   };
 
-  /** @param {string} text */
-  const pushMessage = (text) => {
-    msgLines.append(h('p', { text }));
+  /** @param {string} text @param {string} [cls] */
+  const pushMessage = (text, cls) => {
+    msgLines.append(h('p', { text, class: cls }));
     while (msgLines.childElementCount > 4) msgLines.firstChild?.remove();
   };
 
@@ -181,9 +189,13 @@ export function battleScreen(app, root, encounterId) {
         h('div', { class: 'cmd-title' }, h('b', { text: u.name }), ' の行動',
           u.guardian?.released ? h('span', { class: 'badge badge-guardian', text: `${u.guardian.def.name}解放中` }) : null),
         h('div', { class: 'cmd-grid' }, data.rules.commands.map((/** @type {{id:string,label:string}} */ c) =>
-          h('button', { class: 'btn btn-cmd', 'data-cmd': c.id, text: c.label, onclick: () => onCommand(c.id) }))),
+          h('button', {
+            class: 'btn btn-cmd', 'data-cmd': c.id, text: c.label, onclick: () => onCommand(c.id),
+            disabled: !!u.allowedCommands && !u.allowedCommands.includes(c.id),
+            title: u.allowedCommands && !u.allowedCommands.includes(c.id) ? 'まだ使えない' : undefined,
+          }))),
       );
-      /** @type {HTMLButtonElement|null} */ (cmdArea.querySelector('.btn-cmd'))?.focus();
+      /** @type {HTMLButtonElement|null} */ (cmdArea.querySelector('.btn-cmd:not([disabled])'))?.focus();
     };
 
     /** @param {string} cmd */
@@ -284,33 +296,65 @@ export function battleScreen(app, root, encounterId) {
   });
 
   // ---------- 戦闘ループ ----------
+  // ---------- 台本トリガー（戦闘中イベント） ----------
+  /** @param {any} st */
+  const lineText = (st) => (st.t === 'say' ? `${st.who}「${st.text}」` : st.t === 'act' ? `【${st.who}】${st.text}` : st.t === 'sys' ? `■ ${st.text}` : st.text);
+  const runTriggers = async () => {
+    if (!built) return;
+    for (const fired of engine.evaluateTriggers()) {
+      const steps = fired.block ? scenarioEp?.blocks[fired.block] ?? [] : [];
+      for (const st of steps) {
+        if (aborted) return;
+        if (st.t === 'dir' || st.t === 'explore') continue;
+        pushMessage(lineText(st), st.t === 'say' || st.t === 'act' ? 'msg-say' : st.t === 'sys' ? 'msg-sys' : 'msg-narr');
+        await wait(DELAY[app.settings.messageSpeed] * 1.8);
+      }
+      await play(fired.events);
+    }
+  };
+
+  /** 相手の行動：敵データの行動表／キャラクター相手は自動戦闘AI */
+  const decideFor = (/** @type {BattleUnit} */ unit) => (unit.enemyDef ? decideEnemyAction(engine, unit) : decideAutoPartyAction(engine, unit));
+
+  // ---------- 戦闘ループ ----------
   const loop = async () => {
     renderUnits();
     cmdArea.append(h('p', { class: 'muted', text: '…' }));
     await play(engine.start());
     while (!aborted && !engine.outcome()) {
       await play(engine.beginTurn());
+      await runTriggers();
       for (;;) {
-        if (aborted) return;
+        if (aborted || engine.outcome()) break;
         const { unit, events } = engine.nextActor();
         await play(events);
         if (!unit) break;
         activeUid = unit.uid;
         renderOrder(); renderUnits();
-        const action = unit.side === 'party' ? await chooseAction(unit) : decideEnemyAction(engine, unit);
+        const action = unit.side === 'party' ? await chooseAction(unit) : decideFor(unit);
         if (unit.side === 'enemy') await wait(DELAY[app.settings.messageSpeed] / 2);
         await play(engine.perform(unit, action));
         activeUid = null;
+        await runTriggers();
         if (engine.outcome()) break;
       }
-      if (!engine.result) await play(engine.endTurn());
+      if (!engine.outcome()) {
+        await play(engine.endTurn());
+        engine.checkTurnLimit();
+      }
     }
     if (aborted) return;
     clear(cmdArea);
-    pushMessage(engine.result === 'win' ? '敵を すべて たおした！' : '全滅してしまった…');
+    const endText = { win: '敵を すべて たおした！', lose: engine.party.every((p) => !p.alive) ? '全滅してしまった…' : '戦闘不能になってしまった…', draw: '引き分け！', scripted: '戦闘終了。' };
+    pushMessage(endText[/** @type {keyof typeof endText} */ (engine.result ?? 'scripted')]);
     await wait(DELAY[app.settings.messageSpeed] * 2);
     const res = applyBattleResult(data, app.gs, engine);
-    app.go(resultScreen, { result: engine.result, encounterId, ...res });
+    if (story && built) {
+      const out = storyOutcome(built.def, engine);
+      app.go(resultScreen, { result: engine.result, story: { ...story, def: built.def, ...out }, ...res });
+    } else {
+      app.go(resultScreen, { result: engine.result, encounterId: spec, ...res });
+    }
   };
   loop().catch((e) => app.fatal(e));
 

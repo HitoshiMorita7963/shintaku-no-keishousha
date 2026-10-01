@@ -1,42 +1,157 @@
 {
   "_status": "provisional",
-  "_note": "Phase 1 動作確認用の『訓練戦』。ストーリー上の戦闘ではない（イベント戦闘は Phase 6 以降で events/*.json から構築する）。level: \"party_average\" はパーティ平均Lv＋offset。",
+  "_note": "Phase 1 動作確認用の『訓練戦』。ストーリー上の戦闘ではない（イベント戦闘は Phase 6 以降で events/*.json から構築する）。level: \"party_average\" はパーティ平均Lv＋offset。 story_requires_flag：ストーリーモードで表示する条件フラグ（台本・正式イベントのフラグ名をそのまま使用）。story_only：ストーリーモード専用。 【時系列】悪魔兵・悪魔軍は第35話の敵（data/enemies）のため、ストーリーモードでは第35話クリアまで出さない。上級ロボは第22話、フルーレティは第21話以降。",
   "encounters": [
+    {
+      "id": "ENC_TRAIN_MONSTER",
+      "name": "訓練場：訓練用モンスター",
+      "map_id": "MAP_TRAINING",
+      "story_requires_flag": "CH2_EP05_COSPLETE",
+      "_source": "第5話 05-03・第11話 11-03・第14話 14-03 の訓練用モンスター",
+      "enemies": [
+        {
+          "enemy_id": "ENE_TRAINING_MONSTER",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_TRAINING_MONSTER",
+          "level": "party_average",
+          "offset": 0
+        }
+      ]
+    },
     {
       "id": "ENC_TRAIN_SOLDIERS",
       "name": "訓練戦：悪魔兵×3",
       "map_id": "MAP_TRAINING",
       "enemies": [
-        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 },
-        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 },
-        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 }
-      ]
+        {
+          "enemy_id": "ENE_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        }
+      ],
+      "story_requires_flag": "CH2_EP35_COSPLETE"
     },
     {
       "id": "ENC_TRAIN_ARMY",
       "name": "訓練戦：悪魔軍＋悪魔兵",
       "map_id": "MAP_TRAINING",
       "enemies": [
-        { "enemy_id": "ENE_DEMON_ARMY", "level": "party_average", "offset": 0 },
-        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 },
-        { "enemy_id": "ENE_DEMON_SOLDIER", "level": "party_average", "offset": 0 }
-      ]
+        {
+          "enemy_id": "ENE_DEMON_ARMY",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        }
+      ],
+      "story_requires_flag": "CH2_EP35_COSPLETE"
     },
     {
       "id": "ENC_TRAIN_ROBOT",
       "name": "訓練戦：上級ロボ",
       "map_id": "MAP_TRAINING",
       "enemies": [
-        { "enemy_id": "ENE_UPPER_ROBOT", "level": "party_average", "offset": 0 }
-      ]
+        {
+          "enemy_id": "ENE_UPPER_ROBOT",
+          "level": "party_average",
+          "offset": 0
+        }
+      ],
+      "story_requires_flag": "CH2_EP22_COSPLETE"
     },
     {
       "id": "ENC_TEST_FLEURETY",
-      "name": "検証戦：フルーレティ（雷無効・偽獣化テスト）",
+      "name": "検証戦：フルーレティ（雷無効テスト）",
       "map_id": "MAP_TRAINING",
       "debug": true,
       "enemies": [
-        { "enemy_id": "ENE_FLEURETY", "level": "party_average", "offset": 0 }
+        {
+          "enemy_id": "ENE_FLEURETY",
+          "level": "party_average",
+          "offset": 0
+        }
+      ],
+      "story_requires_flag": "CH2_EP21_COSPLETE"
+    },
+    {
+      "id": "ENC_FIVE_DEMONS_REMATCH",
+      "name": "五体の悪魔・再戦",
+      "map_id": "MAP_EAST_FOREST",
+      "story_only": true,
+      "story_requires_flag": "FIVE_DEMONS_REMATCH_UNLOCKED",
+      "_source": "第21話 21-33 解放① 再戦（初回クリア後も何度でも挑戦可能）",
+      "enemies": [
+        {
+          "enemy_id": "ENE_FLEURETY",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_MURMUR",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_DANDALION",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_LAGZEFAIN",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_NEMRAZIEL",
+          "level": "party_average",
+          "offset": 0
+        }
+      ]
+    },
+    {
+      "id": "ENC_DEMON_SOLDIER_HUNT",
+      "name": "悪魔兵討伐戦",
+      "map_id": "MAP_EAST_FOREST",
+      "story_only": true,
+      "story_requires_flag": "CH2_EP31_COSPLETE",
+      "_source": "第31話 31-10 解放（敵は第30話の謎の悪魔兵を仮使用）",
+      "enemies": [
+        {
+          "enemy_id": "ENE_MYSTERY_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_MYSTERY_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        },
+        {
+          "enemy_id": "ENE_MYSTERY_DEMON_SOLDIER",
+          "level": "party_average",
+          "offset": 0
+        }
       ]
     }
   ]

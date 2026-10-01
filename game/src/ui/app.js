@@ -21,6 +21,12 @@ export class App {
     /** @type {(() => void) | null} */
     this.cleanup = null;
     this.settings = { messageSpeed: /** @type {'normal'|'fast'} */ ('normal') };
+    /** 再生中の話 @type {import('../story/runner.js').StoryRunner | null} */
+    this.runner = null;
+    /** 話の開始時点の状態（戦闘で中断したら戻す） @type {import('../types.js').GameState | null} */
+    this.storySnapshot = null;
+    /** 会話ログ @type {string[] | null} */
+    this.storyLog = null;
   }
 
   /** 現在のゲーム状態（ニューゲーム前に呼ぶとエラー） */

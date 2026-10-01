@@ -70,7 +70,34 @@ export function loadRawData(dataDir = DATA_DIR) {
   const provisional = loadSupplement('provisional');
   const confirmed = loadSupplement('confirmed');
 
-  return { canon, provisional, confirmed, hashes, parseErrors };
+  // scenario/ = ユーザー提供の正式台本から作ったシナリオ（*.json＋章フォルダの *.scn テキスト）
+  const scenario = { json: loadSupplement('scenario'), scn: /** @type {Record<string, Record<string, string>>} */ ({}) };
+  const scnRoot = path.join(dataDir, 'scenario');
+  if (fs.existsSync(scnRoot)) {
+    for (const ent of fs.readdirSync(scnRoot, { withFileTypes: true }).filter((d) => d.isDirectory())) {
+      scenario.scn[ent.name] = {};
+      for (const name of fs.readdirSync(path.join(scnRoot, ent.name)).filter((n) => n.endsWith('.scn')).sort()) {
+        scenario.scn[ent.name][name] = fs.readFileSync(path.join(scnRoot, ent.name, name), 'utf8');
+      }
+    }
+  }
+
+  return { canon, provisional, confirmed, scenario, hashes, parseErrors };
+}
+
+/**
+ * 台本原文（15_シナリオ台本/<章>/*.md）を読む。台詞の原文照合に使う（バンドルには含めない）。
+ * @returns {Record<string, string>} 章フォルダ名 → 全台本を連結したテキスト
+ */
+export function loadScriptSources() {
+  const base = path.join(ROOT, '15_シナリオ台本');
+  /** @type {Record<string, string>} */ const out = {};
+  if (!fs.existsSync(base)) return out;
+  for (const ch of fs.readdirSync(base, { withFileTypes: true }).filter((d) => d.isDirectory())) {
+    const dir = path.join(base, ch.name);
+    out[ch.name] = fs.readdirSync(dir).filter((n) => n.endsWith('.md')).sort().map((n) => fs.readFileSync(path.join(dir, n), 'utf8')).join('\n');
+  }
+  return out;
 }
 
 /** project_manifest.json 等、data/ 外の参照ファイルを読む */

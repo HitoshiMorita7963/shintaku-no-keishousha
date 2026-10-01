@@ -10,16 +10,25 @@
 import { GameDataError, assert, clamp, lerpLevel } from '../core/util.js';
 import { listOptions } from './commands.js';
 import { rollDamage, guardianReleaseCost, initiative } from './formulas.js';
+import { guardianMultipliers } from '../model/growth.js';
 
 /** @typedef {import('./unit.js').BattleUnit} BattleUnit */
 /** @typedef {import('../types.js').BattleEvent} BattleEvent */
 /** @typedef {import('../types.js').BattleAction} BattleAction */
 /** @typedef {import('../types.js').Skill} Skill */
 
+/**
+ * ストーリー戦闘の追加ルール（data/scenario/ch2_battles.json から setup.js が組み立てる）
+ * @typedef {Object} StoryRules
+ * @property {string[]} [loseIfDown] このユニット（uid）のいずれかが倒れたら敗北
+ * @property {number} [endAfterTurns] このターン終了時に戦闘終了（結果は 'scripted'）
+ * @property {{id:string, when:any, requires?:string[], block?:string, actions?:any[]}[]} [triggers]
+ */
+
 export class BattleEngine {
   /**
    * @param {import('../data/gameData.js').GameData} data
-   * @param {{party: BattleUnit[], enemies: BattleUnit[], inventory: Record<string, number>, rng: import('../core/rng.js').Rng}} o
+   * @param {{party: BattleUnit[], enemies: BattleUnit[], inventory: Record<string, number>, rng: import('../core/rng.js').Rng, story?: StoryRules}} o
    */
   constructor(data, o) {
     assert(o.party.length > 0, '戦闘に参加する味方がいません');
@@ -35,8 +44,21 @@ export class BattleEngine {
     this.queue = [];
     /** @type {BattleUnit[]} 今ターンの行動順（表示用） */
     this.order = [];
-    /** @type {'win'|'lose'|null} */
+    /** 'scripted' = 台本で結果が決まる戦闘が規定ターン・トリガーで終了した @type {'win'|'lose'|'draw'|'scripted'|null} */
     this.result = null;
+    /** @type {'win'|'lose'|'draw'|'scripted'|null} */
+    this.forcedResult = null;
+    /** @type {StoryRules} */
+    this.story = o.story ?? {};
+    /** @type {Set<string>} */
+    this.firedTriggers = new Set();
+    /** 戦闘後に永続状態へ反映する変化（親和度・覚醒） */
+    this.persist = { affinity: /** @type {Record<string, number>} */ ({}), awaken: /** @type {Record<string, string[]>} */ ({}) };
+  }
+
+  /** @param {string} refId キャラID/敵ID */
+  unitByRef(refId) {
+    return this.units.find((x) => x.refId === refId) ?? null;
   }
 
   get units() { return [...this.party, ...this.enemies]; }
@@ -127,6 +149,9 @@ export class BattleEngine {
    */
   perform(u, action) {
     assert(u.alive, `${u.name} は戦闘不能のため行動できません`);
+    if (u.allowedCommands && u.side === 'party') {
+      assert(u.allowedCommands.includes(action.command), `${u.name}: コマンド「${action.command}」はまだ使えません`);
+    }
     u.guarding = null; // 防御は「次の自分の行動まで」
     /** @type {BattleEvent[]} */ const ev = [];
 
@@ -207,7 +232,7 @@ export class BattleEngine {
       const r = rollDamage(this.rules, this.rng, u, t, skill, i, hits);
       if (!r.hit) { ev.push({ type: 'miss', unitId: u.uid, targetId: t.uid, text: `ミス！ ${t.name}は ひらりと かわした！` }); continue; }
       if (r.immune) { ev.push({ type: 'immune', targetId: t.uid, text: `${t.name}には ${skill.attribute}属性が 効かない！` }); continue; }
-      t.hp = clamp(t.hp - r.damage, 0, t.maxHp);
+      t.hp = clamp(t.hp - r.damage, t.minHp, t.maxHp);
       ev.push({
         type: 'damage', unitId: u.uid, targetId: t.uid, amount: r.damage, crit: r.crit, hp: t.hp,
         text: `${r.crit ? '会心の一撃！ ' : ''}${t.name}に ${r.damage}の ダメージ！`,
@@ -348,9 +373,88 @@ export class BattleEngine {
 
   /** 10. 戦闘終了判定 */
   outcome() {
-    if (this.enemies.every((e) => !e.alive)) this.result = 'win';
+    if (this.result) return this.result;
+    if (this.forcedResult) this.result = this.forcedResult;
+    else if (this.enemies.every((e) => !e.alive)) this.result = 'win';
     else if (this.party.every((p) => !p.alive)) this.result = 'lose';
+    else if ((this.story.loseIfDown ?? []).some((uid) => !this.unit(uid).alive)) this.result = 'lose';
     return this.result;
+  }
+
+  /** 規定ターン経過による終了（台本で結果が決まっている戦闘） */
+  checkTurnLimit() {
+    const n = this.story.endAfterTurns;
+    if (typeof n === 'number' && this.turn >= n && !this.result && !this.forcedResult) this.forcedResult = 'scripted';
+  }
+
+  /**
+   * 台本トリガーの判定と実行。発火したものを返す（台詞ブロックの再生はUI側）。
+   * @returns {{id:string, block?:string, events: BattleEvent[]}[]}
+   */
+  evaluateTriggers() {
+    const fired = [];
+    for (const tr of this.story.triggers ?? []) {
+      if (this.firedTriggers.has(tr.id)) continue;
+      if ((tr.requires ?? []).some((r) => !this.firedTriggers.has(r))) continue;
+      if (!this.#cond(tr.when)) continue;
+      this.firedTriggers.add(tr.id);
+      /** @type {BattleEvent[]} */ const ev = [];
+      for (const a of tr.actions ?? []) this.#applyAction(a, ev);
+      fired.push({ id: tr.id, block: tr.block, events: ev });
+    }
+    return fired;
+  }
+
+  /** @param {any} w */
+  #cond(w) {
+    if (!w) return false;
+    if (w.any) return w.any.some((/** @type {any} */ x) => this.#cond(x));
+    if (w.all) return w.all.every((/** @type {any} */ x) => this.#cond(x));
+    if (typeof w.turn_at_least === 'number') return this.turn >= w.turn_at_least;
+    if (w.hp_below) {
+      const u = this.unitByRef(w.hp_below.unit);
+      return !!u && u.hp / u.maxHp < w.hp_below.ratio;
+    }
+    throw new GameDataError(`未対応のトリガー条件: ${JSON.stringify(w)}`);
+  }
+
+  /** @param {any} a @param {BattleEvent[]} ev */
+  #applyAction(a, ev) {
+    if (a.unlock_commands) {
+      for (const ref of a.unlock_commands) { const u = this.unitByRef(ref); if (u) u.allowedCommands = null; }
+      ev.push({ type: 'system', text: 'すべてのコマンドが使えるようになった！' });
+    } else if (a.awaken) {
+      for (const [ref, attrs] of Object.entries(a.awaken)) {
+        const u = this.unitByRef(ref);
+        if (!u) continue;
+        for (const at of /** @type {string[]} */ (attrs)) if (!u.awakenedUpper.includes(at)) u.awakenedUpper.push(at);
+        (this.persist.awaken[ref] ??= []).push(.../** @type {string[]} */ (attrs));
+        ev.push({ type: 'system', text: `${u.name}は ${/** @type {string[]} */ (attrs).join('・')}属性に 覚醒した！` });
+      }
+    } else if (a.release_guardian) {
+      const u = this.unitByRef(a.release_guardian);
+      if (u?.guardian && u.alive && !u.guardian.released) {
+        u.guardian.released = true;
+        u.guardian.releasedOnce = true;
+        ev.push({ type: 'release', unitId: u.uid, text: `${u.name}は 守護獣「${u.guardian.def.name}」を 解放した！` });
+      }
+    } else if (a.affinity) {
+      for (const [ref, n] of Object.entries(a.affinity)) {
+        const u = this.unitByRef(ref);
+        if (!u?.guardian) continue;
+        const g = u.guardian;
+        g.affinity = Math.min(100, g.affinity + /** @type {number} */ (n));
+        const m = guardianMultipliers(g.def, g.affinity, this.rules.guardian.affinity_curve_interpolation);
+        g.statMultiplier = m.statMultiplier;
+        g.attributeMultiplier = m.attributeMultiplier;
+        this.persist.affinity[ref] = (this.persist.affinity[ref] ?? 0) + /** @type {number} */ (n);
+        ev.push({ type: 'system', text: `${g.def.name}との ${this.data.ui.affinity_label}が 上がった！` });
+      }
+    } else if (a.end_battle) {
+      this.forcedResult = a.end_battle === 'continue' ? 'scripted' : a.end_battle;
+    } else {
+      throw new GameDataError(`未対応のトリガー処理: ${JSON.stringify(a)}`);
+    }
   }
 
   /** 11. 報酬計算（適用は rewards.js の applyRewards） */
@@ -360,9 +464,14 @@ export class BattleEngine {
     /** @type {Record<string, number>} */ const drops = {};
     const living = this.party.filter((p) => p.alive);
     const lukAvg = living.reduce((s, p) => s + p.stat('luk'), 0) / Math.max(1, living.length);
+    const charExp = this.data.progression.character_opponent_exp;
     for (const e of this.enemies) {
       const def = e.enemyDef;
-      if (!def || e.alive) continue;
+      if (!def) { // キャラクター相手（模擬戦）。倒れていなくても勝利なら経験値（仮）
+        if (charExp) exp += Math.round(lerpLevel(charExp.lv1, charExp.lv100, e.level));
+        continue;
+      }
+      if (e.alive) continue;
       exp += Math.round(lerpLevel(def.exp.lv1, def.exp.lv100, e.level));
       for (const d of def.drops) {
         const luk = e.stat('luk');

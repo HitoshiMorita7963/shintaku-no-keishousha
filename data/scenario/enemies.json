@@ -1,0 +1,42 @@
+{
+  "_status": "names_user_confirmed_stats_provisional",
+  "_note": "台本にのみ登場する敵（ZIPの data/enemies には存在しない）。名称は台本どおり。ステータス・行動は未確定のため仮値（data/provisional/enemies.json と同じ形式・同じ汎用行動）。弱点『【案】風・火』（第2話）は案のため未実装。",
+  "enemies": {
+    "ENE_MALICE_MONSTER": {
+      "name": "悪意モンスター", "category": "boss", "_source": "第2話 EVENT 02-02『序盤用ボス』",
+      "stats": {
+        "lv1":   { "hp": 230, "sp": 30, "atk": 16, "def": 12, "spd": 14, "int": 12, "tec": 10, "eva": 8,  "acc": 15, "luk": 6 },
+        "lv100": { "hp": 6000,"sp": 500,"atk": 540, "def": 460, "spd": 480, "int": 440, "tec": 420, "eva": 380, "acc": 520, "luk": 320 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
+      "exp": { "lv1": 30, "lv100": 3000 }, "drops": [ { "item_id": "ITM_POTION", "rate": 1.0 } ]
+    },
+    "ENE_TRAINING_MONSTER": {
+      "name": "訓練用モンスター", "category": "enemy", "_source": "第5話 EVENT 05-03・第11話 11-03",
+      "stats": {
+        "lv1":   { "hp": 120, "sp": 10, "atk": 13, "def": 10, "spd": 12, "int": 10, "tec": 8,  "eva": 8,  "acc": 14, "luk": 5 },
+        "lv100": { "hp": 3000,"sp": 200,"atk": 480, "def": 400, "spd": 440, "int": 380, "tec": 360, "eva": 360, "acc": 480, "luk": 300 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 1 } ],
+      "exp": { "lv1": 15, "lv100": 1500 }, "drops": []
+    },
+    "ENE_TRAINING_MONSTER_BERSERK": {
+      "name": "訓練用暴走モンスター", "category": "boss", "_source": "第14話 14-05",
+      "stats": {
+        "lv1":   { "hp": 420, "sp": 40, "atk": 18, "def": 15, "spd": 13, "int": 13, "tec": 12, "eva": 8,  "acc": 16, "luk": 6 },
+        "lv100": { "hp": 9500,"sp": 600,"atk": 600, "def": 520, "spd": 480, "int": 460, "tec": 440, "eva": 380, "acc": 540, "luk": 320 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 3 }, { "id": "SKL_ENE_STRONG", "weight": 1 }, { "id": "SKL_ENE_ALL", "weight": 1 } ],
+      "exp": { "lv1": 60, "lv100": 6000 }, "drops": [ { "item_id": "ITM_SP_POTION", "rate": 0.5 } ]
+    },
+    "ENE_MYSTERY_DEMON_SOLDIER": {
+      "name": "謎の悪魔兵", "category": "enemy", "_source": "第30話 30-06（第35話の『悪魔兵』と同一かは未確定のため別定義）",
+      "stats": {
+        "lv1":   { "hp": 90,  "sp": 20, "atk": 16, "def": 13, "spd": 15, "int": 13, "tec": 11, "eva": 10, "acc": 15, "luk": 8 },
+        "lv100": { "hp": 1800,"sp": 300,"atk": 540, "def": 440, "spd": 540, "int": 440, "tec": 420, "eva": 440, "acc": 520, "luk": 360 }
+      },
+      "skills": [ { "id": "SKL_ENE_ATTACK", "weight": 4 }, { "id": "SKL_ENE_STRONG", "weight": 1 } ],
+      "exp": { "lv1": 12, "lv100": 1100 }, "drops": [ { "item_id": "ITM_POTION", "rate": 0.2 } ]
+    }
+  }
+}

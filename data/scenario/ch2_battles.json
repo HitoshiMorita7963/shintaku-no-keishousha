@@ -1,0 +1,1335 @@
+{
+  "_status": "structure_from_script_numbers_provisional",
+  "_note": "第2章の戦闘定義。対戦カード・参加者・操作キャラ・勝敗（story_result）は台本どおり。ターン数・HP割合・トリガー条件は台本に数値がないため仮値。result_mode: must_win=勝利必須（敗北時は再戦）/ any=勝敗どちらでも進行（台本05-06）/ scripted=台本で結果が決まっている戦闘（end_after_turns で終了し story_result を適用）。opponents: enemy=敵ID / character=キャラID（相手もキャラクターの正式データで戦う）。min_hp_ratio=このHP割合未満にならない（撃破できない演出用）。 scale={hp,stats}：パーティ向けに作った敵ステータスを1対1の台本戦闘用に縮小する仮補正。",
+  "defaults": {
+    "result_mode": "must_win",
+    "restore_before": true,
+    "opponent_level": "party_average"
+  },
+  "battles": {
+    "EP02_B1": {
+      "episode": 2,
+      "name": "悪意モンスター",
+      "party": [
+        "A01",
+        "A02"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_MALICE_MONSTER"
+        }
+      ],
+      "lose_if_down": [
+        "A01",
+        "A02"
+      ],
+      "command_limits": {
+        "A01": [
+          "attack",
+          "guard"
+        ],
+        "A02": [
+          "attack",
+          "shingi"
+        ]
+      },
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A02",
+                  "ratio": 0.7
+                }
+              },
+              {
+                "turn_at_least": 2
+              }
+            ]
+          },
+          "block": "EP02_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A01",
+                  "ratio": 0.7
+                }
+              },
+              {
+                "turn_at_least": 3
+              }
+            ]
+          },
+          "block": "EP02_T2",
+          "actions": [
+            {
+              "unlock_commands": [
+                "A01",
+                "A02"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "EP05_B1": {
+      "episode": 5,
+      "name": "実技試験",
+      "party": [
+        "A01",
+        "A02"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        },
+        {
+          "enemy": "ENE_TRAINING_MONSTER"
+        }
+      ],
+      "result_mode": "any"
+    },
+    "EP05_B2": {
+      "episode": 5,
+      "name": "模擬戦 龍一郎 vs 実幸",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A02"
+        }
+      ],
+      "result_mode": "any"
+    },
+    "EP06_B1": {
+      "episode": 6,
+      "name": "模擬戦 龍一郎 vs 剛毅",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A03"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "hp_below": {
+              "unit": "A03",
+              "ratio": 0.6
+            }
+          },
+          "block": "EP06_T1"
+        }
+      ]
+    },
+    "EP07_B1": {
+      "episode": 7,
+      "name": "龍一郎 vs 疾風",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A04"
+        }
+      ]
+    },
+    "EP08_B1": {
+      "episode": 8,
+      "name": "龍一郎 vs 咲",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A05"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP08_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A05",
+                  "ratio": 0.6
+                }
+              },
+              {
+                "turn_at_least": 3
+              }
+            ]
+          },
+          "block": "EP08_T2"
+        }
+      ]
+    },
+    "EP09_B1": {
+      "episode": 9,
+      "name": "龍一郎 vs 麗華",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A06"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP09_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A06",
+                  "ratio": 0.5
+                }
+              },
+              {
+                "turn_at_least": 4
+              }
+            ]
+          },
+          "block": "EP09_T2"
+        }
+      ]
+    },
+    "EP10_B1": {
+      "episode": 10,
+      "name": "龍一郎 vs 駆流美",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A07"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP10_T1"
+        }
+      ]
+    },
+    "EP11_B1": {
+      "episode": 11,
+      "name": "龍一郎 vs 神楽",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A08"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP11_T1"
+        }
+      ]
+    },
+    "EP12_B1": {
+      "episode": 12,
+      "name": "剛毅 vs 将真",
+      "party": [
+        "A03"
+      ],
+      "opponents": [
+        {
+          "character": "A14",
+          "min_hp_ratio": 0.4
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 3
+    },
+    "EP13_B1": {
+      "episode": 13,
+      "name": "剛毅 vs 将真（再戦）",
+      "party": [
+        "A03"
+      ],
+      "opponents": [
+        {
+          "character": "A14"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A14",
+                  "ratio": 0.6
+                }
+              },
+              {
+                "turn_at_least": 3
+              }
+            ]
+          },
+          "block": "EP13_T1"
+        }
+      ]
+    },
+    "EP14_B1": {
+      "episode": 14,
+      "name": "訓練用暴走モンスター",
+      "party": [
+        "A01",
+        "A09",
+        "A10"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_TRAINING_MONSTER_BERSERK"
+        }
+      ],
+      "lose_if_down": [
+        "A01"
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP14_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "turn_at_least": 3
+          },
+          "block": "EP14_T2"
+        }
+      ]
+    },
+    "EP17_B1": {
+      "episode": 17,
+      "name": "ミス神官決勝 実幸 vs 愛純",
+      "party": [
+        "A02"
+      ],
+      "opponents": [
+        {
+          "character": "A11"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP17_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A11",
+                  "ratio": 0.5
+                }
+              },
+              {
+                "turn_at_least": 4
+              }
+            ]
+          },
+          "block": "EP17_T2"
+        }
+      ]
+    },
+    "EP19_B1": {
+      "episode": 19,
+      "name": "龍一郎 vs 孝輔",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A13"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP19_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "hp_below": {
+              "unit": "A13",
+              "ratio": 0.4
+            }
+          },
+          "block": "EP19_T2"
+        }
+      ]
+    },
+    "EP20_B1": {
+      "episode": 20,
+      "name": "龍一郎 vs 優輝",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A15",
+          "min_hp_ratio": 0.5
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4,
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP20_T1"
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "turn_at_least": 3
+          },
+          "block": "EP20_T2"
+        }
+      ]
+    },
+    "EP21_B1": {
+      "episode": 21,
+      "name": "第一戦・5VS5",
+      "party": [
+        "A01",
+        "A02",
+        "A04",
+        "A05",
+        "A03"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_FLEURETY",
+          "min_hp_ratio": 0.5
+        },
+        {
+          "enemy": "ENE_MURMUR",
+          "min_hp_ratio": 0.5
+        },
+        {
+          "enemy": "ENE_DANDALION",
+          "min_hp_ratio": 0.5
+        },
+        {
+          "enemy": "ENE_LAGZEFAIN",
+          "min_hp_ratio": 0.5
+        },
+        {
+          "enemy": "ENE_NEMRAZIEL",
+          "min_hp_ratio": 0.5
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "continue",
+      "end_after_turns": 3
+    },
+    "EP21_B2": {
+      "episode": 21,
+      "name": "疾風 VS フルーレティ",
+      "party": [
+        "A04"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_FLEURETY",
+          "min_hp_ratio": 0.2
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "continue",
+      "end_after_turns": 5,
+      "triggers": [
+        {
+          "id": "END",
+          "when": {
+            "hp_below": {
+              "unit": "ENE_FLEURETY",
+              "ratio": 0.25
+            }
+          },
+          "actions": [
+            {
+              "end_battle": "continue"
+            }
+          ]
+        }
+      ]
+    },
+    "EP21_B3": {
+      "episode": 21,
+      "name": "剛毅 VS ダンダリオン",
+      "party": [
+        "A03"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_DANDALION",
+          "min_hp_ratio": 0.2
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "continue",
+      "end_after_turns": 5,
+      "triggers": [
+        {
+          "id": "END",
+          "when": {
+            "hp_below": {
+              "unit": "ENE_DANDALION",
+              "ratio": 0.25
+            }
+          },
+          "actions": [
+            {
+              "end_battle": "continue"
+            }
+          ]
+        }
+      ]
+    },
+    "EP21_B4": {
+      "episode": 21,
+      "name": "実幸 VS ラグゼファン",
+      "party": [
+        "A02"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_LAGZEFAIN",
+          "min_hp_ratio": 0.2
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "continue",
+      "end_after_turns": 5,
+      "triggers": [
+        {
+          "id": "END",
+          "when": {
+            "hp_below": {
+              "unit": "ENE_LAGZEFAIN",
+              "ratio": 0.25
+            }
+          },
+          "actions": [
+            {
+              "end_battle": "continue"
+            }
+          ]
+        }
+      ]
+    },
+    "EP21_B5": {
+      "episode": 21,
+      "name": "咲 VS ネムラジエル",
+      "party": [
+        "A05"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_NEMRAZIEL",
+          "min_hp_ratio": 0.2
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "continue",
+      "end_after_turns": 5,
+      "triggers": [
+        {
+          "id": "END",
+          "when": {
+            "hp_below": {
+              "unit": "ENE_NEMRAZIEL",
+              "ratio": 0.25
+            }
+          },
+          "actions": [
+            {
+              "end_battle": "continue"
+            }
+          ]
+        }
+      ]
+    },
+    "EP21_B6": {
+      "episode": 21,
+      "name": "龍一郎 VS ムルムル",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_MURMUR",
+          "min_hp_ratio": 0.2
+        }
+      ],
+      "result_mode": "scripted",
+      "story_result": "continue",
+      "end_after_turns": 5,
+      "triggers": [
+        {
+          "id": "END",
+          "when": {
+            "hp_below": {
+              "unit": "ENE_MURMUR",
+              "ratio": 0.25
+            }
+          },
+          "actions": [
+            {
+              "end_battle": "continue"
+            }
+          ]
+        }
+      ]
+    },
+    "EP21_B7": {
+      "episode": 21,
+      "name": "駆流美 VS フルーレティ",
+      "party": [
+        "A07"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_FLEURETY",
+          "hp_ratio": 0.25
+        }
+      ]
+    },
+    "EP21_B8": {
+      "episode": 21,
+      "name": "剛毅 VS ダンダリオン・決着",
+      "party": [
+        "A03"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_DANDALION",
+          "hp_ratio": 0.25
+        }
+      ]
+    },
+    "EP21_B9": {
+      "episode": 21,
+      "name": "麗華 VS ラグゼファン",
+      "party": [
+        "A06"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_LAGZEFAIN",
+          "hp_ratio": 0.25
+        }
+      ]
+    },
+    "EP21_B10": {
+      "episode": 21,
+      "name": "神楽 VS ネムラジエル",
+      "party": [
+        "A08"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_NEMRAZIEL",
+          "hp_ratio": 0.25
+        }
+      ]
+    },
+    "EP21_B11": {
+      "episode": 21,
+      "name": "神明優輝 VS ムルムル",
+      "party": [
+        "A15"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_MURMUR",
+          "hp_ratio": 0.4
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A15",
+                  "ratio": 0.6
+                }
+              },
+              {
+                "turn_at_least": 2
+              }
+            ]
+          },
+          "block": "EP21_T_YUUKI",
+          "actions": [
+            {
+              "release_guardian": "A15"
+            }
+          ]
+        }
+      ]
+    },
+    "EP22_B1": {
+      "episode": 22,
+      "name": "1回戦① 茜 VS 才崎",
+      "party": [
+        "A13"
+      ],
+      "opponents": [
+        {
+          "character": "A12"
+        }
+      ]
+    },
+    "EP22_B2": {
+      "episode": 22,
+      "name": "1回戦② 夜桜 VS 咲",
+      "party": [
+        "A05"
+      ],
+      "opponents": [
+        {
+          "character": "A08"
+        }
+      ]
+    },
+    "EP22_B3": {
+      "episode": 22,
+      "name": "1回戦③ 剛毅 VS 実幸",
+      "party": [
+        "A02"
+      ],
+      "opponents": [
+        {
+          "character": "A03"
+        }
+      ]
+    },
+    "EP22_B4": {
+      "episode": 22,
+      "name": "1回戦④ 優輝 VS 将真",
+      "party": [
+        "A15"
+      ],
+      "opponents": [
+        {
+          "character": "A14"
+        }
+      ]
+    },
+    "EP22_B5": {
+      "episode": 22,
+      "name": "1回戦⑤ 駆流美 VS 麗華",
+      "party": [
+        "A07"
+      ],
+      "opponents": [
+        {
+          "character": "A06"
+        }
+      ]
+    },
+    "EP22_B6": {
+      "episode": 22,
+      "name": "1回戦⑥ 龍一郎 VS 大地",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A09"
+        }
+      ]
+    },
+    "EP22_B7": {
+      "episode": 22,
+      "name": "1回戦⑦ 疾風 VS 長太郎",
+      "party": [
+        "A04"
+      ],
+      "opponents": [
+        {
+          "character": "A10"
+        }
+      ]
+    },
+    "EP22_B8": {
+      "episode": 22,
+      "name": "1回戦⑧ 愛純 VS 上級ロボ",
+      "party": [
+        "A11"
+      ],
+      "opponents": [
+        {
+          "enemy": "ENE_UPPER_ROBOT",
+          "scale": {
+            "hp": 0.3,
+            "stats": 0.8
+          }
+        }
+      ]
+    },
+    "EP23_B1": {
+      "episode": 23,
+      "name": "2回戦① 才崎 VS 咲",
+      "party": [
+        "A05"
+      ],
+      "opponents": [
+        {
+          "character": "A13"
+        }
+      ]
+    },
+    "EP23_B2": {
+      "episode": 23,
+      "name": "2回戦② 実幸 VS 優輝",
+      "party": [
+        "A15"
+      ],
+      "opponents": [
+        {
+          "character": "A02"
+        }
+      ]
+    },
+    "EP23_B3": {
+      "episode": 23,
+      "name": "2回戦③ 駆流美 VS 龍一郎",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A07"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A01",
+                  "ratio": 0.6
+                }
+              },
+              {
+                "turn_at_least": 3
+              }
+            ]
+          },
+          "block": "EP23_T_STORM",
+          "actions": [
+            {
+              "awaken": {
+                "A01": [
+                  "嵐"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "EP23_B4": {
+      "episode": 23,
+      "name": "2回戦④ 愛純 VS 疾風",
+      "party": [
+        "A11"
+      ],
+      "opponents": [
+        {
+          "character": "A04"
+        }
+      ]
+    },
+    "EP24_B1": {
+      "episode": 24,
+      "name": "準決勝① 咲 VS 優輝",
+      "party": [
+        "A15"
+      ],
+      "opponents": [
+        {
+          "character": "A05"
+        }
+      ]
+    },
+    "EP24_B2": {
+      "episode": 24,
+      "name": "準決勝② 龍一郎 VS 愛純",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A11"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "any": [
+              {
+                "hp_below": {
+                  "unit": "A01",
+                  "ratio": 0.5
+                }
+              },
+              {
+                "turn_at_least": 3
+              }
+            ]
+          },
+          "block": "EP24_T_AFFINITY",
+          "actions": [
+            {
+              "affinity": {
+                "A01": 20
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "EP24_B3": {
+      "episode": 24,
+      "name": "決勝 優輝 VS 龍一郎",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "A15"
+        }
+      ],
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP24_T_FINAL",
+          "actions": [
+            {
+              "release_guardian": "A15"
+            },
+            {
+              "release_guardian": "A01"
+            }
+          ]
+        }
+      ]
+    },
+    "EP25_B1": {
+      "episode": 25,
+      "name": "第1戦 将真 VS 鮫島",
+      "party": [
+        "A14"
+      ],
+      "opponents": [
+        {
+          "character": "B09"
+        }
+      ],
+      "exchange": {
+        "a": "A14",
+        "b": "B09"
+      },
+      "story_result": "win"
+    },
+    "EP25_B2": {
+      "episode": 25,
+      "name": "第2戦 茜 VS 駿平",
+      "party": [
+        "A12"
+      ],
+      "opponents": [
+        {
+          "character": "B14",
+          "min_hp_ratio": 0.3
+        }
+      ],
+      "exchange": {
+        "a": "A12",
+        "b": "B14"
+      },
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4
+    },
+    "EP25_B3": {
+      "episode": 25,
+      "name": "第3戦 剛毅 VS 岩倉",
+      "party": [
+        "A03"
+      ],
+      "opponents": [
+        {
+          "character": "B11",
+          "min_hp_ratio": 0.3
+        }
+      ],
+      "exchange": {
+        "a": "A03",
+        "b": "B11"
+      },
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4
+    },
+    "EP25_B4": {
+      "episode": 25,
+      "name": "第4戦 優輝 VS 九条",
+      "party": [
+        "A15"
+      ],
+      "opponents": [
+        {
+          "character": "B02",
+          "min_hp_ratio": 0.3
+        }
+      ],
+      "exchange": {
+        "a": "A15",
+        "b": "B02"
+      },
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4
+    },
+    "EP25_B5": {
+      "episode": 25,
+      "name": "第5戦 実幸 VS 押上",
+      "party": [
+        "A02"
+      ],
+      "opponents": [
+        {
+          "character": "B05"
+        }
+      ],
+      "exchange": {
+        "a": "A02",
+        "b": "B05"
+      },
+      "story_result": "win"
+    },
+    "EP25_B6": {
+      "episode": 25,
+      "name": "第6戦 大地 VS 天羽",
+      "party": [
+        "A09"
+      ],
+      "opponents": [
+        {
+          "character": "B10",
+          "min_hp_ratio": 0.3
+        }
+      ],
+      "exchange": {
+        "a": "A09",
+        "b": "B10"
+      },
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4
+    },
+    "EP25_B7": {
+      "episode": 25,
+      "name": "第7戦 神楽 VS 暁月",
+      "party": [
+        "A08"
+      ],
+      "opponents": [
+        {
+          "character": "B13"
+        }
+      ],
+      "exchange": {
+        "a": "A08",
+        "b": "B13"
+      },
+      "story_result": "win"
+    },
+    "EP26_B1": {
+      "episode": 26,
+      "name": "第8戦 駆流美 VS 鷹宮",
+      "party": [
+        "A07"
+      ],
+      "opponents": [
+        {
+          "character": "B07",
+          "min_hp_ratio": 0.3
+        }
+      ],
+      "exchange": {
+        "a": "A07",
+        "b": "B07"
+      },
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4
+    },
+    "EP26_B2": {
+      "episode": 26,
+      "name": "第9戦 咲 VS 綾瀬",
+      "party": [
+        "A05"
+      ],
+      "opponents": [
+        {
+          "character": "B04",
+          "min_hp_ratio": 0.3
+        }
+      ],
+      "exchange": {
+        "a": "A05",
+        "b": "B04"
+      },
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4
+    },
+    "EP26_B3": {
+      "episode": 26,
+      "name": "第10戦 疾風 VS 月城",
+      "party": [
+        "A04"
+      ],
+      "opponents": [
+        {
+          "character": "B06"
+        }
+      ],
+      "exchange": {
+        "a": "A04",
+        "b": "B06"
+      },
+      "story_result": "win"
+    },
+    "EP26_B4": {
+      "episode": 26,
+      "name": "第11戦 長太郎 VS 獅子堂",
+      "party": [
+        "A10"
+      ],
+      "opponents": [
+        {
+          "character": "B15"
+        }
+      ],
+      "exchange": {
+        "a": "A10",
+        "b": "B15"
+      },
+      "story_result": "win"
+    },
+    "EP26_B5": {
+      "episode": 26,
+      "name": "第12戦 孝輔 VS 葛城",
+      "party": [
+        "A13"
+      ],
+      "opponents": [
+        {
+          "character": "B08",
+          "min_hp_ratio": 0.3
+        }
+      ],
+      "exchange": {
+        "a": "A13",
+        "b": "B08"
+      },
+      "result_mode": "scripted",
+      "story_result": "lose",
+      "end_after_turns": 4
+    },
+    "EP26_B6": {
+      "episode": 26,
+      "name": "第13戦 麗華 VS 藤堂",
+      "party": [
+        "A06"
+      ],
+      "opponents": [
+        {
+          "character": "B12"
+        }
+      ],
+      "exchange": {
+        "a": "A06",
+        "b": "B12"
+      },
+      "story_result": "win"
+    },
+    "EP26_B7": {
+      "episode": 26,
+      "name": "第14戦 愛純 VS 神代",
+      "party": [
+        "A11"
+      ],
+      "opponents": [
+        {
+          "character": "B03"
+        }
+      ],
+      "exchange": {
+        "a": "A11",
+        "b": "B03"
+      },
+      "story_result": "win"
+    },
+    "EP27_B1": {
+      "episode": 27,
+      "name": "最終戦 黒龍 VS 白龍",
+      "party": [
+        "A01"
+      ],
+      "opponents": [
+        {
+          "character": "B01",
+          "min_hp_ratio": 0.15
+        }
+      ],
+      "exchange": {
+        "a": "A01",
+        "b": "B01"
+      },
+      "result_mode": "scripted",
+      "story_result": "draw",
+      "end_after_turns": 5,
+      "triggers": [
+        {
+          "id": "T1",
+          "when": {
+            "turn_at_least": 2
+          },
+          "block": "EP27_T_DRAGONS",
+          "actions": [
+            {
+              "release_guardian": "A01"
+            },
+            {
+              "release_guardian": "B01"
+            }
+          ]
+        },
+        {
+          "id": "T2",
+          "requires": [
+            "T1"
+          ],
+          "when": {
+            "turn_at_least": 4
+          },
+          "block": "EP27_T_CLASH",
+          "actions": [
+            {
+              "end_battle": "draw"
+            }
+          ]
+        }
+      ]
+    },
+    "EP30_B1": {
+      "episode": 30,
+      "name": "謎の悪魔兵",
+      "party": "current",
+      "opponents": [
+        {
+          "enemy": "ENE_MYSTERY_DEMON_SOLDIER"
+        },
+        {
+          "enemy": "ENE_MYSTERY_DEMON_SOLDIER"
+        },
+        {
+          "enemy": "ENE_MYSTERY_DEMON_SOLDIER"
+        }
+      ]
+    }
+  }
+}

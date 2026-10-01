@@ -4,7 +4,7 @@
 // 原本の scripts/validate_*.py と同等以上の検査を Node で行う（この環境に Python がないため）。
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadRawData, ROOT, readProjectFile } from './lib/load-raw.mjs';
+import { loadRawData, loadScriptSources, ROOT, readProjectFile } from './lib/load-raw.mjs';
 import { validateData } from '../game/src/data/validate.js';
 import { STAT_KEYS } from '../game/src/core/constants.js';
 
@@ -61,7 +61,7 @@ function main() {
   const raw = loadRawData();
   const lockPath = path.join(ROOT, 'tools', 'canon', 'canon_lock.json');
   const lock = fs.existsSync(lockPath) ? JSON.parse(fs.readFileSync(lockPath, 'utf8')) : undefined;
-  const result = validateData(raw, { lock, hashes: raw.hashes });
+  const result = validateData(raw, { lock, hashes: raw.hashes, scriptSources: loadScriptSources() });
   const mdWarnings = checkMarkdown(raw.canon);
 
   for (const e of raw.parseErrors) result.errors.unshift(e);

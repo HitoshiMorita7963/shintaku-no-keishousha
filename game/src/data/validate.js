@@ -9,6 +9,7 @@ import {
 } from '../core/constants.js';
 import { lerpLevel } from '../core/util.js';
 import { resolveEffectText } from './effectText.js';
+import { validateScenario } from '../story/validateScenario.js';
 
 const UNFILLED = (v) => v === null || v === undefined || v === '未確定' || (Array.isArray(v) && v.length === 0);
 const pad2 = (n) => String(n).padStart(2, '0');
@@ -20,8 +21,8 @@ export const EXPECTED_CHARACTER_IDS = Object.freeze([
 ]);
 
 /**
- * @param {{canon: Record<string, Record<string, any>>, provisional: Record<string, any>, confirmed?: Record<string, any>}} raw
- * @param {{lock?: any, hashes?: Record<string,string>}} [opts]
+ * @param {{canon: Record<string, Record<string, any>>, provisional: Record<string, any>, confirmed?: Record<string, any>, scenario?: any}} raw
+ * @param {{lock?: any, hashes?: Record<string,string>, scriptSources?: Record<string,string>}} [opts]
  */
 export function validateData(raw, opts = {}) {
   /** @type {string[]} */ const errors = [];
@@ -293,7 +294,7 @@ export function validateData(raw, opts = {}) {
   // ---- エンカウント ----
   for (const enc of prov.encounters?.encounters ?? []) {
     if (enc.map_id && !maps[enc.map_id]) err(`エンカウント ${enc.id}: 存在しないマップ ${enc.map_id}`);
-    for (const e of enc.enemies) if (!enemies[e.enemy_id]) err(`エンカウント ${enc.id}: 存在しない敵 ${e.enemy_id}`);
+    for (const e of enc.enemies) if (!enemies[e.enemy_id] && !raw.scenario?.json?.enemies?.enemies?.[e.enemy_id]) err(`エンカウント ${enc.id}: 存在しない敵 ${e.enemy_id}`);
   }
   for (const [iid] of Object.entries(prov.progression?.starting_inventory ?? {})) {
     if (!items[iid]) err(`progression: 存在しないアイテム ${iid}`);
@@ -336,6 +337,14 @@ export function validateData(raw, opts = {}) {
     if (t.A !== 7 || t.B !== 7 || t.DRAW !== 1) err('B組交流戦: 確定結果（A7勝・B7勝・1分）と不一致');
     const draw = ex.matches.find((m) => m.winner === 'DRAW');
     if (!draw || draw.a !== 'A01' || draw.b !== 'B01') err('B組交流戦: 龍一郎vs龍之介の引き分けが記録されていません');
+  }
+
+  // ---- シナリオ（ユーザー提供の正式台本） ----
+  if (raw.scenario) {
+    const s = validateScenario(raw.scenario, raw, { scriptSources: opts.scriptSources });
+    errors.push(...s.errors);
+    warnings.push(...s.warnings);
+    Object.assign(info, s.info);
   }
 
   // ---- 原本ロックとの比較（改変検知） ----
