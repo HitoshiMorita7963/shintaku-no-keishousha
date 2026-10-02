@@ -9,7 +9,7 @@ const GAME = path.join(ROOT, 'game');
 const PORT = Number(process.env.PORT ?? 5173);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml' };
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   const url = decodeURIComponent((req.url ?? '/').split('?')[0]);
   const file = path.normalize(path.join(GAME, url.endsWith('/') ? url + 'index.html' : url));
   if (!file.startsWith(GAME)) { res.writeHead(403).end(); return; }
@@ -18,4 +18,16 @@ http.createServer((req, res) => {
     res.writeHead(200, { 'content-type': TYPES[/** @type {keyof typeof TYPES} */ (path.extname(file))] ?? 'application/octet-stream', 'cache-control': 'no-cache' });
     res.end(buf);
   });
-}).listen(PORT, () => console.log(`神官養成学園: http://localhost:${PORT}/`));
+});
+server.on('error', (e) => {
+  if (/** @type {any} */ (e).code === 'EADDRINUSE') {
+    // すでに起動中（2回目のダブルクリックなど）。新しく起動せず、ブラウザだけ開けばよい
+    console.log(`ポート${PORT}はすでに使われています。起動済みのゲームを開いてください： http://localhost:${PORT}/`);
+    process.exit(0);
+  }
+  throw e;
+});
+server.listen(PORT, () => {
+  console.log(`神官養成学園: http://localhost:${PORT}/`);
+  console.log('（この画面を閉じるとゲームも終了します）');
+});

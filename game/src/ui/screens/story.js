@@ -6,7 +6,11 @@ import { CHAPTER2_EPISODE_COUNT } from '../../core/constants.js';
 import { StoryRunner } from '../../story/runner.js';
 import { battleScreen } from './battle.js';
 import { sortieScreen } from './sortie.js';
+import { autoSave } from '../saveStore.js';
+import { chooseScenery, renderScenery } from '../scenery.js';
 import { hubScreen } from './hub.js';
+import { loadFieldMap } from '../../field/fieldMap.js';
+import { createFieldView } from '../fieldView.js';
 
 /** @typedef {import('../../story/runner.js').StoryItem} StoryItem */
 
@@ -19,6 +23,7 @@ const TYPE_MS = 22;
 export function startEpisode(app) {
   const gs = app.gs;
   app.storySnapshot = clone(gs); // 中断時に話の開始時点へ戻すため
+  autoSave(app); // 話の開始時点をオートセーブ（途中でやめても、この話の最初から再開できる）
   app.runner = new StoryRunner(app.data, gs, gs.story.chapter, gs.story.episode);
   app.go(storyScreen);
 }
@@ -41,6 +46,7 @@ export function storyScreen(app, root) {
   /** @type {string[]} */ const log = app.storyLog ?? (app.storyLog = []);
   /** @type {(() => void) | null} */ let onAdvance = null;
   /** @type {ReturnType<typeof setTimeout> | null} */ let autoTimer = null;
+  /** @type {{destroy: () => void} | null} */ let activeField = null;
 
   // ---------- DOM ----------
   const epLabel = h('span', { class: 'ep-label', text: `第${runner.chapter}章 第${runner.episode}話「${runner.title}」` });
@@ -48,7 +54,9 @@ export function storyScreen(app, root) {
   const autoBtn = h('button', { class: 'btn btn-small btn-ghost', text: 'オート', 'aria-pressed': 'false', onclick: () => toggleAuto() });
   const stageLoc = h('div', { class: 'stage-loc', text: '' });
   const choiceArea = h('div', { class: 'choice-area' });
-  const stage = h('div', { class: 'stage' }, stageLoc, choiceArea);
+  const sceneryEl = h('div', { class: 'scenery', 'aria-hidden': 'true' });
+  const fieldHost = h('div', { class: 'field-host' });
+  const stage = h('div', { class: 'stage' }, sceneryEl, stageLoc, fieldHost, choiceArea);
   const nameEl = h('div', { class: 'dlg-name', text: '' });
   const textEl = h('div', { class: 'dlg-text', text: '' });
   const nextEl = h('div', { class: 'dlg-next', 'aria-hidden': 'true', text: '▼' });
@@ -151,8 +159,68 @@ export function storyScreen(app, root) {
     setTimeout(() => { fxLayer.className = 'fx-layer'; resolve(undefined); }, 700);
   });
 
+  /** 操作説明・目的をメッセージ欄に出す（フィールド歩行中） @param {string} text */
+  const fieldPrompt = (text) => {
+    onAdvance = null;
+    dialog.dataset.kind = 'sys';
+    dialog.dataset.side = '';
+    nameEl.hidden = true;
+    textEl.textContent = text;
+    nextEl.hidden = true;
+  };
+
+  /**
+   * フィールドを歩かせる。handler が finish() を呼ぶまで続く
+   * @param {string} mapId
+   * @param {(obj: import('../../field/fieldMap.js').FieldObject, how: 'action'|'step', finish: () => void) => Promise<void> | void} handler
+   */
+  const runField = (mapId, handler) => new Promise((resolve) => {
+    const map = loadFieldMap(data.scenario.fieldMaps, mapId);
+    stage.classList.add('is-field');
+    let ended = false;
+    const finish = () => {
+      if (ended) return;
+      ended = true;
+      view.destroy();
+      activeField = null;
+      stage.classList.remove('is-field');
+      resolve(undefined);
+    };
+    const view = createFieldView(fieldHost, { data, map, playerId: 'A01', onInteract: (obj, how) => handler(obj, how, finish) });
+    activeField = view;
+  });
+
+  /** 場所名だけを表示（台本に台詞がない場所） @param {string} label */
+  const placeLine = (label) => showLine({ text: `【${label}】`, kind: 'sys' });
+
   /** @param {Extract<StoryItem, {type:'explore'}>} item */
-  const explore = (item) => new Promise((resolve) => {
+  const exploreOnMap = async (item) => {
+    const prompt = `${item.prompt}：歩いて調べよう（「${item.exit}」で次へ）`;
+    fieldPrompt(prompt);
+    await runField(item.map, async (obj, _how, finish) => {
+      if (obj.label === item.exit) { finish(); return; }
+      const opt = item.options.find((o) => o.label === obj.label);
+      if (opt?.lines.length) for (const l of opt.lines) await present(l);
+      else await placeLine(obj.label);
+      fieldPrompt(prompt);
+    });
+  };
+
+  /** @param {Extract<StoryItem, {type:'walk'}>} item */
+  const walk = async (item) => {
+    const map = loadFieldMap(data.scenario.fieldMaps, item.map);
+    const goal = map.objects.find((o) => o.goal);
+    const prompt = `目的地：${goal?.label ?? ''}`;
+    fieldPrompt(prompt);
+    await runField(item.map, async (obj, _how, finish) => {
+      if (obj.goal) { finish(); return; }
+      await placeLine(obj.label);
+      fieldPrompt(prompt);
+    });
+  };
+
+  /** @param {Extract<StoryItem, {type:'explore'}>} item */
+  const explore = (item) => (item.map ? exploreOnMap(item) : new Promise((resolve) => {
     /** @type {Set<string>} */ const seen = new Set();
     const menu = () => {
       onAdvance = null;
@@ -171,7 +239,7 @@ export function storyScreen(app, root) {
       /** @type {HTMLButtonElement|null} */ (choiceArea.querySelector('button'))?.focus();
     };
     menu();
-  });
+  }));
 
   /** 1単位を表示 @param {StoryItem} item */
   const present = async (item) => {
@@ -185,6 +253,8 @@ export function storyScreen(app, root) {
         return;
       case 'scene':
         runner.lastScene = item;
+        runner.scenery = chooseScenery(data.scenario.backgrounds, item, runner.peekTexts(4), runner.scenery);
+        renderScenery(sceneryEl, runner.scenery);
         sceneLabel.textContent = `${item.id}　${item.title}`;
         if (item.location) stageLoc.textContent = item.location;
         stage.classList.remove('stage-in');
@@ -208,6 +278,8 @@ export function storyScreen(app, root) {
         return playFx(item.kind);
       case 'explore':
         return explore(item);
+      case 'walk':
+        return walk(item);
       default:
     }
   };
@@ -242,6 +314,7 @@ export function storyScreen(app, root) {
   };
 
   // 戦闘から戻ったときは直前のシーン表示を復元
+  if (runner.scenery) renderScenery(sceneryEl, runner.scenery);
   if (runner.lastScene) {
     sceneLabel.textContent = `${runner.lastScene.id}　${runner.lastScene.title}`;
     if (runner.lastScene.location) stageLoc.textContent = runner.lastScene.location;
@@ -296,6 +369,7 @@ export function storyScreen(app, root) {
 
   return () => {
     aborted = true;
+    activeField?.destroy();
     if (autoTimer) clearTimeout(autoTimer);
     document.removeEventListener('keydown', onKey);
   };

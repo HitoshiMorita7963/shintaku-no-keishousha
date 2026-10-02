@@ -1,6 +1,7 @@
 // シナリオ（data/scenario）の整合性チェック。validate.js から呼ばれる。
 import { compileScenario } from './compile.js';
 import { normalizeForMatch } from './scn.js';
+import { checkFieldMap } from '../field/fieldMap.js';
 import { UPPER_ATTRIBUTE_OF, B_CLASS_PLAYABLE_EPISODES, CHAPTER2_EPISODE_COUNT } from '../core/constants.js';
 
 const RESULT_MODES = ['must_win', 'any', 'scripted'];
@@ -30,6 +31,13 @@ export function validateScenario(rawScenario, raw, opts = {}) {
     if (s.kind === 'guardian' && !canon.guardians?.[s.ref]) errors.push(`speakers.json: ${label} → 存在しない守護獣 ${s.ref}`);
     if (s.kind === 'enemy' && !enemyIds.has(s.ref)) errors.push(`speakers.json: ${label} → 存在しない敵 ${s.ref}`);
   }
+
+  // ---- フィールドマップ ----
+  for (const [id, def] of Object.entries(sc.fieldMaps)) {
+    errors.push(...checkFieldMap(id, def));
+    for (const o of def.objects ?? []) if (o.npc && !chars[o.npc]) errors.push(`fieldmaps.json ${id}: ${o.label} → 存在しないキャラ ${o.npc}`);
+  }
+  info.field_maps = Object.keys(sc.fieldMaps).length;
 
   // ---- 台本原文との照合用 ----
   /** @type {Record<string, string>} */ const normSources = {};
@@ -66,7 +74,19 @@ export function validateScenario(rawScenario, raw, opts = {}) {
       /** @param {any[]} steps */
       const walk = (steps) => {
         for (const st of steps) {
-          if (st.t === 'explore') { for (const o of st.options) walk(o.steps); continue; }
+          if (st.t === 'explore') {
+            if (st.map) {
+              const m = sc.fieldMaps[st.map];
+              if (!m) errors.push(`${where(st.line)}: マップ ${st.map} が fieldmaps.json にありません`);
+              else {
+                const labels = new Set((m.objects ?? []).map((/** @type {any} */ o) => o.label));
+                for (const o of st.options) if (!labels.has(o.label)) errors.push(`${where(st.line)}: 選択肢「${o.label}」がマップ ${st.map} にありません`);
+                if (!labels.has(st.exit)) errors.push(`${where(st.line)}: 終了「${st.exit}」がマップ ${st.map} にありません`);
+              }
+            }
+            for (const o of st.options) walk(o.steps);
+            continue;
+          }
           if (st.t === 'say' || st.t === 'act') {
             if (!sc.speakers.has(st.who)) errors.push(`${where(st.line)}: 未登録の話者「${st.who}」（data/scenario/speakers.json）`);
           }
@@ -120,6 +140,12 @@ export function validateScenario(rawScenario, raw, opts = {}) {
               if (a[0] !== 'joined' && !chars[a[0]]) errors.push(`${where(st.line)}: 対象 ${a[0]} が不正`);
               if (!/^[+-]\d+$/.test(a[1] ?? '')) errors.push(`${where(st.line)}: 増減値は +n / -n`);
               break;
+            case 'walk': {
+              const m = sc.fieldMaps[a[0]];
+              if (!m) errors.push(`${where(st.line)}: マップ ${a[0]} が fieldmaps.json にありません`);
+              else if (!(m.objects ?? []).some((/** @type {any} */ o) => o.goal)) errors.push(`${where(st.line)}: マップ ${a[0]} に goal がありません`);
+              break;
+            }
             case 'call':
               if (!ep.blocks[a[0]]) errors.push(`${where(st.line)}: ブロック ${a[0]} がありません`);
               break;

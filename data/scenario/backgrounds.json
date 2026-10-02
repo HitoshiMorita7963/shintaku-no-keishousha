@@ -1,0 +1,34 @@
+{
+  "_status": "provisional",
+  "_note": "ストーリー画面の背景。シーンの場所（@ 以降）とタイトルから背景テーマを、シーンのタイトルと冒頭の地の文から時間帯を決める。上から順に最初に一致したものを使う。場所が書かれていないシーンは直前の背景を引き継ぐ。背景の絵柄は game/src/ui/scenery.js（画像ファイルなし・コードで描画）。",
+  "themes": ["room", "town", "academy", "courtyard", "classroom", "hallway", "training", "forest", "beach", "rocks", "festival", "arena", "rooftop", "office", "infirmary", "auditorium", "shrine", "darkness", "road"],
+  "location_rules": [
+    { "match": ["暗闇", "遠く離れ"], "theme": "darkness" },
+    { "match": ["自宅", "黒馬家", "控室"], "theme": "room" },
+    { "match": ["寮前"], "theme": "courtyard" },
+    { "match": ["寮"], "theme": "room" },
+    { "match": ["街道", "街中", "学園を離れる道"], "theme": "town" },
+    { "match": ["教室"], "theme": "classroom" },
+    { "match": ["廊下", "西校舎"], "theme": "hallway" },
+    { "match": ["樹海", "森"], "theme": "forest" },
+    { "match": ["海岸"], "theme": "beach" },
+    { "match": ["岩場"], "theme": "rocks" },
+    { "match": ["学園祭", "祭"], "theme": "festival" },
+    { "match": ["闘技場"], "theme": "arena" },
+    { "match": ["屋上"], "theme": "rooftop" },
+    { "match": ["校長室", "副校長室", "研究室"], "theme": "office" },
+    { "match": ["保健室"], "theme": "infirmary" },
+    { "match": ["講堂"], "theme": "auditorium" },
+    { "match": ["神殿"], "theme": "shrine" },
+    { "match": ["訓練場", "修行場"], "theme": "training" },
+    { "match": ["校庭", "中庭", "中央広場", "校門"], "theme": "courtyard" },
+    { "match": ["学園"], "theme": "academy" }
+  ],
+  "time_rules": [
+    { "match": ["早朝", "翌朝", "朝"], "time": "morning" },
+    { "match": ["夕方", "夕暮れ", "放課後"], "time": "evening" },
+    { "match": ["深夜", "その夜", "夜"], "time": "night" },
+    { "match": ["昼休み", "午後", "昼"], "time": "day" }
+  ],
+  "default": { "theme": "academy", "time": "day" }
+}
