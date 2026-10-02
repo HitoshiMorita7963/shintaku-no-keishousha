@@ -59,24 +59,3 @@ export function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-/**
- * パネル内のボタンを矢印キーで移動できるようにする（PC操作用）
- * @param {HTMLElement} panel
- */
-export function enableArrowNav(panel) {
-  panel.addEventListener('keydown', (e) => {
-    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
-    const btns = /** @type {HTMLButtonElement[]} */ ([...panel.querySelectorAll('button:not([disabled])')]);
-    if (!btns.length) return;
-    const i = btns.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
-    const cols = Number(panel.dataset.cols ?? 1);
-    let j = i;
-    if (e.key === 'ArrowRight') j = i + 1;
-    if (e.key === 'ArrowLeft') j = i - 1;
-    if (e.key === 'ArrowDown') j = i + cols;
-    if (e.key === 'ArrowUp') j = i - cols;
-    j = (j + btns.length) % btns.length;
-    btns[j].focus();
-    e.preventDefault();
-  });
-}

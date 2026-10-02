@@ -2,6 +2,7 @@
 import { GameData } from './data/gameData.js';
 import { App } from './ui/app.js';
 import { titleScreen } from './ui/screens/title.js';
+import { installKeyNav } from './ui/keynav.js';
 
 function boot() {
   const root = /** @type {HTMLElement} */ (document.getElementById('app'));
@@ -16,6 +17,7 @@ function boot() {
     const data = new GameData(bundle);
     app = new App(root, data, bundle.meta);
     /** @type {any} */ (window).__app = app; // デバッグ用
+    installKeyNav(root); // 十字キー＋Enterで全画面を操作
     app.go(titleScreen);
   } catch (e) {
     if (app) app.fatal(e);

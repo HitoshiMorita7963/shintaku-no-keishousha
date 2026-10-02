@@ -103,6 +103,7 @@ function drawPerson(g, x, y, dir, frame, col) {
  * @param {FieldMap} o.map
  * @param {string} o.playerId 操作するキャラクター（見た目）
  * @param {(obj: FieldObject, how: 'action'|'step') => (Promise<void> | void)} o.onInteract
+ * @param {() => (Promise<void> | void)} [o.onMenu] 目の前に何もないときに決定キー（ドラクエのコマンド窓）
  * @param {{x:number, y:number, dir: Dir}} [o.start]
  */
 export function createFieldView(container, o) {
@@ -130,12 +131,14 @@ export function createFieldView(container, o) {
 
   setTimeout(() => banner.classList.add('fade'), 1600);
 
-  const interact = async (/** @type {FieldObject} */ obj, /** @type {'action'|'step'} */ how) => {
+  /** 操作を止めて処理を待つ @param {() => (Promise<void> | void)} fn */
+  const suspend = async (fn) => {
     paused = true;
     held.length = 0;
     // 会話を閉じた同じキー入力で再び「調べる」が起きないよう、再開は次のタスクで行う
-    try { await o.onInteract(obj, how); } finally { setTimeout(() => { paused = false; }, 0); }
+    try { await fn(); } finally { setTimeout(() => { paused = false; }, 0); }
   };
+  const interact = (/** @type {FieldObject} */ obj, /** @type {'action'|'step'} */ how) => suspend(() => o.onInteract(obj, how));
 
   const tryMove = (/** @type {Dir} */ dir) => {
     st.dir = dir;
@@ -153,6 +156,7 @@ export function createFieldView(container, o) {
     if (paused || st.moving) return;
     const obj = map.facing(st.x, st.y, st.dir);
     if (obj) interact(obj, 'action');
+    else if (o.onMenu) suspend(o.onMenu);
   };
 
   // ---- 入力 ----
@@ -191,7 +195,10 @@ export function createFieldView(container, o) {
       p = Math.min(1, (now - st.moveAt) / STEP_MS);
       if (p >= 1) { st.moving = false; }
     }
-    if (!st.moving && !paused && held.length) tryMove(held[held.length - 1]);
+    if (!st.moving && !paused && held.length) {
+      tryMove(held[held.length - 1]);
+      if (st.moving) p = 0; // 次の1歩の開始位置から描く（前の歩の進み具合 p=1 を使うと1マス先に一瞬表示され、分身のように見える）
+    }
     const px = (st.moving ? st.fromX + (st.x - st.fromX) * p : st.x) * T;
     const py = (st.moving ? st.fromY + (st.y - st.fromY) * p : st.y) * T;
     // 表示倍率（スマホでも横に約11マス見える）
