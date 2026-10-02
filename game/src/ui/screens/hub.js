@@ -1,4 +1,4 @@
-// 学園（拠点）。ストーリーモードでは次の話へ進む入口、訓練モードでは Phase 1 の訓練戦メニュー。
+// 学園（拠点）。ストーリーモードでは学園マップ（academy.js）を歩く。メニュー形式の学園はこのファイル（訓練モード・ストーリーの「メニュー」）。
 import { h, gauge } from '../dom.js';
 import { restAll, maxResources } from '../../model/gameState.js';
 import { charSelectScreen } from './charSelect.js';
@@ -8,9 +8,19 @@ import { devScreen } from './dev.js';
 import { validationScreen } from './validation.js';
 import { titleScreen } from './title.js';
 import { startEpisode, chapterEndText } from './story.js';
+import { saveLoadScreen } from './saveLoad.js';
+import { autoSave } from '../saveStore.js';
+import { academyScreen } from './academy.js';
 
-/** @type {import('../app.js').Screen} */
+/** 学園へ戻る（ストーリー：学園マップ／訓練モード：メニュー） @type {import('../app.js').Screen} */
 export function hubScreen(app, root, notice = '') {
+  autoSave(app); // 学園に戻るたびにオートセーブ
+  if (app.gs.mode === 'story') return academyScreen(app, root, notice);
+  return hubMenuScreen(app, root, notice);
+}
+
+/** メニュー形式の学園 @type {import('../app.js').Screen} */
+export function hubMenuScreen(app, root, notice = '') {
   const { data } = app;
   const gs = app.gs;
   const story = gs.mode === 'story';
@@ -51,7 +61,8 @@ export function hubScreen(app, root, notice = '') {
   root.append(
     h('div', { class: 'screen' },
       h('header', { class: 'screen-head' },
-        h('h1', { text: story ? '神官養成学園' : '神官養成学園 ― 訓練モード' }),
+        h('h1', { text: story ? '神官養成学園 ― メニュー' : '神官養成学園 ― 訓練モード' }),
+        story ? h('button', { class: 'btn btn-primary', text: '学園マップへ戻る', onclick: () => app.go(hubScreen) }) : null,
         notice ? h('p', { class: 'notice', text: notice }) : null,
       ),
       storySection,
@@ -65,6 +76,7 @@ export function hubScreen(app, root, notice = '') {
         ),
         h('section', { class: 'window menu', 'data-cols': '1' },
           h('h2', { text: '学園' }),
+          h('button', { class: 'btn btn-menu', text: 'セーブ', onclick: () => app.go(saveLoadScreen, 'save') }),
           h('button', { class: 'btn btn-menu', text: 'ステータス', onclick: () => app.go(statusScreen) }),
           h('button', { class: 'btn btn-menu', text: 'パーティ編成', onclick: () => app.go(charSelectScreen) }),
           story && flag('INFIRMARY_UNLOCKED')

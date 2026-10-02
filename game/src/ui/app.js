@@ -31,6 +31,8 @@ export class App {
     this.lastSortie = null;
     /** 戦闘でのおまかせ（味方の行動を自動で選ぶ） */
     this.autoBattle = false;
+    /** 学園マップでの位置（施設から戻ったときに復元） @type {{x:number, y:number, dir:'up'|'down'|'left'|'right'} | null} */
+    this.academyPos = null;
   }
 
   /** 現在のゲーム状態（ニューゲーム前に呼ぶとエラー） */

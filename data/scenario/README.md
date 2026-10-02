@@ -33,6 +33,8 @@
 [title 第2章「学園生活編」本格開始]        ← タイトルカード
 [fx 暗転]                                 ← 画面演出（暗転・白転・暗く）
 [explore 調べる] ? ベッド … [/explore 家を出る]   ← 調べる場所の選択肢
+[explore 調べる @ROOM_KUROMA] …                 ← マップを歩いて調べる（選択肢名・終了ラベル＝fieldmaps.json のオブジェクト名）
+[walk FIELD_HOME]                              ← マップを歩かせる（goal に着くと次へ）
 @block EP06_T1 … @end                     ← 戦闘中イベントの台詞（ch2_battles.json の triggers から参照）
 ```
 

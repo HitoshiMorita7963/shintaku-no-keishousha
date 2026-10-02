@@ -15,7 +15,7 @@ export function compileScenario(raw) {
   /** @type {string[]} */ const errors = [];
   /** @type {Record<number, Record<number, ReturnType<typeof parseScn>['scenario'] & {file:string}>>} */
   const chapters = {};
-  if (!raw) return { chapters, battles: {}, speakers: new Map(), enemies: {}, corrections: [], errors };
+  if (!raw) return { chapters, battles: {}, speakers: new Map(), enemies: {}, corrections: [], backgrounds: null, fieldMaps: /** @type {Record<string, any>} */ ({}), errors };
 
   for (const [folder, files] of Object.entries(raw.scn ?? {})) {
     const m = /^ch(\d+)$/.exec(folder);
@@ -62,6 +62,8 @@ export function compileScenario(raw) {
     speakers,
     enemies: raw.json?.enemies?.enemies ?? {},
     corrections: raw.json?.text_corrections?.replacements ?? [],
+    backgrounds: raw.json?.backgrounds ?? null,
+    fieldMaps: /** @type {Record<string, any>} */ (raw.json?.fieldmaps?.maps ?? {}),
     errors,
   };
 }

@@ -11,7 +11,8 @@ import { joinCharacter, awakenUpper, setGrowth } from '../model/gameState.js';
  *  | {type:'unlock', items:string[]}
  *  | {type:'title', text:string}
  *  | {type:'fx', kind:string}
- *  | {type:'explore', prompt:string, options:{label:string, lines:StoryItem[]}[], exit:string}
+ *  | {type:'explore', prompt:string, map:string, options:{label:string, lines:StoryItem[]}[], exit:string}
+ *  | {type:'walk', map:string}
  *  | {type:'battle', id:string}
  *  | {type:'episode_end', chapter:number, episode:number, title:string}} StoryItem
  */
@@ -63,6 +64,22 @@ export class StoryRunner {
     this.done = false;
     /** 直前に表示したシーン（戦闘から戻ったときの表示復元用） @type {Extract<StoryItem, {type:'scene'}> | null} */
     this.lastScene = null;
+    /** 現在の背景（scenery.js） @type {{theme:string, time:string} | null} */
+    this.scenery = null;
+  }
+
+  /**
+   * これから表示される地の文を先読みする（背景の時間帯判定用。状態は変えない）
+   * @param {number} n
+   */
+  peekTexts(n) {
+    /** @type {string[]} */ const out = [];
+    for (let i = this.pos; i < this.items.length && out.length < n; i++) {
+      const st = this.items[i];
+      if (st.t === 'scene') break;
+      if (st.t === 'narr') out.push(st.text);
+    }
+    return out;
   }
 
   get title() { return this.ep.title; }
@@ -95,7 +112,7 @@ export class StoryRunner {
       case 'say': case 'act': case 'narr': case 'sys': return lineOf(st);
       case 'explore':
         return {
-          type: 'explore', prompt: st.prompt, exit: st.exit,
+          type: 'explore', prompt: st.prompt, exit: st.exit, map: st.map ?? '',
           options: st.options.map((/** @type {any} */ o) => ({ label: o.label, lines: o.steps.filter((/** @type {any} */ s) => s.t !== 'dir').map(lineOf) })),
         };
       case 'dir': return applyDirective(this.data, this.state, st);
@@ -159,6 +176,7 @@ export function applyDirective(data, state, st) {
     case 'unlock': return { type: 'unlock', items: a.join(' ').split('、') };
     case 'title': return { type: 'title', text: a.join(' ') };
     case 'fx': return { type: 'fx', kind: a[0] ?? '' };
+    case 'walk': return { type: 'walk', map: a[0] };
     default: throw new GameDataError(`未対応のディレクティブ [${st.name}]`);
   }
 }

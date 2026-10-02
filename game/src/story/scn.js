@@ -11,7 +11,7 @@
 //   ■ システムメッセージ
 //   [battle EP06_B1]                           … ゲーム処理（下記 DIRECTIVES）
 //   [explore 調べる]  ? 選択肢  …  [/explore 家を出る]
-//   @block ID … @end                           … 戦闘中イベント等から参照される台詞ブロック
+//   [explore 調べる @ROOM_KUROMA]               … マップを歩いて調べる（選択肢名・終了ラベル＝マップ上のオブジェクト名）//   @block ID … @end                           … 戦闘中イベント等から参照される台詞ブロック
 
 /** 使用できるディレクティブ名と引数の説明（検証・ドキュメント用） */
 export const DIRECTIVES = Object.freeze({
@@ -26,6 +26,7 @@ export const DIRECTIVES = Object.freeze({
   title: 'タイトルカード <文言>',
   fx: '画面演出 <暗転|白転|…>（表示のみ）',
   call: 'ブロック呼び出し <block_id>',
+  walk: 'フィールドを歩く <マップID>（data/scenario/fieldmaps.json。goal に着くと進む）',
 });
 
 const ACT_RE = /^([^\s「」=■\[@/?＞][^「」\s＞]{0,15})＞(.+)$/;
@@ -37,7 +38,7 @@ const SAY_RE = /^([^\s「」=■\[@/?][^「」\s]{0,15})「(.*)」$/s;
  *  | {t:'act', who:string, text:string, line:number}
  *  | {t:'sys', text:string, line:number}
  *  | {t:'dir', name:string, args:string[], line:number}
- *  | {t:'explore', prompt:string, options:{label:string, steps:Step[]}[], exit:string, line:number}} Step
+ *  | {t:'explore', prompt:string, map:string, options:{label:string, steps:Step[]}[], exit:string, line:number}} Step
  */
 
 /**
@@ -93,8 +94,9 @@ export function parseScn(src, file = '(scn)') {
 
     // [explore 問い] ? 選択肢 … [/explore 終了ラベル]
     if (line.startsWith('[explore')) {
-      const prompt = line.replace(/^\[explore\s*/, '').replace(/\]$/, '').trim();
-      explore = { t: 'explore', prompt, options: [], exit: '', line: no };
+      const body = line.replace(/^\[explore\s*/, '').replace(/\]$/, '').trim();
+      const pm = /^(.*?)\s*@([A-Z0-9_]+)$/.exec(body);
+      explore = { t: 'explore', prompt: pm ? pm[1] : body, map: pm ? pm[2] : '', options: [], exit: '', line: no };
       target.push(explore);
       exploreOuter = target;
       return;
