@@ -1,5 +1,5 @@
 // 戦闘画面。BattleEngine（UI非依存）を駆動し、返ってくるイベントを順に再生する。
-import { h, clear, gauge, attrChip, sleep, enableArrowNav } from '../dom.js';
+import { h, clear, gauge, attrChip, sleep } from '../dom.js';
 import { targetLabel } from '../components.js';
 import { BattleEngine } from '../../battle/engine.js';
 import { createBattle, createStoryBattle, applyBattleResult, storyOutcome } from '../../battle/setup.js';
@@ -52,7 +52,6 @@ export function battleScreen(app, root, /** @type {BattleSpec} */ spec) {
   const msgLines = h('div', { class: 'msg-lines' });
   const msgWin = h('div', { class: 'window msg-window', 'aria-live': 'polite', onclick: () => skipWait?.() }, msgLines);
   const cmdArea = h('div', { class: 'window cmd-area' });
-  enableArrowNav(cmdArea);
 
   root.append(
     h('div', { class: 'screen battle', 'data-map': enc.map_id ?? '' },

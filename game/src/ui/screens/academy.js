@@ -42,7 +42,7 @@ export function academyScreen(app, root, notice = '') {
   document.addEventListener('keydown', onKey, true);
 
   const idle = () => {
-    textEl.textContent = '学園を歩いて、施設の扉の前で調べよう（教室：次の話　訓練場：訓練　寮：休息・セーブ）';
+    textEl.textContent = '十字キーで歩き、扉の前でEnter（教室：次の話　訓練場：訓練　寮：休息・セーブ）。何もない所でEnter：メニュー';
     nextEl.hidden = true;
   };
 
@@ -113,7 +113,16 @@ export function academyScreen(app, root, notice = '') {
     if (view) idle();
   };
 
-  view = createFieldView(fieldHost, { data, map, playerId: 'A01', start: app.academyPos ?? undefined, onInteract });
+  /** 何もない所で決定：コマンド窓 */
+  const onMenu = async () => {
+    await choose('どうしますか？', [
+      { label: 'メニュー（ステータス・編成など）', run: () => { keepPos(); app.go(hubMenuScreen); } },
+      { label: 'セーブする', run: () => { keepPos(); app.go(saveLoadScreen, 'save'); } },
+    ]);
+    if (view) idle();
+  };
+
+  view = createFieldView(fieldHost, { data, map, playerId: 'A01', start: app.academyPos ?? undefined, onInteract, onMenu });
   if (notice) say(notice).then(idle);
   else idle();
 
